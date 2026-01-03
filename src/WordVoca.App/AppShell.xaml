@@ -6,9 +6,5 @@
     xmlns:local="clr-namespace:WordVoca.App"
     Title="WordVoca.App">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 </Shell>
