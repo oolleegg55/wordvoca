@@ -58,9 +58,16 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AathifMahir.Maui.MauiIcons.Core" Version="5.0.0" />
+        <PackageReference Include="AathifMahir.Maui.MauiIcons.Fluent" Version="5.0.0" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
         <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.20" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WordVoca.Core\WordVoca.Core.csproj" />
     </ItemGroup>
 
 </Project>
