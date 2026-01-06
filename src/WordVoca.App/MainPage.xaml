@@ -3,25 +3,27 @@
     x:Class="WordVoca.App.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-     xmlns:viewmodels="clr-namespace:WordVoca.App.ViewModels"
+    xmlns:viewmodels="clr-namespace:WordVoca.App.ViewModels"
+    xmlns:model="clr-namespace:WordVoca.Core.Models;assembly=WordVoca.Core"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     xmlns:local="clr-namespace:WordVoca.App"
-    x:DataType="local:MainPage"
+    x:DataType="viewmodels:WordListViewModel"
     Shell.FlyoutBehavior="Disabled">
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,*" Margin="0" Padding="0">
         <Grid
-            RowDefinitions="Auto,Auto"
+            RowDefinitions="*,Auto"
             ColumnDefinitions="48,*,48"
             Grid.Row="0"
-            Margin="0"
-            Padding="10,0"
-            HorizontalOptions="Fill"
-            VerticalOptions="Center">
+            Padding="0"
+            Margin="5">
             <Button
                 Grid.Column="0"
                 Grid.Row="0"
                 Padding="0"
                 HeightRequest="48"
                 SemanticProperties.Hint="Open menu"
+                ImageSource="{mi:Fluent Icon=Navigation24, IconColor=DarkBlue}"
+                BackgroundColor="White"
                 WidthRequest="48" />
             <Label
                 Grid.Column="1"
@@ -34,8 +36,10 @@
             <Button
                 Grid.Column="2"
                 Grid.Row="0"
-                HeightRequest="48"
-                WidthRequest="48" />
+                HeightRequest="64"
+                WidthRequest="64"
+                ImageSource="{mi:Fluent Icon=Add28, IconColor=DarkBlue}"
+                BackgroundColor="Transparent"/>
             <Label
                 Grid.Column="1"
                 Grid.Row="1"
@@ -46,21 +50,21 @@
                 TextColor="#1D3557"
                 VerticalOptions="Center"/>
         </Grid>
-        <CollectionView Grid.Row="1" ItemsSource="{Binding WordListViewModels}" Margin="0,25">
+        <CollectionView Grid.Row="1" ItemsSource="{Binding WordLists}" Margin="0,25">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="viewmodels:WordListViewModel">
+                <DataTemplate x:DataType="model:WordList">
                     <VerticalStackLayout Spacing="0" Padding="0,0">
                         <Grid ColumnDefinitions="Auto,*,Auto"
                           Margin="2.5"
                           Padding="30,5">
                             <VerticalStackLayout Grid.Column="0"
-                                             Grid.Row="0">
+                                                 Grid.Row="0">
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding SourceLang}"/>
+                                            <Span Text="{Binding SourceLang}" TextTransform="Lowercase"/>
                                             <Span Text="-"/>
-                                            <Span Text="{Binding TargetLang}"/>
+                                            <Span Text="{Binding TargetLang}" TextTransform="Lowercase"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -71,11 +75,18 @@
                             <HorizontalStackLayout Grid.Column="2"
                                                HorizontalOptions="Center"
                                                VerticalOptions="Center"
-                                               Spacing="10">
+                                               Spacing="2.5">
                                 <Label VerticalOptions="Center"
-                                   FontSize="14"
-                                   FontAttributes="Bold"
-                                   Text="{Binding WordCount}"/>
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       Margin="0"
+                                       Text="{Binding WordsCount}"/>
+                                <mi:MauiIcon Icon="{mi:Fluent Icon=CaretRight24}"
+                                             IconColor="Black"
+                                             WidthRequest="24"
+                                             HeightRequest="24"
+                                             VerticalOptions="Center"
+                                             Padding="0,-2.5"/>
                             </HorizontalStackLayout>
                         </Grid>
                         <BoxView HeightRequest="1"

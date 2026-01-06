@@ -15,4 +15,6 @@ public class WordList
     public DateTimeOffset CreatedAt { get; set; }
 
     public DateTimeOffset UpdatedAt { get; set; }
+
+    public int WordsCount => Words.Count;
 }

@@ -1,18 +1,39 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+
+using WordVoca.Core.Models;
 
 namespace WordVoca.App.ViewModels;
 
 public partial class WordListViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private string _name;
+    public ObservableCollection<WordList> WordLists { get; } = new();
 
-    [ObservableProperty]
-    private int _wordCount;
+    public WordListViewModel()
+    {
+        WordLists.Add(new()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Word List #1",
+            SourceLang = Langs.En,
+            TargetLang = Langs.Es,
+        });
 
-    [ObservableProperty]
-    private string _sourceLang = "en";
+        WordLists.Add(new()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Word List #2",
+            SourceLang = Langs.Ru,
+            TargetLang = Langs.Es,
+        });
 
-    [ObservableProperty]
-    private string _targetLang;
+        WordLists.Add(new()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Word List #3",
+            SourceLang = Langs.Ru,
+            TargetLang = Langs.En,
+        });
+    }
 }

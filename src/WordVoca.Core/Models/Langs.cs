@@ -3,5 +3,6 @@
 public enum Langs
 {
     En,
-    Es
+    Es,
+    Ru
 }
