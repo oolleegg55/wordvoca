@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-using WordVoca.App.ViewModels;
+using WordVoca.App.Pages.Main;
 
 namespace WordVoca.App;
 
@@ -20,7 +20,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        builder.Services.AddSingleton<WordListViewModel>();
+        builder.Services.AddSingleton<MainPageVm>();
 
 #if DEBUG
         builder.Logging.AddDebug();

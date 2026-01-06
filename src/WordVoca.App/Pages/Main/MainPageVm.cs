@@ -4,13 +4,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using WordVoca.Core.Models;
 
-namespace WordVoca.App.ViewModels;
+namespace WordVoca.App.Pages.Main;
 
-public partial class WordListViewModel : ObservableObject
+public partial class MainPageVm : ObservableObject
 {
-    public ObservableCollection<WordList> WordLists { get; } = new();
+    public ObservableCollection<WordList> WordLists { get; } = [];
 
-    public WordListViewModel()
+    public MainPageVm()
     {
         WordLists.Add(new()
         {
