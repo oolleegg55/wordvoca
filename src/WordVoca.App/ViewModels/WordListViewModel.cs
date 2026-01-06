@@ -5,14 +5,14 @@ namespace WordVoca.App.ViewModels;
 public partial class WordListViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string _name = "Word List #1";
+    private string _name;
 
     [ObservableProperty]
-    private int _wordCount = 99;
+    private int _wordCount;
 
     [ObservableProperty]
     private string _sourceLang = "en";
 
     [ObservableProperty]
-    private string _targetLang = "ru";
+    private string _targetLang;
 }
