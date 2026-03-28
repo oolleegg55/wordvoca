@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.Core.Models;
 
@@ -35,5 +36,11 @@ public partial class MainPageVm : ObservableObject
             SourceLang = Langs.Ru,
             TargetLang = Langs.En,
         });
+    }
+
+    [RelayCommand]
+    private async Task CreateAsync()
+    {
+        await Shell.Current.GoToAsync("WordListCreation");
     }
 }

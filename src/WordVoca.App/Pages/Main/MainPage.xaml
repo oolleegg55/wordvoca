@@ -37,7 +37,8 @@
                     HeightRequest="64"
                     ImageSource="{mi:Fluent Icon=Add28,
                                             IconColor=DarkBlue}"
-                    WidthRequest="64" />
+                    WidthRequest="64"
+                    Command="{Binding CreateCommand}"/>
             <Label Grid.Row="1"
                    Grid.Column="1"
                    FontAttributes="Bold"
