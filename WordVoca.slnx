@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="src/WordVoca.App/WordVoca.App.csproj" Id="d346830f-2ee1-4394-ba12-7421864f1889" />
   <Project Path="src/WordVoca.Core/WordVoca.Core.csproj" Id="9be03d52-15ce-4cf1-8753-30496c77f242" />
+  <Project Path="src/WordVoca.Storage/WordVoca.Storage.csproj" />
 </Solution>
