@@ -7,5 +7,6 @@ public partial class AppShell : Shell
         InitializeComponent();
 
         Routing.RegisterRoute("WordListCreation", typeof(Pages.WordLists.CreationPage));
+        Routing.RegisterRoute("WordList", typeof(Pages.WordLists.WordListPage));
     }
 }

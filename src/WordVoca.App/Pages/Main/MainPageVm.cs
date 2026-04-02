@@ -20,9 +20,15 @@ public partial class MainPageVm : ObservableObject
     }
 
     [RelayCommand]
-    private async Task CreateAsync()
+    private async Task CreateWordListAsync()
     {
         await Shell.Current.GoToAsync("WordListCreation");
+    }
+
+    [RelayCommand]
+    private async Task GoToWordList(string name)
+    {
+        await Shell.Current.GoToAsync($"WordList?WordListName={Uri.EscapeDataString(name)}");
     }
 
     public async void LoadWordListsAsync()
@@ -33,6 +39,7 @@ public partial class MainPageVm : ObservableObject
             {
                 continue;
             }
+
             WordLists.Add(wordList);
         }
     }
