@@ -1,4 +1,6 @@
-﻿namespace WordVoca.App;
+﻿using WordVoca.App.Pages.WordLists;
+
+namespace WordVoca.App;
 
 public partial class AppShell : Shell
 {
@@ -6,7 +8,8 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        Routing.RegisterRoute("WordListCreation", typeof(Pages.WordLists.CreationPage));
-        Routing.RegisterRoute("WordList", typeof(Pages.WordLists.WordListPage));
+        Routing.RegisterRoute(nameof(CreationPage), typeof(CreationPage));
+        Routing.RegisterRoute(nameof(WordListPage), typeof(WordListPage));
+        Routing.RegisterRoute(nameof(AddingWordsPage), typeof(AddingWordsPage));
     }
 }

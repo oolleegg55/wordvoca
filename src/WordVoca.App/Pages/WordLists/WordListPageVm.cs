@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.Core.Models;
 
@@ -28,5 +29,11 @@ public partial class WordListPageVm : ObservableObject
             Translation = "Хороший",
             Note = "Good progress on the initial prototype."
         });
+    }
+
+    [RelayCommand]
+    private async Task GoToAddingWordsPageAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(AddingWordsPage));
     }
 }

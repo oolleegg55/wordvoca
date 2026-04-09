@@ -27,10 +27,12 @@ public static class MauiProgram
         builder.Services.AddTransient<MainPageVm>();
         builder.Services.AddTransient<CreationPageVm>();
         builder.Services.AddTransient<WordListPageVm>();
+        builder.Services.AddTransient<AddingWordsPageVm>();
 
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<CreationPage>();
         builder.Services.AddTransient<WordListPage>();
+        builder.Services.AddTransient<AddingWordsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
