@@ -27,9 +27,9 @@ public partial class MainPageVm : ObservableObject
     }
 
     [RelayCommand]
-    private async Task GoToWordList(string name)
+    private async Task GoToWordList(Guid id)
     {
-        await Shell.Current.GoToAsync($"{nameof(WordListPage)}?WordListName={Uri.EscapeDataString(name)}");
+        await Shell.Current.GoToAsync($"{nameof(WordListPage)}?WordListId={id:D}");
     }
 
     public async void LoadWordListsAsync()

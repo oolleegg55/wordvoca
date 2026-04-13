@@ -5,9 +5,6 @@
              x:Class="WordVoca.App.Pages.WordLists.CreationPage"
              xmlns:local="clr-namespace:WordVoca.App.Pages.WordLists"
              Shell.FlyoutBehavior="Disabled">
-    <ContentPage.BindingContext>
-        <local:CreationPageVm />
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid RowDefinitions="*,Auto">
             <StackLayout Grid.Row="0">

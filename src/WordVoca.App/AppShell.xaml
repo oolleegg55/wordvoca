@@ -6,5 +6,6 @@
        xmlns:wordList="clr-namespace:WordVoca.App.Pages.WordLists"
        Title="WordVoca.App">
 
-    <ShellContent ContentTemplate="{DataTemplate main:MainPage}" Route="MainPage" />
+    <ShellContent ContentTemplate="{DataTemplate main:MainPage}"
+                  Route="MainPage"/>
 </Shell>

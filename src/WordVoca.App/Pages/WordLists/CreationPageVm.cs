@@ -21,10 +21,6 @@ public partial class CreationPageVm : ObservableValidator
     [ObservableProperty]
     private Langs _targetLang;
 
-    public CreationPageVm()
-    {
-    }
-
     public CreationPageVm(IWordListStorage wordListStorage)
     {
         _wordListStorage = wordListStorage;

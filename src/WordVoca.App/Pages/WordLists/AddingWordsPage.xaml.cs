@@ -2,9 +2,10 @@
 
 public partial class AddingWordsPage : ContentPage
 {
-    public AddingWordsPage()
+    public AddingWordsPage(AddingWordsPageVm vm)
     {
         InitializeComponent();
+        BindingContext = vm;
     }
 }
 
