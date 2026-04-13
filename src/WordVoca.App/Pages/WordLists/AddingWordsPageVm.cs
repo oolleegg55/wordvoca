@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,14 +10,16 @@ using WordVoca.Core.Storages;
 namespace WordVoca.App.Pages.WordLists;
 
 [QueryProperty(nameof(WordListIdString), "WordListId")]
-public partial class AddingWordsPageVm : ObservableObject
+public partial class AddingWordsPageVm : ObservableValidator
 {
     public ObservableCollection<Word> Words { get; }= [];
 
     [ObservableProperty]
+    [Required]
     private string _word = string.Empty;
 
     [ObservableProperty]
+    [Required]
     private string _translation = string.Empty;
 
     [ObservableProperty]
@@ -24,6 +27,8 @@ public partial class AddingWordsPageVm : ObservableObject
 
     [ObservableProperty]
     private Guid _wordListId;
+
+    public string WordError => GetErrors(nameof(Word)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
 
     public string WordListIdString
     {
@@ -46,6 +51,12 @@ public partial class AddingWordsPageVm : ObservableObject
     [RelayCommand]
     private async Task AddWordAsync()
     {
+        ValidateAllProperties();
+        if (HasErrors)
+        {
+            return;    
+        }
+
         Words.Add(new Word
         {
            Id = Guid.NewGuid(),
