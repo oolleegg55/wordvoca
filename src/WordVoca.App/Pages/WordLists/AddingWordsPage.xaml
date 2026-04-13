@@ -9,8 +9,9 @@
              x:DataType="local:AddingWordsPageVm"
              Title="Adding word(s)">
     <ContentPage.Content>
-        <Grid RowDefinitions="*,*,Auto" Margin="10">
-            <StackLayout Grid.Row="0">
+        <Grid RowDefinitions="Auto,*,Auto"
+                Margin="10">
+            <StackLayout Grid.Row="0" Margin="5">
                 <Label Text="Word"/>
                 <Entry Text="{Binding Word}"
                        Placeholder="New word"/>
@@ -25,14 +26,19 @@
 
                 <Button ImageSource="{mi:Fluent Icon=Add24, IconColor=White}"
                         Command="{Binding AddWordCommand}"
+                        HorizontalOptions="End"
                         WidthRequest="50"
                         HeightRequest="50"/>
+                <Label Text="Words" FontAttributes="Bold" FontSize="18"/>
             </StackLayout>
             <CollectionView Grid.Row="1"
                             ItemsSource="{Binding Words}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Word">
-                        <Border Padding="10">
+                        <Border Padding="10" Stroke="DarkBlue">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
@@ -46,7 +52,8 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Text="{Binding Note}"/>
+                                <Label Text="{Binding Note}"
+                                        IsVisible="{Binding IsVisible}"/>
                             </StackLayout>
                         </Border>
                     </DataTemplate>

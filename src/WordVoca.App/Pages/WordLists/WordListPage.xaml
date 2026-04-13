@@ -15,9 +15,8 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Grid RowDefinitions="*,*,Auto"
-                  Margin="10">
+        <Grid RowDefinitions="*,Auto"
+              Margin="10">
                 <StackLayout Grid.Row="0">
                     <CollectionView ItemsSource="{Binding Words}">
                         <CollectionView.ItemsLayout>
@@ -63,7 +62,6 @@
                     </Grid>
                 </StackLayout>
             </Grid>
-        </StackLayout>
     </ContentPage.Content>
 
 </ContentPage>
