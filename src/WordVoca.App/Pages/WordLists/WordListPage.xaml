@@ -9,9 +9,9 @@
              x:DataType="local:WordListPageVm"
              Title="{Binding WordListName}">
     <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{mi:Fluent Icon=Info24, IconColor=DarkBlue}"/>
         <ToolbarItem IconImageSource="{mi:Fluent Icon=Add24, IconColor=DarkBlue}"
                      Command="{Binding GoToAddingWordsPageCommand}"/>
-        <ToolbarItem IconImageSource="{mi:Fluent Icon=Info24, IconColor=DarkBlue}"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

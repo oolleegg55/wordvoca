@@ -10,5 +10,5 @@ public interface IWordListStorage
 
     List<WordList> GetAll();
 
-    void AddWords(Guid id, List<Word> words);
+    void AddWord(Guid id, Word words);
 }

@@ -9,7 +9,7 @@
              x:DataType="local:AddingWordsPageVm"
              Title="Adding word(s)">
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto,*,Auto"
+        <Grid RowDefinitions="Auto,*"
               Margin="10">
             <StackLayout Grid.Row="0"
                     Margin="5">
@@ -65,13 +65,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Grid.Row="2"
-                    Text="Add words to list"
-                    WidthRequest="175"
-                    HorizontalOptions="Center"
-                    CornerRadius="10"
-                    Margin="10"
-                    Command="{Binding AddWordsToListCommand}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

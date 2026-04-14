@@ -14,7 +14,7 @@ public class InMemoryWordListStorage : IWordListStorage
         wordList.CreatedAt = DateTime.Now;
         wordList.UpdatedAt = DateTime.Now;
 
-        _wordLists.Add( wordList);
+        _wordLists.Add(wordList);
     }
 
     public List<WordList> GetAll()
@@ -27,11 +27,8 @@ public class InMemoryWordListStorage : IWordListStorage
         return _wordLists.First(x => x.Id == wordListId);
     }
 
-    public void AddWords(Guid id, List<Word> words)
+    public void AddWord(Guid id, Word word)
     {
-        foreach (Word item in words)
-        {
-            _wordLists.First(x => x.Id == id).Words.Add(item);
-        }
+        _wordLists.First(x => x.Id == id).Words.Add(word);
     }
 }

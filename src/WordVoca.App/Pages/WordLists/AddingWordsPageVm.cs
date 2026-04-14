@@ -57,23 +57,19 @@ public partial class AddingWordsPageVm : ObservableValidator
             return;    
         }
 
-        Words.Add(new Word
+        Word word =new Word
         {
            Id = Guid.NewGuid(),
            Value = Word,
            Translation = Translation,
            Note = Note,
-        });
+        }; 
 
+        Words.Add(word);
+
+        _wordListStorage.AddWord(WordListId, word);
         Word = string.Empty;
         Translation = string.Empty;
         Note = string.Empty;
-    }
-
-    [RelayCommand]
-    private async Task AddWordsToListAsync()
-    {
-        _wordListStorage.AddWords(WordListId, new(Words));
-        await Shell.Current.GoToAsync("..");
     }
 }
