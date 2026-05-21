@@ -31,10 +31,13 @@ public partial class CreationPageVm : ObservableValidator
     {
         WordList wordList = new()
         {
-            Id = Guid.NewGuid(), Name = WordListName, SourceLang = SourceLang, TargetLang = TargetLang
+            Id = Guid.NewGuid(),
+            Name = WordListName,
+            SourceLang = SourceLang,
+            TargetLang = TargetLang
         };
 
-        _wordListStorage.Save(wordList);
+        await _wordListStorage.Save(wordList);
         await Shell.Current.GoToAsync("..");
     }
 }
