@@ -24,7 +24,7 @@ public static class MauiProgram
             });
         builder.Services.AddSingleton<IWordListStorage, JsonWordListStorage>(x =>
         {
-            return new JsonWordListStorage(Path.Combine(FileSystem.AppDataDirectory, "word_lists.json"));
+            return new JsonWordListStorage(Path.Combine(FileSystem.AppDataDirectory));
         });
 
         builder.Services.AddTransient<MainPageVm>();

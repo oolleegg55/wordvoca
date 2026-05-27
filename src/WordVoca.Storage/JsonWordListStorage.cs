@@ -7,17 +7,20 @@ namespace WordVoca.Storage;
 
 public class JsonWordListStorage : IWordListStorage
 {
-    private readonly string _filePath;
+    private readonly string _directoryPath;
 
-    public JsonWordListStorage(string filePath)
+    public JsonWordListStorage(string directoryPath)
     {
-        _filePath = filePath;
+        _directoryPath = directoryPath;
     }
 
     public async Task AddWord(Guid id, Word word)
     {
-        List<WordList> wordLists = await GetAll();
-        WordList wordList = wordLists.First((x) => x.Id == id);
+        WordList? wordList = await GetById(id);
+        if (wordList == null)
+        {
+            return;
+        }
 
         wordList.Words.Add(word);
         await Save(wordList);
@@ -25,36 +28,42 @@ public class JsonWordListStorage : IWordListStorage
 
     public async Task<List<WordList>> GetAll()
     {
-        if (!File.Exists(_filePath))
+        var result = new List<WordList>();
+
+        foreach (var file in Directory.EnumerateFiles(_directoryPath, "*.json"))
         {
-            return new List<WordList>();
+            var text = await File.ReadAllTextAsync(file);
+            var wordList = JsonSerializer.Deserialize<WordList>(text);
+            if (wordList != null)
+            {
+                result.Add(wordList);
+            }
         }
 
-        string wordList = await File.ReadAllTextAsync(_filePath);
-
-        try
-        {
-            return JsonSerializer.Deserialize<List<WordList>>(wordList) ?? new List<WordList>();
-        }
-        catch (JsonException)
-        {
-            File.Delete(_filePath);
-            return new List<WordList>();
-        }
+        return result;
     }
 
-    public async Task<WordList> GetById(Guid wordListId)
+    public async Task<WordList?> GetById(Guid wordListId)
     {
-        List<WordList> wordLists = await GetAll();
+        string fileName = $"{wordListId}.json";
+        string path = Path.Combine(_directoryPath, fileName);
 
-        return wordLists.First((x) => x.Id == wordListId);
+        if (!File.Exists(path))
+        {
+            return null;
+        }
+
+        string data = await File.ReadAllTextAsync(path);
+        return JsonSerializer.Deserialize<WordList>(data) ?? null;
     }
 
     public async Task Save(WordList wordList)
     {
-        var wordLists = await GetAll();
-        wordLists.Add(wordList);
-        string data = JsonSerializer.Serialize(wordLists);
-        await File.WriteAllTextAsync(_filePath, data);
+        string data = JsonSerializer.Serialize(wordList);
+        string fileName = $"{wordList.Id}.json";
+
+        string path = Path.Combine(_directoryPath, fileName);
+
+        await File.WriteAllTextAsync(path, data);
     }
 }
