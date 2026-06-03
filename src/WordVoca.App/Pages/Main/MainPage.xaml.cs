@@ -7,4 +7,11 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        (BindingContext as MainPageVm)?.LoadWordListsAsync();
+    }
 }

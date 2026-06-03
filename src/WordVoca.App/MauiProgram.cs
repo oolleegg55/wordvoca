@@ -3,6 +3,9 @@
 using Microsoft.Extensions.Logging;
 
 using WordVoca.App.Pages.Main;
+using WordVoca.App.Pages.WordLists;
+using WordVoca.Core.Storages;
+using WordVoca.Storage;
 
 namespace WordVoca.App;
 
@@ -19,8 +22,13 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        builder.Services.AddSingleton<IWordListStorage, InMemoryWordListStorage>();
 
-        builder.Services.AddSingleton<MainPageVm>();
+        builder.Services.AddTransient<MainPageVm>();
+        builder.Services.AddTransient<CreationPageVm>();
+
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<CreationPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

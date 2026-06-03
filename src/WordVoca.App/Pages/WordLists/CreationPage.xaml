@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WordVoca.App.Pages.WordLists"
+             x:Class="WordVoca.App.Pages.WordLists.CreationPage"
+             x:DataType="local:CreationPageVm"
+             Title="Word List Creation">
+    <ContentPage.Content>
+        <Grid RowDefinitions="*,Auto" Margin="10,0,10,0">
+            <VerticalStackLayout Grid.Row="0">
+                <StackLayout Margin="0,0,0, 10">
+                    <Label Text="Name" TextColor="{DynamicResource PrimaryDarkText}" FontSize="18" />
+                    <Entry Text="{Binding WordListName}" Placeholder="{Binding WordListDefaultName}" FontSize="18" />
+                </StackLayout>
+
+                <StackLayout Margin="0,10,0,10" HorizontalOptions="Start">
+                    <Label Text="Source language" TextColor="{DynamicResource PrimaryDarkText}" FontSize="18" />
+                    <Picker
+                        Title="Select language"
+                        FontSize="18"
+                        WidthRequest="175"
+                        ItemsSource="{Binding AllLangs}"
+                        SelectedItem="{Binding SourceLang, Mode=TwoWay}">
+                    </Picker>
+                </StackLayout>
+
+                <StackLayout Margin="0,10,0,0" HorizontalOptions="Start">
+                    <Label Text="Target language" TextColor="{DynamicResource PrimaryDarkText}" FontSize="18" />
+                    <Picker
+                        Title="Select language"
+                        FontSize="18"
+                        WidthRequest="175"
+                        ItemsSource="{Binding AllLangs}"
+                        SelectedItem="{Binding TargetLang, Mode=TwoWay}">
+                    </Picker>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            <StackLayout HorizontalOptions="Center" Grid.Row="1" Padding="0,0,0,10">
+                <Button Command="{Binding CreateCommand}" Text="Create" WidthRequest="250" FontSize="20" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
