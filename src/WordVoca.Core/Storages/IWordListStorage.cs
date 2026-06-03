@@ -4,11 +4,11 @@ namespace WordVoca.Core.Storages;
 
 public interface IWordListStorage
 {
-    void Save(WordList wordList);
+    Task Save(WordList wordList);
 
-    WordList GetById(Guid wordListId);
+    Task<WordList?> GetById(Guid wordListId);
 
-    List<WordList> GetAll();
+    Task<List<WordList>> GetAll();
 
-    void AddWord(Guid id, Word words);
+    Task AddWord(Guid id, Word words);
 }

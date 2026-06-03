@@ -37,10 +37,13 @@ public partial class CreationPageVm : ObservableValidator
         string wordListName = string.IsNullOrWhiteSpace(WordListName) ? WordListDefaultName : WordListName;
         WordList wordList = new()
         {
-            Id = Guid.NewGuid(), Name = wordListName, SourceLang = SourceLang, TargetLang = TargetLang
+            Id = Guid.NewGuid(),
+            Name = WordListName,
+            SourceLang = SourceLang,
+            TargetLang = TargetLang
         };
 
-        _wordListStorage.Save(wordList);
+        await _wordListStorage.Save(wordList);
         await Shell.Current.GoToAsync("..");
     }
 }

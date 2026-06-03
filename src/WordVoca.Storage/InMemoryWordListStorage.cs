@@ -9,7 +9,7 @@ public class InMemoryWordListStorage : IWordListStorage
 {
     private readonly List<WordList> _wordLists = new();
 
-    public void Save(WordList wordList)
+    public async Task Save(WordList wordList)
     {
         wordList.CreatedAt = DateTime.Now;
         wordList.UpdatedAt = DateTime.Now;
@@ -17,17 +17,17 @@ public class InMemoryWordListStorage : IWordListStorage
         _wordLists.Add(wordList);
     }
 
-    public List<WordList> GetAll()
+    public async Task<List<WordList>> GetAll()
     {
         return _wordLists;
     }
 
-    public WordList GetById(Guid wordListId)
+    public async Task<WordList> GetById(Guid wordListId)
     {
         return _wordLists.First(x => x.Id == wordListId);
     }
 
-    public void AddWord(Guid id, Word word)
+    public async Task AddWord(Guid id, Word word)
     {
         _wordLists.First(x => x.Id == id).Words.Add(word);
     }

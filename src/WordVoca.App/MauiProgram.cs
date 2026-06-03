@@ -22,7 +22,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        builder.Services.AddSingleton<IWordListStorage, InMemoryWordListStorage>();
+        builder.Services.AddSingleton<IWordListStorage, JsonWordListStorage>(x =>
+        {
+            return new JsonWordListStorage(Path.Combine(FileSystem.AppDataDirectory));
+        });
 
         builder.Services.AddTransient<MainPageVm>();
         builder.Services.AddTransient<CreationPageVm>();

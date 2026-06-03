@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -41,11 +42,16 @@ public partial class WordListPageVm : ObservableObject
 
     partial void OnWordListIdChanged(Guid value)
     {
+        OnWordListIdChangedAsync(value);
+    }
+
+    private async Task OnWordListIdChangedAsync(Guid value)
+    {
         if (value != Guid.Empty && _wordListStorage != null)
         {
             try
             {
-                var wordList = _wordListStorage.GetById(value);
+                var wordList = await _wordListStorage.GetById(value);
                 WordListName = wordList.Name;
                 Words.Clear();
                 foreach (var word in wordList.Words)
@@ -55,7 +61,7 @@ public partial class WordListPageVm : ObservableObject
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading word list: {ex.Message}");
+               Debug.WriteLine($"Error loading word list: {ex.Message}");
             }
         }
     }
@@ -73,19 +79,18 @@ public partial class WordListPageVm : ObservableObject
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
-
         await TextToSpeech.Default.SpeakAsync(word, cancelToken: _cts.Token);
     }
 
     [RelayCommand]
-    private void LoadWords()
+    private async Task LoadWords()
     {
         if (WordListId == Guid.Empty)
         {
             return;
         }
 
-        var wordList = _wordListStorage.GetById(WordListId);
+        var wordList = await _wordListStorage.GetById(WordListId);
         WordListName = wordList.Name;
         Words.Clear();
 
