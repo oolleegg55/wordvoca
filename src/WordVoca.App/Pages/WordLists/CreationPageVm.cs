@@ -16,19 +16,25 @@ public partial class CreationPageVm : ObservableValidator
     private string _wordListName = string.Empty;
 
     [ObservableProperty]
-    private Langs _sourceLang;
+    private string _wordListDefaultName = string.Empty;
 
     [ObservableProperty]
-    private Langs _targetLang;
+    private Langs _sourceLang = Langs.En;
+
+    [ObservableProperty]
+    private Langs _targetLang = Langs.Es;
 
     public CreationPageVm(IWordListStorage wordListStorage)
     {
         _wordListStorage = wordListStorage;
+
+        WordListDefaultName = $"Word List #{wordListStorage.GetAll().Count + 1}";
     }
 
     [RelayCommand]
     private async Task Create()
     {
+        string wordListName = string.IsNullOrWhiteSpace(WordListName) ? WordListDefaultName : WordListName;
         WordList wordList = new()
         {
             Id = Guid.NewGuid(),
