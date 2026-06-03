@@ -6,7 +6,9 @@ public interface IWordListStorage
 {
     void Save(WordList wordList);
 
+    WordList GetById(Guid wordListId);
+
     List<WordList> GetAll();
 
-    void GetById(string wordListId);
+    void AddWord(Guid id, Word words);
 }

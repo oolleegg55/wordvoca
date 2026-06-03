@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WordVoca.App.Pages.WordLists.WordListPage"
+             xmlns:local="clr-namespace:WordVoca.App.Pages.WordLists"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:model="clr-namespace:WordVoca.Core.Models;assembly=WordVoca.Core"
+             x:DataType="local:WordListPageVm"
+             Title="{Binding WordListName}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{mi:Fluent Icon=Info24, IconColor=DarkBlue}"/>
+        <ToolbarItem IconImageSource="{mi:Fluent Icon=Add24, IconColor=DarkBlue}"
+                     Command="{Binding GoToAddingWordsPageCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="*,Auto"
+              Margin="10">
+                <StackLayout Grid.Row="0">
+                    <CollectionView ItemsSource="{Binding Words}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical"
+                                               ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Word">
+                                <Border Padding="10,10,10,10"
+                                        Stroke="DarkBlue">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle  CornerRadius="10"/>
+                                    </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <StackLayout Grid.Column="0">
+                                            <Label Text="{Binding Value}"/>
+                                            <Label Text="{Binding Translation}"/>
+                                            <Label Text="{Binding Note}"/>
+                                        </StackLayout>
+                                        <Button Grid.Column="1"
+                                                HeightRequest="40"
+                                                WidthRequest="40"
+                                                ImageSource="{mi:Fluent Icon=HeadphonesSoundWave28, IconBackgroundColor=DarkBlue}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:WordListPage}}, Path=BindingContext.PlayWordAudioCommand}"
+                                                CommandParameter="{Binding Value}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+                <StackLayout Grid.Row="1"
+                             HorizontalOptions="Center"
+                             Margin="0,10,0,0">
+                    <Grid ColumnDefinitions="Auto,Auto"
+                          ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="List"
+                                WidthRequest="75"/>
+                        <Button Grid.Column="1"
+                                Text="Learn"
+                                WidthRequest="75"/>
+                    </Grid>
+                </StackLayout>
+            </Grid>
+    </ContentPage.Content>
+
+</ContentPage>

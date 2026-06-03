@@ -7,23 +7,28 @@ namespace WordVoca.Storage;
 
 public class InMemoryWordListStorage : IWordListStorage
 {
-    private readonly ConcurrentDictionary<Guid, WordList> _wordLists = new();
+    private readonly List<WordList> _wordLists = new();
 
     public void Save(WordList wordList)
     {
         wordList.CreatedAt = DateTime.Now;
         wordList.UpdatedAt = DateTime.Now;
 
-        _wordLists.TryAdd(wordList.Id, wordList);
+        _wordLists.Add(wordList);
     }
 
     public List<WordList> GetAll()
     {
-        return _wordLists.Values.ToList();
+        return _wordLists;
     }
 
-    public void GetById(string wordListId)
+    public WordList GetById(Guid wordListId)
     {
-        throw new NotImplementedException();
+        return _wordLists.First(x => x.Id == wordListId);
+    }
+
+    public void AddWord(Guid id, Word word)
+    {
+        _wordLists.First(x => x.Id == id).Words.Add(word);
     }
 }

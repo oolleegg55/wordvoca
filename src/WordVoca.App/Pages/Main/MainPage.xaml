@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage x:Class="WordVoca.App.Pages.Main.MainPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -23,14 +24,14 @@
                     ImageSource="{mi:Fluent Icon=Navigation24,
                                             IconColor=DarkBlue}"
                     SemanticProperties.Hint="Open menu"
-                    WidthRequest="48" />
+                    WidthRequest="48"/>
             <Label Grid.Row="0"
                    Grid.Column="1"
                    FontSize="22"
                    HorizontalOptions="Center"
                    Text="Word Voca"
                    TextColor="#1D3557"
-                   VerticalOptions="Center" />
+                   VerticalOptions="Center"/>
             <Button Grid.Row="0"
                     Grid.Column="2"
                     BackgroundColor="Transparent"
@@ -38,7 +39,7 @@
                     ImageSource="{mi:Fluent Icon=Add28,
                                             IconColor=DarkBlue}"
                     WidthRequest="64"
-                    Command="{Binding CreateCommand}"/>
+                    Command="{Binding CreateWordListCommand}"/>
             <Label Grid.Row="1"
                    Grid.Column="1"
                    FontAttributes="Bold"
@@ -46,30 +47,34 @@
                    HorizontalOptions="Center"
                    Text="Create your word lists with ease!"
                    TextColor="#1D3557"
-                   VerticalOptions="Center" />
+                   VerticalOptions="Center"/>
         </Grid>
         <CollectionView Grid.Row="1"
                         Margin="0,25"
                         ItemsSource="{Binding WordLists}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:WordList">
-                    <VerticalStackLayout Padding="0,0" Spacing="0">
+                    <VerticalStackLayout Padding="0,0"
+                            Spacing="0">
                         <Grid Margin="2.5"
                               Padding="30,5"
                               ColumnDefinitions="Auto,*,Auto">
-                            <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                            <VerticalStackLayout Grid.Row="0"
+                                    Grid.Column="0">
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding SourceLang}" TextTransform="Lowercase" />
-                                            <Span Text="-" />
-                                            <Span Text="{Binding TargetLang}" TextTransform="Lowercase" />
+                                            <Span Text="{Binding SourceLang}"
+                                                    TextTransform="Lowercase"/>
+                                            <Span Text="-"/>
+                                            <Span Text="{Binding TargetLang}"
+                                                    TextTransform="Lowercase"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
                                 <Label Padding="0,7.5"
                                        FontAttributes="Bold"
-                                       Text="{Binding Name}" />
+                                       Text="{Binding Name}"/>
                             </VerticalStackLayout>
                             <HorizontalStackLayout Grid.Column="2"
                                                    HorizontalOptions="Center"
@@ -79,19 +84,23 @@
                                        FontAttributes="Bold"
                                        FontSize="14"
                                        Text="{Binding WordsCount}"
-                                       VerticalOptions="Center" />
-                                <mi:MauiIcon Padding="0,-2.5"
-                                             HeightRequest="24"
-                                             Icon="{mi:Fluent Icon=CaretRight24}"
-                                             IconColor="Black"
-                                             VerticalOptions="Center"
-                                             WidthRequest="24" />
+                                       VerticalOptions="Center"/>
+                                <Button
+                                    HeightRequest="24"
+                                    Padding="0,-2.5"
+                                    ImageSource="{mi:Fluent Icon=CaretRight24, IconColor=Black}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="24"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPage}}, Path=BindingContext.GoToWordListCommand}"
+                                    CommandParameter="{Binding Id}">
+                                </Button>
                             </HorizontalStackLayout>
                         </Grid>
                         <BoxView Margin="16,0,16,0"
                                  HeightRequest="1"
                                  HorizontalOptions="Fill"
-                                 Color="#E0E0E0" />
+                                 Color="#E0E0E0"/>
                     </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

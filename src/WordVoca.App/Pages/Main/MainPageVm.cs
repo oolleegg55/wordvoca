@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using WordVoca.App.Pages.WordLists;
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
 
@@ -20,9 +21,15 @@ public partial class MainPageVm : ObservableObject
     }
 
     [RelayCommand]
-    private async Task CreateAsync()
+    private async Task CreateWordListAsync()
     {
-        await Shell.Current.GoToAsync("WordListCreation");
+        await Shell.Current.GoToAsync(nameof(CreationPage));
+    }
+
+    [RelayCommand]
+    private async Task GoToWordList(Guid id)
+    {
+        await Shell.Current.GoToAsync($"{nameof(WordListPage)}?WordListId={id:D}");
     }
 
     public async void LoadWordListsAsync()
@@ -33,6 +40,7 @@ public partial class MainPageVm : ObservableObject
             {
                 continue;
             }
+
             WordLists.Add(wordList);
         }
     }

@@ -10,7 +10,7 @@ public class WordList
 
     public Langs TargetLang { get; set; }
 
-    public IReadOnlyList<Word> Words { get; set; } = [];
+    public List<Word> Words { get; set; } = [];
 
     public DateTimeOffset CreatedAt { get; set; }
 
