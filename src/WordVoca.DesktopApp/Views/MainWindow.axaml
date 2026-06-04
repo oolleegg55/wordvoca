@@ -1,20 +1,63 @@
 <Window xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="using:FluentIcons.Avalonia"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:WordVoca.DesktopApp.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:WordVoca.Core.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WordVoca.DesktopApp.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="WordVoca.DesktopApp">
+        Title="WordVoca">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid ColumnDefinitions="*,*">
+        <StackPanel Margin="10">
+            <Label Content="Word Lists"
+                   FontWeight="Bold"
+                   FontSize="18"
+                   Foreground="{DynamicResource ResourceKey=PrimaryForeground}"/>
 
+            <ItemsControl ItemsSource="{Binding WordLists}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:WordList">
+                        <StackPanel>
+                            <Border BorderBrush="{DynamicResource ResourceKey=Gray200}"
+                                    BorderThickness="1"
+                                    Margin="5"
+                                    CornerRadius="5">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Grid.Column="0"
+                                                Margin="10,5,0,5">
+                                        <TextBlock FontSize="12.5"
+                                                   Margin="2.5,0,0,0">
+                                            <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}"/><Run Text="-"/><Run Text="{Binding TargetLang, Converter={StaticResource  Lowercase}}"/>
+                                        </TextBlock>
+                                        <Label Content="{Binding Name}"
+                                               FontSize="16"
+                                               FontWeight="DemiBold"
+                                               Foreground="{DynamicResource ResourceKey=PrimaryDarkText}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                Margin="5">
+                                        <Label Content="0"/>
+                                        <avalonia:FluentIcon Icon="ArrowCircleRight"
+                                                             IconVariant="Regular"
+                                                             Foreground="{DynamicResource ResourceKey=PrimaryForeground}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
 </Window>
