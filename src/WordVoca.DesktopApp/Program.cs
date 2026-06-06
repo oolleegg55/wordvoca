@@ -2,6 +2,10 @@
 
 using Avalonia;
 
+#if DEBUG
+using HotAvalonia;
+#endif
+
 namespace WordVoca.DesktopApp;
 
 internal sealed class Program
@@ -19,6 +23,7 @@ internal sealed class Program
             .UsePlatformDetect()
 #if DEBUG
             .WithDeveloperTools()
+            .UseHotReload()
 #endif
             .WithInterFont()
             .LogToTrace();
