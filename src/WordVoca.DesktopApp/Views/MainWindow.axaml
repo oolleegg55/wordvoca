@@ -92,25 +92,95 @@
                         <Border BorderBrush="{DynamicResource ResourceKey=Gray200}"
                                 BorderThickness="1"
                                 CornerRadius="5"
+                                Margin="0,0,0,5"
                                 Padding="10,5,10,5"
                                 HorizontalAlignment="Stretch">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal"
-                                            HorizontalAlignment="Stretch">
-                                    <StackPanel HorizontalAlignment="Left"
+                            <StackPanel Spacing="10">
+                                <Grid ColumnDefinitions="*,Auto"
+                                      HorizontalAlignment="Stretch">
+                                    <StackPanel Grid.Column="0"
                                                 Orientation="Horizontal">
-                                        <avalonia:FluentIcon Icon="Star" Margin="0,0,5,0"/>
-                                        <Label Content="{Binding Name}" />
+                                        <avalonia:FluentIcon Icon="Star"
+                                                             Margin="0,0,5,0"
+                                                             IconSize="Size48"/>
+                                        <Label Content="{Binding Name}"
+                                               Padding="0,3,0,0"
+                                               FontSize="20"
+                                               FontWeight="Bold"/>
                                     </StackPanel>
 
-                                    <StackPanel HorizontalAlignment="Right">
-                                        <StackPanel Background="LightGray">
-                                            <TextBlock>
-                                                <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}"/>
-                                            </TextBlock>
-                                        </StackPanel>
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="10">
+                                        <Border Background="LightGray"
+                                                CornerRadius="2"
+                                                Padding="5,0,5,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <avalonia:FluentIcon Icon="LocalLanguage"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     Margin="0,0,7.5,0"/>
+                                                <TextBlock Padding="0,2.5,0,0"
+                                                           FontSize="18">
+                                                    <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}"/>
+                                                    <Run Text="-"></Run>
+                                                    <Run Text="{Binding TargetLang, Converter={StaticResource Lowercase}}"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Border Background="LightGray"
+                                                CornerRadius="2"
+                                                Padding="5,0,5,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <avalonia:FluentIcon Icon="ListBar"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     Margin="0,0,7.5,0"/>
+                                                <Label Content="{Binding WordsCount}"
+                                                       FontSize="18"/>
+                                            </StackPanel>
+                                        </Border>
                                     </StackPanel>
-                                </StackPanel>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      HorizontalAlignment="Stretch">
+                                    <StackPanel Grid.Column="0"
+                                                Orientation="Horizontal"
+                                                Spacing="10">
+                                        <Button Width="150"
+                                                CornerRadius="10">
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Center">
+                                                <avalonia:FluentIcon Icon="AddCircle"
+                                                                     Margin="0,0,5,0"/>
+                                                <Label>Add words</Label>
+                                            </StackPanel>
+                                        </Button>
+
+                                         <Button Width="100"
+                                                CornerRadius="10">
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Center">
+                                                <avalonia:FluentIcon Icon="LearningApp"
+                                                                     Margin="0,0,5,0"/>
+                                                <Label>Learn</Label>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="5">
+                                        <Button>
+                                            <avalonia:FluentIcon Icon="Archive"/>
+                                        </Button>
+                                        <Button>
+                                            <avalonia:FluentIcon Icon="Delete"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
