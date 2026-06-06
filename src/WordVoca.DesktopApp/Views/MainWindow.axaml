@@ -14,47 +14,105 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="*,*">
-        <StackPanel Margin="10">
-            <Label Content="Word Lists"
-                   FontWeight="Bold"
-                   FontSize="18"
-                   Foreground="{DynamicResource ResourceKey=PrimaryForeground}"/>
+    <Grid ColumnDefinitions="Auto,*"
+          ColumnSpacing="25"
+          Margin="10,5,10,5">
+        <StackPanel Grid.Column="0"
+                    Width="200">
+            <Border CornerRadius="5"
+                    BorderBrush="DimGray"
+                    BorderThickness=".2"
+                    Padding="10"
+                    BoxShadow="0 2 2 0 Gray">
+                <StackPanel Spacing="10">
+                    <Button HorizontalAlignment="Stretch"
+                            Background="#202233"
+                            Foreground="#fff"
+                            CornerRadius="10">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <avalonia:FluentIcon Icon="AddCircle" />
+                            <Label Content="New word list"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Line StartPoint="0,0"
+                          EndPoint="180,0"
+                          Stroke="Gray"
+                          Margin="0,5,0,5"/>
+
+                    <Button HorizontalAlignment="Stretch"
+                            CornerRadius="10">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                            <avalonia:FluentIcon Icon="ListBar" />
+                            <Label Content="All word lists"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button HorizontalAlignment="Stretch"
+                            CornerRadius="10">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                            <avalonia:FluentIcon Icon="StackStar" />
+                            <Label Content="Favorites"/>
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Spacing="25">
+            <Border CornerRadius="5"
+                    BorderBrush="DimGray"
+                    BorderThickness=".2"
+                    Padding="10"
+                    BoxShadow="0 2 2 0 Gray">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Left"
+                                Orientation="Horizontal">
+                        <avalonia:FluentIcon Icon="ListBar"/>
+                        <Label>All word lists</Label>
+                    </StackPanel>
+                    <Border Background="LightGray"
+                            HorizontalAlignment="Stretch"
+                            Padding="5">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="20">
+                            <TextBox Width="250" PlaceholderText="Word list name"/>
+                            <TextBox Width="250" PlaceholderText="Find word"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
 
             <ItemsControl ItemsSource="{Binding WordLists}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="models:WordList">
-                        <StackPanel>
-                            <Border BorderBrush="{DynamicResource ResourceKey=Gray200}"
-                                    BorderThickness="1"
-                                    Margin="5"
-                                    CornerRadius="5">
-                                <Grid ColumnDefinitions="*,Auto">
-                                    <StackPanel Grid.Column="0"
-                                                Margin="10,5,0,5">
-                                        <TextBlock FontSize="12.5"
-                                                   Margin="2.5,0,0,0">
-                                            <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}"/><Run Text="-"/><Run Text="{Binding TargetLang, Converter={StaticResource  Lowercase}}"/>
-                                        </TextBlock>
-                                        <Label Content="{Binding Name}"
-                                               FontSize="16"
-                                               FontWeight="DemiBold"
-                                               Foreground="{DynamicResource ResourceKey=PrimaryDarkText}"/>
+                        <Border BorderBrush="{DynamicResource ResourceKey=Gray200}"
+                                BorderThickness="1"
+                                CornerRadius="5"
+                                Padding="10,5,10,5"
+                                HorizontalAlignment="Stretch">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Stretch">
+                                    <StackPanel HorizontalAlignment="Left"
+                                                Orientation="Horizontal">
+                                        <avalonia:FluentIcon Icon="Star" Margin="0,0,5,0"/>
+                                        <Label Content="{Binding Name}" />
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="1"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal"
-                                                Margin="5">
-                                        <Label Content="0"/>
-                                        <avalonia:FluentIcon Icon="ArrowCircleRight"
-                                                             IconVariant="Regular"
-                                                             Foreground="{DynamicResource ResourceKey=PrimaryForeground}"/>
+                                    <StackPanel HorizontalAlignment="Right">
+                                        <StackPanel Background="LightGray">
+                                            <TextBlock>
+                                                <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}"/>
+                                            </TextBlock>
+                                        </StackPanel>
                                     </StackPanel>
-                                </Grid>
-                            </Border>
-                        </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
