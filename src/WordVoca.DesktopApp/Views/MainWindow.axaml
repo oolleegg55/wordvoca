@@ -66,21 +66,37 @@
             <Border CornerRadius="5"
                     BorderBrush="DimGray"
                     BorderThickness=".2"
-                    Padding="10"
                     BoxShadow="0 2 2 0 Gray">
                 <StackPanel>
                     <StackPanel HorizontalAlignment="Left"
-                                Orientation="Horizontal">
-                        <avalonia:FluentIcon Icon="ListBar"/>
-                        <Label>All word lists</Label>
+                                Orientation="Horizontal"
+                                Margin="10">
+                        <avalonia:FluentIcon Icon="ListBar"
+                                             FontSize="25"
+                                             Margin="0,0,0,2"/>
+                        <Label Content="All word lists"
+                               FontSize="22"
+                               FontWeight="Bold"/>
                     </StackPanel>
                     <Border Background="LightGray"
                             HorizontalAlignment="Stretch"
-                            Padding="5">
+                            Padding="10">
                         <StackPanel Orientation="Horizontal"
                                     Spacing="20">
-                            <TextBox Width="250" PlaceholderText="Word list name"/>
-                            <TextBox Width="250" PlaceholderText="Find word"/>
+                            <TextBox Width="250" PlaceholderText="Find word list by name">
+                                <TextBox.InnerLeftContent>
+                                    <avalonia:FluentIcon Icon="Filter"
+                                                         Margin="5,0,0,0"
+                                                         IconVariant="Filled"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
+                            <TextBox Width="250" PlaceholderText="Find word">
+                                <TextBox.InnerLeftContent>
+                                    <avalonia:FluentIcon Icon="LineHorizontal4Search"
+                                                         Margin="5,0,0,0"
+                                                         IconVariant="Filled"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -113,7 +129,7 @@
                                                 Orientation="Horizontal"
                                                 Spacing="10">
                                         <Border Background="LightGray"
-                                                CornerRadius="2"
+                                                CornerRadius="5"
                                                 Padding="5,0,5,0">
                                             <StackPanel Orientation="Horizontal">
                                                 <avalonia:FluentIcon Icon="LocalLanguage"
@@ -130,7 +146,7 @@
                                         </Border>
 
                                         <Border Background="LightGray"
-                                                CornerRadius="2"
+                                                CornerRadius="5"
                                                 Padding="5,0,5,0">
                                             <StackPanel Orientation="Horizontal">
                                                 <avalonia:FluentIcon Icon="ListBar"
@@ -159,7 +175,7 @@
                                             </StackPanel>
                                         </Button>
 
-                                         <Button Width="100"
+                                        <Button Width="100"
                                                 CornerRadius="10">
                                             <StackPanel Orientation="Horizontal"
                                                         HorizontalAlignment="Center">
@@ -173,10 +189,10 @@
                                     <StackPanel Grid.Column="1"
                                                 Orientation="Horizontal"
                                                 Spacing="5">
-                                        <Button>
+                                        <Button CornerRadius="5">
                                             <avalonia:FluentIcon Icon="Archive"/>
                                         </Button>
-                                        <Button>
+                                        <Button CornerRadius="5">
                                             <avalonia:FluentIcon Icon="Delete"/>
                                         </Button>
                                     </StackPanel>
