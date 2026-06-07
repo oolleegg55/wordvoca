@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.Core.Models;
+using WordVoca.DesktopApp.Services;
 
 namespace WordVoca.DesktopApp.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private readonly IDialogService _dialogService;
+
     public MainWindowViewModel()
     {
 
     }
 
-    public MainWindowViewModel(CreationWordListViewModel wordListViewModel)
+    public MainWindowViewModel(CreationWordListViewModel wordListViewModel,
+                               IDialogService dialogService)
     {
         _wordLists.Add(new WordList()
         {
@@ -34,6 +39,7 @@ public partial class MainWindowViewModel : ViewModelBase
         });
 
         _wordListViewModel = wordListViewModel;
+        _dialogService = dialogService;
     }
 
     [ObservableProperty]
@@ -43,8 +49,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private CreationWordListViewModel _wordListViewModel;
 
     [RelayCommand]
-    private void ShowCreationModalView()
+    private async Task ShowCreationModalView()
     {
-        WordListViewModel.IsVisible = true;
+        await _dialogService.ShowModalAsync(WordListViewModel);
     }
 }

@@ -207,9 +207,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-
-        <desktopapp:CreationWordListView DataContext="{Binding WordListViewModel}"
-                                         Grid.ColumnSpan="2"
-                                         IsVisible="{Binding IsVisible}"/>
     </Grid>
 </Window>

@@ -2,7 +2,7 @@
 
 namespace WordVoca.DesktopApp;
 
-public partial class CreationWordListView : UserControl
+public partial class CreationWordListView : Window
 {
     public CreationWordListView()
     {

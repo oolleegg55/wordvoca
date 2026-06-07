@@ -1,16 +1,31 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Threading.Tasks;
+
 using CommunityToolkit.Mvvm.Input;
+
+using WordVoca.Core.Storages;
 
 namespace WordVoca.DesktopApp.ViewModels;
 
 public partial class CreationWordListViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private bool _isVisible = false;
+    private readonly IWordListStorage _wordListStorage;
+
+    public CreationWordListViewModel(IWordListStorage wordListStorage)
+    {
+        _wordListStorage = wordListStorage;
+    }
+
 
     [RelayCommand]
     private void Cancel()
     {
-        IsVisible = false;
+        OnCloseCallback();
+    }
+
+    [RelayCommand]
+    private async Task AddAsync()
+    {
+        await Task.Delay(1000);
+        OnCloseCallback();
     }
 }
