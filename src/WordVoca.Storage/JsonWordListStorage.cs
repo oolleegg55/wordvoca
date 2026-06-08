@@ -14,6 +14,11 @@ public class JsonWordListStorage : IWordListStorage
         _directoryPath = directoryPath;
     }
 
+    public JsonWordListStorage(StorageSettings storageSettings)
+    {
+        _directoryPath = storageSettings.StorageDirectory;
+    }
+
     public async Task AddWord(Guid id, Word word)
     {
         WordList? wordList = await GetById(id);
@@ -29,6 +34,11 @@ public class JsonWordListStorage : IWordListStorage
     public async Task<List<WordList>> GetAll()
     {
         var result = new List<WordList>();
+
+        if (!Directory.Exists(_directoryPath))
+        {
+            return new();
+        }
 
         foreach (var file in Directory.EnumerateFiles(_directoryPath, "*.json"))
         {
@@ -59,6 +69,11 @@ public class JsonWordListStorage : IWordListStorage
 
     public async Task Save(WordList wordList)
     {
+        if (!Directory.Exists(_directoryPath))
+        {
+            Directory.CreateDirectory(_directoryPath);
+        }
+
         string data = JsonSerializer.Serialize(wordList);
         string fileName = $"{wordList.Id}.json";
 

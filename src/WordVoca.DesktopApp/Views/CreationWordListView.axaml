@@ -23,7 +23,9 @@
             <Label Content="Name"
                    FontSize="16"
                    FontWeight="DemiBold"/>
-            <TextBox PlaceholderText="Word List #1"/>
+            <TextBox PlaceholderText="Word List #1"
+                     Text="{Binding WordListTitle}"/>
+
         </StackPanel>
         <StackPanel Orientation="Horizontal"
                     Spacing="30">
@@ -31,10 +33,7 @@
                 <Label Content="Source language"
                        FontSize="16"
                        FontWeight="DemiBold"/>
-                <ComboBox SelectedIndex="1">
-                    <ComboBoxItem>RU</ComboBoxItem>
-                    <ComboBoxItem>EN</ComboBoxItem>
-                </ComboBox>
+                <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SourceLanguage}"/>
             </StackPanel>
 
             <StackPanel>
@@ -42,10 +41,7 @@
                        FontSize="16"
                        FontWeight="DemiBold"/>
 
-                <ComboBox SelectedIndex="0">
-                    <ComboBoxItem>RU</ComboBoxItem>
-                    <ComboBoxItem>EN</ComboBoxItem>
-                </ComboBox>
+                <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding TargetLanguage}"/>
             </StackPanel>
         </StackPanel>
 

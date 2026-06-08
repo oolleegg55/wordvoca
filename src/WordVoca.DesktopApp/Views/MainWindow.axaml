@@ -9,6 +9,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WordVoca.DesktopApp.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        Loaded="Window_Loaded"
         Title="WordVoca">
 
     <Design.DataContext>
