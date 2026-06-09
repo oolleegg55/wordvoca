@@ -49,7 +49,8 @@
                           Margin="0,5,0,5"/>
 
                     <Button HorizontalAlignment="Stretch"
-                            CornerRadius="10">
+                            CornerRadius="10"
+                            IsEnabled="False">
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Left">
                             <avalonia:FluentIcon Icon="ListBar" />
@@ -58,7 +59,8 @@
                     </Button>
 
                     <Button HorizontalAlignment="Stretch"
-                            CornerRadius="10">
+                            CornerRadius="10"
+                            IsEnabled="False">
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Left">
                             <avalonia:FluentIcon Icon="StackStar" />
@@ -93,14 +95,18 @@
                             Padding="10">
                         <StackPanel Orientation="Horizontal"
                                     Spacing="20">
-                            <TextBox Width="250" PlaceholderText="Find word list by name">
+                            <TextBox Width="250"
+                                     PlaceholderText="Find word list by name"
+                                     IsEnabled="False">
                                 <TextBox.InnerLeftContent>
                                     <avalonia:FluentIcon Icon="Filter"
                                                          Margin="5,0,0,0"
                                                          IconVariant="Filled"/>
                                 </TextBox.InnerLeftContent>
                             </TextBox>
-                            <TextBox Width="250" PlaceholderText="Find word">
+                            <TextBox Width="250"
+                                     PlaceholderText="Find word"
+                                     IsEnabled="False">
                                 <TextBox.InnerLeftContent>
                                     <avalonia:FluentIcon Icon="LineHorizontal4Search"
                                                          Margin="5,0,0,0"
@@ -188,7 +194,8 @@
                                                 Orientation="Horizontal"
                                                 Spacing="10">
                                         <Button Width="150"
-                                                CornerRadius="10">
+                                                CornerRadius="10"
+                                                IsEnabled="False">
                                             <StackPanel Orientation="Horizontal"
                                                         HorizontalAlignment="Center">
                                                 <avalonia:FluentIcon Icon="AddCircle"
@@ -198,7 +205,8 @@
                                         </Button>
 
                                         <Button Width="100"
-                                                CornerRadius="10">
+                                                CornerRadius="10"
+                                                IsEnabled="False">
                                             <StackPanel Orientation="Horizontal"
                                                         HorizontalAlignment="Center">
                                                 <avalonia:FluentIcon Icon="LearningApp"
@@ -211,10 +219,12 @@
                                     <StackPanel Grid.Column="1"
                                                 Orientation="Horizontal"
                                                 Spacing="5">
-                                        <Button CornerRadius="5">
+                                        <Button CornerRadius="5"
+                                                IsEnabled="False">
                                             <avalonia:FluentIcon Icon="Archive"/>
                                         </Button>
-                                        <Button CornerRadius="5">
+                                        <Button CornerRadius="5"
+                                                IsEnabled="False">
                                             <avalonia:FluentIcon Icon="Delete"/>
                                         </Button>
                                     </StackPanel>
