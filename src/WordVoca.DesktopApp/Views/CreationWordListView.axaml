@@ -10,7 +10,8 @@
         MinWidth="500" MaxWidth="500"
         MinHeight="250" MaxHeight="250"
         CanResize="False" CanMinimize="False" CanMaximize="False"
-        Title="New word list">
+        Title="New word list"
+        Loaded="Window_Loaded">
     <Design.DataContext>
         <vm:CreationWordListViewModel/>
     </Design.DataContext>
@@ -23,7 +24,7 @@
             <Label Content="Name"
                    FontSize="16"
                    FontWeight="DemiBold"/>
-            <TextBox PlaceholderText="Word List #1"
+            <TextBox PlaceholderText="{Binding DefaultWordListTitle}"
                      Text="{Binding WordListTitle}"/>
 
         </StackPanel>

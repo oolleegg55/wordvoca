@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -40,11 +40,14 @@ public partial class MainWindowViewModel : ViewModelBase
     private async Task ShowCreationModalView()
     {
         await _dialogService.ShowModalAsync(WordListViewModel);
+
+        await LoadWordListAsync();
     }
 
     public async Task LoadWordListAsync()
     {
-        var wordLists = await _wordListStorage.GetAll();
+        var wordLists = (await _wordListStorage.GetAll()).OrderByDescending(x => x.CreatedAt);
+
         WordLists = new ObservableCollection<WordList>(wordLists);
     }
 }

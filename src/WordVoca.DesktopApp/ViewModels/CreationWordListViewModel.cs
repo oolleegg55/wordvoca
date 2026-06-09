@@ -29,6 +29,9 @@ public partial class CreationWordListViewModel : ViewModelBase
     [ObservableProperty]
     private Langs _targetLanguage = Langs.Ru;
 
+    [ObservableProperty]
+    private string _defaultWordListTitle = "Word List #1";
+
     [RelayCommand]
     private void Cancel()
     {
@@ -39,6 +42,11 @@ public partial class CreationWordListViewModel : ViewModelBase
     [RelayCommand]
     private async Task AddAsync()
     {
+        if (string.IsNullOrWhiteSpace(WordListTitle))
+        {
+            WordListTitle = DefaultWordListTitle;
+        }
+
         WordList wordList = new WordList
         {
             Id = Guid.NewGuid(),
@@ -62,5 +70,10 @@ public partial class CreationWordListViewModel : ViewModelBase
         WordListTitle = string.Empty;
         SourceLanguage = Langs.En;
         TargetLanguage = Langs.Ru;
+    }
+
+    public async Task ChangeDefaultWordListTitle()
+    {
+        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAll()).Count + 1}";
     }
 }
