@@ -7,6 +7,7 @@ namespace WordVoca.Storage;
 
 public class JsonWordListStorage : IWordListStorage
 {
+    private readonly static SemaphoreSlim s_semaphoreSlim = new(1, 1);
     private readonly string _directoryPath;
 
     public JsonWordListStorage(string directoryPath)
@@ -14,56 +15,112 @@ public class JsonWordListStorage : IWordListStorage
         _directoryPath = directoryPath;
     }
 
+    public JsonWordListStorage(StorageSettings storageSettings)
+    {
+        _directoryPath = storageSettings.StorageDirectory;
+    }
+
     public async Task AddWord(Guid id, Word word)
     {
-        WordList? wordList = await GetById(id);
-        if (wordList == null)
+        await s_semaphoreSlim.WaitAsync();
+        try
         {
-            return;
-        }
+            string path = GetFilePath(id);
+            string text = await File.ReadAllTextAsync(path);
 
-        wordList.Words.Add(word);
-        await Save(wordList);
+            WordList? wordList = JsonSerializer.Deserialize<WordList>(text);
+            if (wordList == null)
+            {
+                return;
+            }
+
+            wordList.Words.Add(word);
+
+            string data = JsonSerializer.Serialize(wordList);
+            await File.WriteAllTextAsync(path, data);
+        }
+        finally
+        {
+            s_semaphoreSlim.Release();
+        }
     }
 
     public async Task<List<WordList>> GetAll()
     {
-        var result = new List<WordList>();
+        await s_semaphoreSlim.WaitAsync();
 
-        foreach (var file in Directory.EnumerateFiles(_directoryPath, "*.json"))
+        try
         {
-            var text = await File.ReadAllTextAsync(file);
-            var wordList = JsonSerializer.Deserialize<WordList>(text);
-            if (wordList != null)
-            {
-                result.Add(wordList);
-            }
-        }
+            var result = new List<WordList>();
 
-        return result;
+            if (!Directory.Exists(_directoryPath))
+            {
+                return new();
+            }
+
+            foreach (var file in Directory.EnumerateFiles(_directoryPath, "*.json"))
+            {
+                var text = await File.ReadAllTextAsync(file);
+                var wordList = JsonSerializer.Deserialize<WordList>(text);
+                if (wordList != null)
+                {
+                    result.Add(wordList);
+                }
+            }
+
+            return result;
+        }
+        finally
+        {
+            s_semaphoreSlim.Release();
+        }
     }
 
     public async Task<WordList?> GetById(Guid wordListId)
     {
-        string fileName = $"{wordListId}.json";
-        string path = Path.Combine(_directoryPath, fileName);
-
-        if (!File.Exists(path))
+        await s_semaphoreSlim.WaitAsync();
+        try
         {
-            return null;
-        }
+            string path = GetFilePath(wordListId);
 
-        string data = await File.ReadAllTextAsync(path);
-        return JsonSerializer.Deserialize<WordList>(data) ?? null;
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+
+            string data = await File.ReadAllTextAsync(path);
+            return JsonSerializer.Deserialize<WordList>(data) ?? null;
+        }
+        finally
+        {
+            s_semaphoreSlim.Release();
+        }
     }
 
     public async Task Save(WordList wordList)
     {
-        string data = JsonSerializer.Serialize(wordList);
-        string fileName = $"{wordList.Id}.json";
+        await s_semaphoreSlim.WaitAsync();
 
-        string path = Path.Combine(_directoryPath, fileName);
+        try
+        {
+            if (!Directory.Exists(_directoryPath))
+            {
+                Directory.CreateDirectory(_directoryPath);
+            }
 
-        await File.WriteAllTextAsync(path, data);
+            string data = JsonSerializer.Serialize(wordList);
+            string path = GetFilePath(wordList.Id);
+
+            await File.WriteAllTextAsync(path, data);
+        }
+        finally
+        {
+            s_semaphoreSlim.Release();
+        }
+    }
+
+    private string GetFilePath(Guid id)
+    {
+        return Path.Combine(_directoryPath, $"{id}.json");
     }
 }

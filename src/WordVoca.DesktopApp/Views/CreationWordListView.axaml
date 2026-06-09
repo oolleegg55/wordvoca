@@ -1,0 +1,73 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="using:FluentIcons.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:WordVoca.DesktopApp.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="WordVoca.DesktopApp.CreationWordListView"
+        x:DataType="vm:CreationWordListViewModel"
+        MinWidth="500" MaxWidth="500"
+        MinHeight="250" MaxHeight="250"
+        CanResize="False" CanMinimize="False" CanMaximize="False"
+        Title="New word list"
+        Loaded="Window_Loaded">
+    <Design.DataContext>
+        <vm:CreationWordListViewModel/>
+    </Design.DataContext>
+    <StackPanel Spacing="10"
+                Margin="15">
+        <Label Content="Creating a new word list"
+               FontSize="18"
+               FontWeight="Bold"/>
+        <StackPanel>
+            <Label Content="Name"
+                   FontSize="16"
+                   FontWeight="DemiBold"/>
+            <TextBox PlaceholderText="{Binding DefaultWordListTitle}"
+                     Text="{Binding WordListTitle}"/>
+
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Spacing="30">
+            <StackPanel>
+                <Label Content="Source language"
+                       FontSize="16"
+                       FontWeight="DemiBold"/>
+                <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SourceLanguage}"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Label Content="Target language"
+                       FontSize="16"
+                       FontWeight="DemiBold"/>
+
+                <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding TargetLanguage}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    Spacing="10"
+                    HorizontalAlignment="Right">
+            <Button Command="{Binding CancelCommand}"
+                    Width="100">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <avalonia:FluentIcon Icon="ArrowHookUpLeft"/>
+                    <Label Content="Cancel"/>
+                </StackPanel>
+            </Button>
+
+            <Button Background="#202233"
+                    Foreground="#fff"
+                    Width="100"
+                    Command="{Binding AddCommand}">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <avalonia:FluentIcon Icon="AddCircle"/>
+                    <Label Content="Add"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</Window>

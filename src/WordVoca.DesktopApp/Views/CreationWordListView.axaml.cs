@@ -2,20 +2,20 @@
 
 using WordVoca.DesktopApp.ViewModels;
 
-namespace WordVoca.DesktopApp.Views;
+namespace WordVoca.DesktopApp;
 
-public partial class MainWindow : Window
+public partial class CreationWordListView : Window
 {
-    public MainWindow()
+    public CreationWordListView()
     {
         InitializeComponent();
     }
 
     private async void Window_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (DataContext is MainWindowViewModel viewModel)
+        if (DataContext is CreationWordListViewModel viewModel)
         {
-            await viewModel.LoadWordListAsync();
+            await viewModel.ChangeDefaultWordListTitle();
         }
     }
 }

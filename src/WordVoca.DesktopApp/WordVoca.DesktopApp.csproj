@@ -24,9 +24,11 @@
     <PackageReference Include="FluentIcons.Avalonia" Version="2.1.328" />
       <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="12.0.4" PrivateAssets="All" Publish="True" />
     <PackageReference Include="HotAvalonia" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WordVoca.Core\WordVoca.Core.csproj" />
+    <ProjectReference Include="..\WordVoca.Storage\WordVoca.Storage.csproj" />
   </ItemGroup>
 </Project>
