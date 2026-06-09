@@ -28,7 +28,8 @@ public partial class CreationPageVm : ObservableValidator
     {
         _wordListStorage = wordListStorage;
 
-        WordListDefaultName = $"Word List #{wordListStorage.GetAll().Count + 1}";
+        // TODO: fix default list name
+        //WordListDefaultName = $"Word List #{wordListStorage.GetAll().Count + 1}";
     }
 
     [RelayCommand]

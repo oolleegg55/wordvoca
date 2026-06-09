@@ -2,13 +2,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="WordVoca.DesktopApp.App"
              xmlns:local="using:WordVoca.DesktopApp"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             xmlns:conv="clr-namespace:WordVoca.DesktopApp.Converters"
+             RequestedThemeVariant="Light">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Resources>
+        <conv:LowercaseConverter x:Key="Lowercase"/>
+        <Color x:Key="PrimaryForeground">#512BD4</Color>
+        <Color x:Key="PrimaryDarkText">#242424</Color>
+        <Color x:Key="Gray200">#C8C8C8</Color>
+    </Application.Resources>
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
