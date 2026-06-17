@@ -1,4 +1,4 @@
-﻿namespace WordVoca.Core.Models;
+namespace WordVoca.Core.Models;
 
 public class WordList
 {

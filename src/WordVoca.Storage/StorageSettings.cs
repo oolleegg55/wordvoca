@@ -1,4 +1,4 @@
-﻿namespace WordVoca.Storage;
+namespace WordVoca.Storage;
 
 public class StorageSettings
 {

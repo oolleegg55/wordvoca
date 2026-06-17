@@ -1,4 +1,4 @@
-﻿namespace WordVoca.App.Pages.Main;
+namespace WordVoca.App.Pages.Main;
 
 public partial class MainPage : ContentPage
 {

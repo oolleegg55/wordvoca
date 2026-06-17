@@ -1,4 +1,4 @@
-﻿using WordVoca.Core.Models;
+using WordVoca.Core.Models;
 
 namespace WordVoca.Core.Storages;
 

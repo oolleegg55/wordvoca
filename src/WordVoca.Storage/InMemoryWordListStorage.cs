@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
