@@ -61,7 +61,7 @@ public partial class WordListPageVm : ObservableObject
             }
             catch (Exception ex)
             {
-               Debug.WriteLine($"Error loading word list: {ex.Message}");
+                Debug.WriteLine($"Error loading word list: {ex.Message}");
             }
         }
     }
