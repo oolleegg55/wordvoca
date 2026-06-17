@@ -18,8 +18,11 @@ jobs:
       with:
         dotnet-version: 10.x.x
 
+    - name: Install MAUI Android Workload
+      run: dotnet workload install maui-android
+
     - name: Restore dependencies
       run: dotnet restore
-      
+
     - name: Format
       run: dotnet format --verify-no-changes --verbosity diagnostic
