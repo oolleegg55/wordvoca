@@ -1,4 +1,4 @@
-using MauiIcons.Fluent;
+﻿using MauiIcons.Fluent;
 
 using Microsoft.Extensions.Logging;
 

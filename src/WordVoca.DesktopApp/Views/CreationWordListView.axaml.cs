@@ -1,4 +1,4 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 
 using WordVoca.DesktopApp.ViewModels;
 

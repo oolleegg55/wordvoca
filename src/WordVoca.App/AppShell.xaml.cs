@@ -1,4 +1,4 @@
-using WordVoca.App.Pages.WordLists;
+﻿using WordVoca.App.Pages.WordLists;
 
 namespace WordVoca.App;
 

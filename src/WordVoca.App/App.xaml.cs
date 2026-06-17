@@ -1,4 +1,4 @@
-namespace WordVoca.App;
+﻿namespace WordVoca.App;
 
 public partial class App : Application
 {

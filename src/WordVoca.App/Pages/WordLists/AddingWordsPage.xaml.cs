@@ -1,4 +1,4 @@
-namespace WordVoca.App.Pages.WordLists;
+﻿namespace WordVoca.App.Pages.WordLists;
 
 public partial class AddingWordsPage : ContentPage
 {
