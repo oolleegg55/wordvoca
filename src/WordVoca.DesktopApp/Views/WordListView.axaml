@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:avalonia="using:FluentIcons.Avalonia"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:WordVoca.DesktopApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WordVoca.DesktopApp.WordListView"
+             x:DataType="vm:WordListViewModel">
+    <StackPanel Margin="10">
+        <Border BorderThickness=".1"
+                BorderBrush="Black"
+                Padding="5"
+                CornerRadius="5"
+                BoxShadow="0 2 2 0 Gray">
+            <StackPanel>
+                <Grid ColumnDefinitions="*,Auto"
+                      HorizontalAlignment="Stretch">
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal">
+                        <avalonia:FluentIcon Icon="Star"/>
+                        <Label Content="{Binding WordList.Name}"
+                               FontSize="20"/>
+                        <avalonia:FluentIcon Icon="Edit"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                        <Border Background="LightGray"
+                                CornerRadius="5"
+                                Padding="5,0,5,0">
+                            <StackPanel Orientation="Horizontal">
+                                <avalonia:FluentIcon Icon="LocalLanguage"
+                                                     Width="20"
+                                                     Height="20"
+                                                     Margin="0,0,7.5,0"/>
+                                <TextBlock Padding="0,2.5,0,0"
+                                           FontSize="18">
+                                    <Run Text="ru"/>
+                                    <Run Text="-"></Run>
+                                    <Run Text="en"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="LightGray"
+                                CornerRadius="5"
+                                Padding="5,0,5,0">
+                            <StackPanel Orientation="Horizontal">
+                                <avalonia:FluentIcon Icon="ListBar"
+                                                     Width="20"
+                                                     Height="20"
+                                                     Margin="0,0,7.5,0"/>
+                                <Label Content="100"
+                                       FontSize="18"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*,Auto">
+                    <Label Grid.Column="0"
+                           VerticalAlignment="Center">
+                        Word
+                    </Label>
+                    <Button Grid.Column="1"
+                            VerticalAlignment="Center">
+                        <avalonia:FluentIcon Icon="PersonSoundSpatial"/>
+                    </Button>
+                    <Label Grid.Column="2"
+                           VerticalAlignment="Center">
+                        Слово
+                    </Label>
+                    <Button Grid.Column="3"
+                            HorizontalAlignment="Right">
+                        <avalonia:FluentIcon Icon="Edit"
+                                             IconVariant="Filled"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>
