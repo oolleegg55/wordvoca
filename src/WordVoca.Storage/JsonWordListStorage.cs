@@ -40,7 +40,7 @@ public class JsonWordListStorage : IWordListStorage
         }
     }
 
-    public async Task<List<WordList>> GetAll()
+    public async Task<List<WordList>> GetAllAsync()
     {
         await s_semaphoreSlim.WaitAsync();
 
@@ -71,7 +71,7 @@ public class JsonWordListStorage : IWordListStorage
         }
     }
 
-    public async Task<WordList?> GetById(string wordListName)
+    public async Task<WordList?> GetByIdAsync(string wordListName)
     {
         await s_semaphoreSlim.WaitAsync();
         try
@@ -92,7 +92,7 @@ public class JsonWordListStorage : IWordListStorage
         }
     }
 
-    public async Task Save(WordList wordList)
+    public async Task SaveAsync(WordList wordList)
     {
         await s_semaphoreSlim.WaitAsync();
 
@@ -113,6 +113,37 @@ public class JsonWordListStorage : IWordListStorage
             s_semaphoreSlim.Release();
         }
     }
+
+    public async Task<string> GetNextWordListNameAsync()
+    {
+        await s_semaphoreSlim.WaitAsync();
+
+        try
+        {
+            string[] files = Directory.GetFiles(_directoryPath, "Word List #*.json");
+            List<int> numbers = [];
+
+            foreach (string file in files)
+            {
+                string number = new string(file.Where(char.IsDigit).ToArray());
+
+                numbers.Add(Convert.ToInt32(number));
+            }
+
+            if (numbers.Any())
+            {
+                return $"Word List #{numbers.Max() + 1}";
+            }
+
+            return "Word List #1";
+
+        }
+        finally
+        {
+            s_semaphoreSlim.Release();
+        }
+    }
+
 
     private string GetFilePath(string name)
     {

@@ -1,44 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:WordVoca.App.Pages.WordLists"
-             x:Class="WordVoca.App.Pages.WordLists.CreationPage"
-             x:DataType="local:CreationPageVm"
-             Title="Word List Creation">
+<ContentPage
+    x:Class="WordVoca.App.Pages.WordLists.CreationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:WordVoca.App.Pages.WordLists"
+    Title="Word List Creation"
+    x:DataType="local:CreationPageVm"
+    Loaded="HandlePageLoaded">
     <ContentPage.Content>
-        <Grid RowDefinitions="*,Auto" Margin="10,0,10,0">
+        <Grid Margin="10,0,10,0" RowDefinitions="*,Auto">
             <VerticalStackLayout Grid.Row="0">
-                <StackLayout Margin="0,0,0, 10">
-                    <Label Text="Name" TextColor="{DynamicResource PrimaryDarkText}" FontSize="18" />
-                    <Entry Text="{Binding WordListName}" Placeholder="{Binding WordListDefaultName}" FontSize="18" />
+                <StackLayout Margin="0,0,0,10">
+                    <Label
+                        FontSize="18"
+                        Text="Name"
+                        TextColor="{DynamicResource PrimaryDarkText}" />
+                    <Entry
+                        FontSize="18"
+                        Placeholder="{Binding WordListDefaultName}"
+                        Text="{Binding WordListName}" />
                 </StackLayout>
 
                 <StackLayout Margin="0,10,0,10" HorizontalOptions="Start">
-                    <Label Text="Source language" TextColor="{DynamicResource PrimaryDarkText}" FontSize="18" />
+                    <Label
+                        FontSize="18"
+                        Text="Source language"
+                        TextColor="{DynamicResource PrimaryDarkText}" />
                     <Picker
                         Title="Select language"
                         FontSize="18"
-                        WidthRequest="175"
                         ItemsSource="{Binding AllLangs}"
-                        SelectedItem="{Binding SourceLang, Mode=TwoWay}">
-                    </Picker>
+                        SelectedItem="{Binding SourceLang, Mode=TwoWay}"
+                        WidthRequest="175" />
                 </StackLayout>
 
                 <StackLayout Margin="0,10,0,0" HorizontalOptions="Start">
-                    <Label Text="Target language" TextColor="{DynamicResource PrimaryDarkText}" FontSize="18" />
+                    <Label
+                        FontSize="18"
+                        Text="Target language"
+                        TextColor="{DynamicResource PrimaryDarkText}" />
                     <Picker
                         Title="Select language"
                         FontSize="18"
-                        WidthRequest="175"
                         ItemsSource="{Binding AllLangs}"
-                        SelectedItem="{Binding TargetLang, Mode=TwoWay}">
-                    </Picker>
+                        SelectedItem="{Binding TargetLang, Mode=TwoWay}"
+                        WidthRequest="175" />
                 </StackLayout>
             </VerticalStackLayout>
 
-            <StackLayout HorizontalOptions="Center" Grid.Row="1" Padding="0,0,0,10">
-                <Button Command="{Binding CreateCommand}" Text="Create" WidthRequest="250" FontSize="20" />
+            <StackLayout
+                Grid.Row="1"
+                Padding="0,0,0,10"
+                HorizontalOptions="Center">
+                <Button
+                    Command="{Binding CreateCommand}"
+                    FontSize="20"
+                    Text="Create"
+                    WidthRequest="250" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>

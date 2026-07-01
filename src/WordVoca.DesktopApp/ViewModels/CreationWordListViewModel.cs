@@ -59,7 +59,7 @@ public partial class CreationWordListViewModel : ViewModelBase
             UpdatedAt = DateTime.Now,
         };
 
-        await _wordListStorage.Save(wordList);
+        await _wordListStorage.SaveAsync(wordList);
 
         Reset();
         OnCloseCallback();
@@ -74,6 +74,6 @@ public partial class CreationWordListViewModel : ViewModelBase
 
     public async Task ChangeDefaultWordListTitle()
     {
-        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAll()).Count + 1}";
+        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAllAsync()).Count + 1}";
     }
 }

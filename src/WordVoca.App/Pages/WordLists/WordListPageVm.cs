@@ -20,16 +20,9 @@ public partial class WordListPageVm : ObservableObject
         _wordListStorage = wordListStorage;
     }
 
-    public string WordListId { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    private string _wordListName = string.Empty;
-
-    public ObservableCollection<Word> Words { get; } = [];
-
     public async Task InitializeAsync()
     {
-        WordList? wordList = await _wordListStorage.GetById(WordListId);
+        WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
         if (wordList is null)
         {
             return;
@@ -43,6 +36,13 @@ public partial class WordListPageVm : ObservableObject
             Words.Add(word);
         }
     }
+
+    public string WordListId { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    private string _wordListName = string.Empty;
+
+    public ObservableCollection<Word> Words { get; } = [];
 
     [RelayCommand]
     private async Task GoToAddingWordsPageAsync()

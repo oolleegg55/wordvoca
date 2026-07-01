@@ -15,11 +15,11 @@ public partial class CreationPageVm : ObservableValidator
     public CreationPageVm(IWordListStorage wordListStorage)
     {
         _wordListStorage = wordListStorage;
+    }
 
-        Task.Run(async () =>
-        {
-            WordListDefaultName = $"Word List #{(await _wordListStorage.GetAll()).Count + 1}";
-        });
+    public async void InitializeAsync()
+    {
+        WordListDefaultName = await _wordListStorage.GetNextWordListNameAsync();
     }
 
     [ObservableProperty]
@@ -46,7 +46,7 @@ public partial class CreationPageVm : ObservableValidator
             TargetLang = TargetLang
         };
 
-        await _wordListStorage.Save(wordList);
+        await _wordListStorage.SaveAsync(wordList);
         await Shell.Current.GoToAsync("..");
     }
 }

@@ -7,4 +7,9 @@ public partial class CreationPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
+
+    private void HandlePageLoaded(object sender, EventArgs e)
+    {
+        (BindingContext as CreationPageVm)?.InitializeAsync();
+    }
 }

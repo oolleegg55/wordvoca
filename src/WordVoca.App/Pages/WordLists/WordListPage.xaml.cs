@@ -1,6 +1,4 @@
-﻿using WordVoca.App.Pages.Main;
-
-namespace WordVoca.App.Pages.WordLists;
+﻿namespace WordVoca.App.Pages.WordLists;
 
 public partial class WordListPage : ContentPage
 {

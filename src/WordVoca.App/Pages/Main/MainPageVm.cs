@@ -34,7 +34,7 @@ public partial class MainPageVm : ObservableObject
 
     public async void LoadWordListsAsync()
     {
-        var list = await _wordListStorage.GetAll();
+        var list = await _wordListStorage.GetAllAsync();
         foreach (WordList wordList in list)
         {
             if (WordLists.Any(x => x.Id == wordList.Id))
