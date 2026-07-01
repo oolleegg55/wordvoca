@@ -20,14 +20,17 @@ public partial class WordListPageVm : ObservableObject
     [ObservableProperty]
     private Guid _wordListId = Guid.Empty;
 
+    private string _wordListIdString;
+
     public string WordListIdString
     {
+        get
+        {
+            return _wordListIdString;
+        }
         set
         {
-            if (Guid.TryParse(value, out var guid))
-            {
-                WordListId = guid;
-            }
+            _wordListIdString = value;
         }
     }
 
@@ -51,7 +54,7 @@ public partial class WordListPageVm : ObservableObject
         {
             try
             {
-                var wordList = await _wordListStorage.GetById(value);
+                var wordList = await _wordListStorage.GetById(_wordListIdString);
                 WordListName = wordList.Name;
                 Words.Clear();
                 foreach (var word in wordList.Words)
@@ -90,7 +93,7 @@ public partial class WordListPageVm : ObservableObject
             return;
         }
 
-        var wordList = await _wordListStorage.GetById(WordListId);
+        var wordList = await _wordListStorage.GetById(_wordListIdString);
         WordListName = wordList.Name;
         Words.Clear();
 

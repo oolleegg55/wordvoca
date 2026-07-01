@@ -10,22 +10,17 @@ public class JsonWordListStorage : IWordListStorage
     private readonly static SemaphoreSlim s_semaphoreSlim = new(1, 1);
     private readonly string _directoryPath;
 
-    public JsonWordListStorage(string directoryPath)
-    {
-        _directoryPath = directoryPath;
-    }
-
     public JsonWordListStorage(StorageSettings storageSettings)
     {
         _directoryPath = storageSettings.StorageDirectory;
     }
 
-    public async Task AddWord(Guid id, Word word)
+    public async Task AddWordAsync(string name, Word word)
     {
         await s_semaphoreSlim.WaitAsync();
         try
         {
-            string path = GetFilePath(id);
+            string path = GetFilePath(name);
             string text = await File.ReadAllTextAsync(path);
 
             WordList? wordList = JsonSerializer.Deserialize<WordList>(text);
@@ -76,12 +71,12 @@ public class JsonWordListStorage : IWordListStorage
         }
     }
 
-    public async Task<WordList?> GetById(Guid wordListId)
+    public async Task<WordList?> GetById(string wordListName)
     {
         await s_semaphoreSlim.WaitAsync();
         try
         {
-            string path = GetFilePath(wordListId);
+            string path = GetFilePath(wordListName);
 
             if (!File.Exists(path))
             {
@@ -109,7 +104,7 @@ public class JsonWordListStorage : IWordListStorage
             }
 
             string data = JsonSerializer.Serialize(wordList);
-            string path = GetFilePath(wordList.Id);
+            string path = GetFilePath(wordList.Name);
 
             await File.WriteAllTextAsync(path, data);
         }
@@ -119,8 +114,8 @@ public class JsonWordListStorage : IWordListStorage
         }
     }
 
-    private string GetFilePath(Guid id)
+    private string GetFilePath(string name)
     {
-        return Path.Combine(_directoryPath, $"{id}.json");
+        return Path.Combine(_directoryPath, $"{name}.json");
     }
 }

@@ -6,9 +6,9 @@ public interface IWordListStorage
 {
     Task Save(WordList wordList);
 
-    Task<WordList?> GetById(Guid wordListId);
+    Task<WordList?> GetById(string wordListName);
 
     Task<List<WordList>> GetAll();
 
-    Task AddWord(Guid id, Word words);
+    Task AddWordAsync(string wordListName, Word words);
 }

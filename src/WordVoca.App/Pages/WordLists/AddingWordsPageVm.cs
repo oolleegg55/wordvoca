@@ -12,7 +12,7 @@ namespace WordVoca.App.Pages.WordLists;
 [QueryProperty(nameof(WordListIdString), "WordListId")]
 public partial class AddingWordsPageVm : ObservableValidator
 {
-    public ObservableCollection<Word> Words { get; }= [];
+    public ObservableCollection<Word> Words { get; } = [];
 
     [ObservableProperty]
     [Required]
@@ -30,14 +30,17 @@ public partial class AddingWordsPageVm : ObservableValidator
 
     public string WordError => GetErrors(nameof(Word)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
 
+    private string _wordListIdString;
+
     public string WordListIdString
     {
+        get
+        {
+            return _wordListIdString;
+        }
         set
         {
-            if (Guid.TryParse(value, out var guid))
-            {
-                WordListId = guid;
-            }
+            _wordListIdString = value;
         }
     }
 
@@ -54,20 +57,20 @@ public partial class AddingWordsPageVm : ObservableValidator
         ValidateAllProperties();
         if (HasErrors)
         {
-            return;    
+            return;
         }
 
-        Word word =new Word
+        Word word = new Word
         {
-           Id = Guid.NewGuid(),
-           Value = Word,
-           Translation = Translation,
-           Note = Note,
-        }; 
+            Id = Guid.NewGuid(),
+            Value = Word,
+            Translation = Translation,
+            Note = Note,
+        };
 
         Words.Add(word);
 
-        _wordListStorage.AddWord(WordListId, word);
+        await _wordListStorage.AddWordAsync(WordListIdString, word);
         Word = string.Empty;
         Translation = string.Empty;
         Note = string.Empty;
