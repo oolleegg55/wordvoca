@@ -9,10 +9,17 @@ using WordVoca.Core.Storages;
 
 namespace WordVoca.App.Pages.WordLists;
 
-[QueryProperty(nameof(WordListIdString), "WordListId")]
+[QueryProperty(nameof(WordListId), "WordListId")]
 public partial class AddingWordsPageVm : ObservableValidator
 {
-    public ObservableCollection<Word> Words { get; } = [];
+    private readonly IWordListStorage _wordListStorage;
+
+    public AddingWordsPageVm(IWordListStorage wordListStorage)
+    {
+        _wordListStorage = wordListStorage;
+    }
+
+    public string WordListId { get; set; } = string.Empty;
 
     [ObservableProperty]
     [Required]
@@ -25,41 +32,11 @@ public partial class AddingWordsPageVm : ObservableValidator
     [ObservableProperty]
     private string _note = string.Empty;
 
-    [ObservableProperty]
-    private Guid _wordListId;
-
-    public string WordError => GetErrors(nameof(Word)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
-
-    private string _wordListIdString;
-
-    public string WordListIdString
-    {
-        get
-        {
-            return _wordListIdString;
-        }
-        set
-        {
-            _wordListIdString = value;
-        }
-    }
-
-    private readonly IWordListStorage _wordListStorage;
-
-    public AddingWordsPageVm(IWordListStorage wordListStorage)
-    {
-        _wordListStorage = wordListStorage;
-    }
+    public ObservableCollection<Word> Words { get; } = [];
 
     [RelayCommand]
     private async Task AddWordAsync()
     {
-        ValidateAllProperties();
-        if (HasErrors)
-        {
-            return;
-        }
-
         Word word = new Word
         {
             Id = Guid.NewGuid(),
@@ -70,7 +47,8 @@ public partial class AddingWordsPageVm : ObservableValidator
 
         Words.Add(word);
 
-        await _wordListStorage.AddWordAsync(WordListIdString, word);
+        await _wordListStorage.AddWordAsync(WordListId, word);
+
         Word = string.Empty;
         Translation = string.Empty;
         Note = string.Empty;

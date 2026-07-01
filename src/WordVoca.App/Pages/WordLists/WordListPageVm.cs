@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,32 +8,10 @@ using WordVoca.Core.Storages;
 
 namespace WordVoca.App.Pages.WordLists;
 
-[QueryProperty(nameof(WordListIdString), "WordListId")]
+[QueryProperty(nameof(WordListId), "WordListId")]
 public partial class WordListPageVm : ObservableObject
 {
-    public ObservableCollection<Word> Words { get; } = [];
-
-    [ObservableProperty]
-    private string _wordListName = string.Empty;
-
-    [ObservableProperty]
-    private Guid _wordListId = Guid.Empty;
-
-    private string _wordListIdString;
-
-    public string WordListIdString
-    {
-        get
-        {
-            return _wordListIdString;
-        }
-        set
-        {
-            _wordListIdString = value;
-        }
-    }
-
-    private CancellationTokenSource _cts;
+    private CancellationTokenSource _cts = new();
 
     private readonly IWordListStorage _wordListStorage;
 
@@ -43,29 +20,27 @@ public partial class WordListPageVm : ObservableObject
         _wordListStorage = wordListStorage;
     }
 
-    partial void OnWordListIdChanged(Guid value)
-    {
-        OnWordListIdChangedAsync(value);
-    }
+    public string WordListId { get; set; } = string.Empty;
 
-    private async Task OnWordListIdChangedAsync(Guid value)
+    [ObservableProperty]
+    private string _wordListName = string.Empty;
+
+    public ObservableCollection<Word> Words { get; } = [];
+
+    public async Task InitializeAsync()
     {
-        if (value != Guid.Empty && _wordListStorage != null)
+        WordList? wordList = await _wordListStorage.GetById(WordListId);
+        if (wordList is null)
         {
-            try
-            {
-                var wordList = await _wordListStorage.GetById(_wordListIdString);
-                WordListName = wordList.Name;
-                Words.Clear();
-                foreach (var word in wordList.Words)
-                {
-                    Words.Add(word);
-                }
-            }
-            catch (Exception ex)
-            {
-               Debug.WriteLine($"Error loading word list: {ex.Message}");
-            }
+            return;
+        }
+
+        WordListName = wordList.Name;
+        Words.Clear();
+
+        foreach (var word in wordList.Words)
+        {
+            Words.Add(word);
         }
     }
 
@@ -83,23 +58,5 @@ public partial class WordListPageVm : ObservableObject
         _cts = new CancellationTokenSource();
 
         await TextToSpeech.Default.SpeakAsync(word, cancelToken: _cts.Token);
-    }
-
-    [RelayCommand]
-    private async Task LoadWords()
-    {
-        if (WordListId == Guid.Empty)
-        {
-            return;
-        }
-
-        var wordList = await _wordListStorage.GetById(_wordListIdString);
-        WordListName = wordList.Name;
-        Words.Clear();
-
-        foreach (Word word in wordList.Words)
-        {
-            Words.Add(word);
-        }
     }
 }

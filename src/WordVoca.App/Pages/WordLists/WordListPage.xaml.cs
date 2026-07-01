@@ -1,4 +1,6 @@
-﻿namespace WordVoca.App.Pages.WordLists;
+﻿using WordVoca.App.Pages.Main;
+
+namespace WordVoca.App.Pages.WordLists;
 
 public partial class WordListPage : ContentPage
 {
@@ -8,11 +10,8 @@ public partial class WordListPage : ContentPage
         BindingContext = vm;
     }
 
-    protected override void OnAppearing()
+    private void HandlePageLoaded(object sender, EventArgs e)
     {
-        base.OnAppearing();
-        ((WordListPageVm)BindingContext).LoadWordsCommand.Execute(null);
+        (BindingContext as WordListPageVm)?.InitializeAsync();
     }
-
 }
-
