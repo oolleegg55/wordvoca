@@ -2,14 +2,20 @@
 
 public partial class CreationPage : ContentPage
 {
+    private readonly CreationPageVm _creationPageVm;
+
     public CreationPage(CreationPageVm vm)
     {
         InitializeComponent();
+
         BindingContext = vm;
+        _creationPageVm = vm;
     }
 
-    private void HandlePageLoaded(object sender, EventArgs e)
+    protected override async void OnAppearing()
     {
-        (BindingContext as CreationPageVm)?.InitializeAsync();
+        base.OnAppearing();
+
+        await _creationPageVm.InitializeAsync();
     }
 }

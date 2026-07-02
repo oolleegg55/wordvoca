@@ -17,7 +17,7 @@ public partial class CreationPageVm : ObservableValidator
         _wordListStorage = wordListStorage;
     }
 
-    public async void InitializeAsync()
+    public async Task InitializeAsync()
     {
         WordListDefaultName = await _wordListStorage.GetNextWordListNameAsync();
     }

@@ -8,8 +8,7 @@
     xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     xmlns:model="clr-namespace:WordVoca.Core.Models;assembly=WordVoca.Core"
     Title="{Binding WordListName}"
-    x:DataType="local:WordListPageVm"
-    Loaded="HandlePageLoaded">
+    x:DataType="local:WordListPageVm">
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{mi:Fluent Icon=Info24, IconColor=DarkBlue}" />
         <ToolbarItem Command="{Binding GoToAddingWordsPageCommand}" IconImageSource="{mi:Fluent Icon=Add24, IconColor=DarkBlue}" />

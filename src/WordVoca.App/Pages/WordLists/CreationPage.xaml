@@ -6,8 +6,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:WordVoca.App.Pages.WordLists"
     Title="Word List Creation"
-    x:DataType="local:CreationPageVm"
-    Loaded="HandlePageLoaded">
+    x:DataType="local:CreationPageVm">
     <ContentPage.Content>
         <Grid Margin="10,0,10,0" RowDefinitions="*,Auto">
             <VerticalStackLayout Grid.Row="0">

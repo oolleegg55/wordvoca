@@ -2,16 +2,20 @@
 
 public partial class MainPage : ContentPage
 {
+    private readonly MainPageVm _mainPageVm;
+
     public MainPage(MainPageVm vm)
     {
         InitializeComponent();
+
         BindingContext = vm;
+        _mainPageVm = vm;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        (BindingContext as MainPageVm)?.LoadWordListsAsync();
+        await _mainPageVm.InitializeAsync();
     }
 }
