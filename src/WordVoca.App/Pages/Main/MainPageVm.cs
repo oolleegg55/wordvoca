@@ -20,21 +20,9 @@ public partial class MainPageVm : ObservableObject
         _wordListStorage = wordListStorage;
     }
 
-    [RelayCommand]
-    private async Task CreateWordListAsync()
+    public async Task InitializeAsync()
     {
-        await Shell.Current.GoToAsync(nameof(CreationPage));
-    }
-
-    [RelayCommand]
-    private async Task GoToWordList(Guid id)
-    {
-        await Shell.Current.GoToAsync($"{nameof(WordListPage)}?WordListId={id:D}");
-    }
-
-    public async void LoadWordListsAsync()
-    {
-        var list = await _wordListStorage.GetAll();
+        var list = await _wordListStorage.GetAllAsync();
         foreach (WordList wordList in list)
         {
             if (WordLists.Any(x => x.Id == wordList.Id))
@@ -44,5 +32,17 @@ public partial class MainPageVm : ObservableObject
 
             WordLists.Add(wordList);
         }
+    }
+
+    [RelayCommand]
+    private async Task CreateWordListAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(CreationPage));
+    }
+
+    [RelayCommand]
+    private async Task GoToWordList(string wordListName)
+    {
+        await Shell.Current.GoToAsync($"{nameof(WordListPage)}?WordListId={wordListName}");
     }
 }

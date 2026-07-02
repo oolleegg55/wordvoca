@@ -12,6 +12,16 @@ public partial class CreationPageVm : ObservableValidator
 
     private readonly IWordListStorage _wordListStorage;
 
+    public CreationPageVm(IWordListStorage wordListStorage)
+    {
+        _wordListStorage = wordListStorage;
+    }
+
+    public async Task InitializeAsync()
+    {
+        WordListDefaultName = await _wordListStorage.GetNextWordListNameAsync();
+    }
+
     [ObservableProperty]
     private string _wordListName = string.Empty;
 
@@ -24,27 +34,19 @@ public partial class CreationPageVm : ObservableValidator
     [ObservableProperty]
     private Langs _targetLang = Langs.Es;
 
-    public CreationPageVm(IWordListStorage wordListStorage)
-    {
-        _wordListStorage = wordListStorage;
-
-        // TODO: fix default list name
-        //WordListDefaultName = $"Word List #{wordListStorage.GetAll().Count + 1}";
-    }
-
     [RelayCommand]
     private async Task Create()
     {
-        string wordListName = string.IsNullOrWhiteSpace(WordListName) ? WordListDefaultName : WordListName;
+        string wordListName = string.IsNullOrEmpty(WordListName) ? WordListDefaultName : WordListName;
         WordList wordList = new()
         {
             Id = Guid.NewGuid(),
-            Name = WordListName,
+            Name = wordListName,
             SourceLang = SourceLang,
             TargetLang = TargetLang
         };
 
-        await _wordListStorage.Save(wordList);
+        await _wordListStorage.SaveAsync(wordList);
         await Shell.Current.GoToAsync("..");
     }
 }

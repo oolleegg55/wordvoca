@@ -46,7 +46,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public async Task LoadWordListAsync()
     {
-        var wordLists = (await _wordListStorage.GetAll()).OrderByDescending(x => x.CreatedAt);
+        var wordLists = (await _wordListStorage.GetAllAsync()).OrderByDescending(x => x.CreatedAt);
 
         WordLists = new ObservableCollection<WordList>(wordLists);
     }

@@ -4,11 +4,13 @@ namespace WordVoca.Core.Storages;
 
 public interface IWordListStorage
 {
-    Task Save(WordList wordList);
+    Task SaveAsync(WordList wordList);
 
-    Task<WordList?> GetById(Guid wordListId);
+    Task<WordList?> GetByIdAsync(string wordListName);
 
-    Task<List<WordList>> GetAll();
+    Task<List<WordList>> GetAllAsync();
 
-    Task AddWord(Guid id, Word words);
+    Task AddWordAsync(string wordListName, Word words);
+
+    Task<string> GetNextWordListNameAsync();
 }
