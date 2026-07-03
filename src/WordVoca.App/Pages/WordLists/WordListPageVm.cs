@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using WordVoca.App.Pages.Exercises;
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
 
@@ -48,6 +49,17 @@ public partial class WordListPageVm : ObservableObject
     private async Task GoToAddingWordsPageAsync()
     {
         await Shell.Current.GoToAsync($"{nameof(AddingWordsPage)}?WordListId={WordListId}");
+    }
+
+    [RelayCommand]
+    private async Task GoToWordCardsExerciseAsync()
+    {
+        LearningSession learningSession = new LearningSession(Words);
+
+        await Shell.Current.GoToAsync($"{nameof(WordCardsExerciseView)}", new Dictionary<string, object>
+        {
+            [nameof(LearningSession)] = learningSession
+        });
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]

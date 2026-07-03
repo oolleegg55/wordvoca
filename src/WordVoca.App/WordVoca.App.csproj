@@ -71,4 +71,10 @@
       <ProjectReference Include="..\WordVoca.Storage\WordVoca.Storage.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <MauiXaml Update="Pages\Exercises\WordCardsExerciseView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+    </ItemGroup>
+
 </Project>

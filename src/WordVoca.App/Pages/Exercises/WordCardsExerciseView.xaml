@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WordVoca.App.Pages.Exercises.WordCardsExerciseView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:WordVoca.App.Pages.Exercises"
+    Title="WordCardsExerciseView"
+    x:DataType="vm:WordCardsExerciseVm">
+    <VerticalStackLayout>
+        <Label Text="{Binding LearningSession.CurrentIndex}" />
+        <Label Text="{Binding LearningSession.CurrentWord.Value}" />
+        <Label Text="{Binding LearningSession.CurrentWord.Note}" />
+        <Button Command="{Binding PlayAudioCommand}" Text="Play audio" />
+        <Label Text="{Binding LearningSession.CurrentWord.Translation}" />
+
+        <StackLayout
+            HorizontalOptions="Center"
+            IsVisible="{Binding !IsLastWord}"
+            Orientation="Horizontal"
+            Spacing="10">
+            <Button
+                IsVisible="{Binding !IsFirstWord}"
+                Text="Previous word"
+                WidthRequest="125" />
+
+            <Button
+                Command="{Binding MoveToNextWordCommand}"
+                Text="Next word"
+                WidthRequest="125" />
+        </StackLayout>
+        <StackLayout IsVisible="{Binding IsLastWord}">
+            <Button Text="Next exercise" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>
