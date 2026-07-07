@@ -26,8 +26,11 @@ public static class MauiProgram
 
         StorageSettings storageSettings = new StorageSettings(Path.Combine(FileSystem.AppDataDirectory, "Data"));
 
+        _ = TextToSpeech.Default.GetLocalesAsync();
+
         builder.Services.AddSingleton(storageSettings);
         builder.Services.AddSingleton<IWordListStorage, JsonWordListStorage>();
+        builder.Services.AddSingleton<ITextToSpeech>(TextToSpeech.Default);
 
         builder.Services.AddTransient<MainPageVm>();
         builder.Services.AddTransient<CreationPageVm>();

@@ -15,10 +15,12 @@ public partial class WordListPageVm : ObservableObject
     private CancellationTokenSource _cts = new();
 
     private readonly IWordListStorage _wordListStorage;
+    private readonly ITextToSpeech _textToSpeech;
 
-    public WordListPageVm(IWordListStorage wordListStorage)
+    public WordListPageVm(IWordListStorage wordListStorage, ITextToSpeech textToSpeech)
     {
         _wordListStorage = wordListStorage;
+        _textToSpeech = textToSpeech;
     }
 
     public async Task InitializeAsync()
@@ -69,6 +71,6 @@ public partial class WordListPageVm : ObservableObject
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
-        await TextToSpeech.Default.SpeakAsync(word, cancelToken: _cts.Token);
+        await _textToSpeech.SpeakAsync(word, cancelToken: _cts.Token);
     }
 }

@@ -10,6 +10,13 @@ public partial class WordCardsExerciseVm : ObservableObject
 {
     private CancellationTokenSource _cts = new();
 
+    private readonly ITextToSpeech _textToSpeech;
+
+    public WordCardsExerciseVm(ITextToSpeech textToSpeech)
+    {
+        _textToSpeech = textToSpeech;
+    }
+
     public async Task InitializeAsync()
     {
         LearningSession.TryChangeWordToNext();
@@ -86,6 +93,6 @@ public partial class WordCardsExerciseVm : ObservableObject
 
         _cts = new CancellationTokenSource();
 
-        await TextToSpeech.Default.SpeakAsync(LearningSession.CurrentWord.Value, cancelToken: _cts.Token);
+        await _textToSpeech.SpeakAsync(LearningSession.CurrentWord.Value, cancelToken: _cts.Token);
     }
 }
