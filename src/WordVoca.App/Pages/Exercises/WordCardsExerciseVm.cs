@@ -10,33 +10,73 @@ public partial class WordCardsExerciseVm : ObservableObject
 {
     private CancellationTokenSource _cts = new();
 
+    public async Task InitializeAsync()
+    {
+        LearningSession.TryChangeWordToNext();
+        CurrentWord = LearningSession.CurrentWord;
+        HasNote = !string.IsNullOrEmpty(CurrentWord?.Note);
+    }
+
+    public LearningSession LearningSession { get; set; } = null!;
+
     [ObservableProperty]
-    private LearningSession _learningSession = null!;
+    private Word? _currentWord;
 
     [ObservableProperty]
     private bool _isLastWord = false;
 
-    public bool IsFirstWord => LearningSession.CurrentIndex == 0;
+    [ObservableProperty]
+    private bool _isNotFirstWord = false;
+
+    [ObservableProperty]
+    private bool _isNotLastWord = true;
+
+    [ObservableProperty]
+    private bool _hasNote = false;
 
     [RelayCommand]
     private void MoveToNextWord()
     {
-        if (LearningSession.CanMoveToNext())
+        if (LearningSession.TryChangeWordToNext())
         {
-            IsLastWord = true;
+            CurrentWord = LearningSession.CurrentWord;
+            HasNote = !string.IsNullOrEmpty(CurrentWord?.Note);
+            IsNotFirstWord = true;
+
+            if (LearningSession.IsLastWord)
+            {
+                IsLastWord = true;
+                IsNotLastWord = false;
+            }
         }
     }
 
     [RelayCommand]
     private void MoveToPreviousWord()
     {
-        LearningSession.CanMoveToPrevious();
+        if (LearningSession.TryChangeWordToPrevious())
+        {
+            CurrentWord = LearningSession.CurrentWord;
+            HasNote = !string.IsNullOrEmpty(CurrentWord?.Note);
+            IsLastWord = false;
+            IsNotLastWord = true;
+
+            if (LearningSession.CurrentIndex == 0)
+            {
+                IsNotFirstWord = false;
+            }
+        }
     }
 
     [RelayCommand]
     private async Task PlayAudioAsync()
     {
-        if (LearningSession.CurrentWord.Value is null)
+        if (LearningSession.CurrentWord is null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(LearningSession.CurrentWord.Value))
         {
             return;
         }

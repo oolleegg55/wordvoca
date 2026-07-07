@@ -7,21 +7,53 @@ public class LearningSession
         Words = words;
     }
 
+    public Word? CurrentWord { get; set; }
+
     public IReadOnlyList<Word> Words { get; }
 
-    public int CurrentIndex = 0;
-
-    public Word? CurrentWord => CurrentIndex < WordsCount ? Words[CurrentIndex] : null;
+    public int CurrentIndex { get; set; } = 0;
 
     public int WordsCount => Words.Count;
 
-    public bool CanMoveToNext()
+    public bool IsLastWord => CurrentIndex == WordsCount - 1;
+
+    public bool TryChangeWordToNext()
     {
-        return ++CurrentIndex < WordsCount;
+        if (!Words.Any())
+        {
+            return false;
+        }
+
+        if (CurrentWord is null && CurrentIndex == default)
+        {
+            CurrentWord = Words[CurrentIndex];
+            return true;
+        }
+
+        var index = CurrentIndex + 1;
+
+        if (index < WordsCount)
+        {
+            CurrentIndex++;
+            CurrentWord = Words[CurrentIndex];
+            return true;
+        }
+
+        return false;
     }
 
-    public bool CanMoveToPrevious()
+    public bool TryChangeWordToPrevious()
     {
-        return --CurrentIndex < WordsCount;
+        var index = CurrentIndex - 1;
+
+        if (index >= 0 || index < WordsCount)
+        {
+            CurrentIndex--;
+            CurrentWord = Words[index];
+
+            return true;
+        }
+
+        return false;
     }
 }
