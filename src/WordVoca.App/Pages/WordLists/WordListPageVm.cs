@@ -56,7 +56,7 @@ public partial class WordListPageVm : ObservableObject
     [RelayCommand]
     private async Task GoToWordCardsExerciseAsync()
     {
-        LearningSession learningSession = new LearningSession(Words);
+        LearningSession learningSession = new LearningSession(Words, new List<ExerciseType>() { ExerciseType.WordCards});
 
         await Shell.Current.GoToAsync($"{nameof(WordCardsExerciseView)}", new Dictionary<string, object>
         {

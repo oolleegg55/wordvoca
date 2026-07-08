@@ -2,20 +2,36 @@
 
 public class LearningSession
 {
-    public LearningSession(IReadOnlyList<Word> words)
+    public LearningSession(IReadOnlyList<Word> words, IReadOnlyList<ExerciseType> exerciseTypes)
     {
-        Words = words;
-    }
+        if (!words.Any())
+        {
+            throw new ArgumentNullException(nameof(words), "Words list cannot be empty.");
+        }
 
-    public Word? CurrentWord { get; set; }
+        if (!exerciseTypes.Any())
+        {
+            throw new ArgumentNullException(nameof(exerciseTypes), "Exercise types list cannot be empty.");
+        }
+
+        Words = words;
+        ExerciseTypes = exerciseTypes;
+
+        CurrentWord = words[0];
+        CurrentExerciseType = exerciseTypes[0];
+    }
 
     public IReadOnlyList<Word> Words { get; }
 
-    public int CurrentIndex { get; set; } = 0;
+    public IReadOnlyList<ExerciseType> ExerciseTypes { get; }
 
-    public int WordsCount => Words.Count;
+    public ExerciseType CurrentExerciseType { get; private set; }
 
-    public bool IsLastWord => CurrentIndex == WordsCount - 1;
+    public Word CurrentWord { get; private set; }
+
+    public int CurrentIndex { get; private set; } = 0;
+
+    public bool IsLastWord => CurrentIndex == Words.Count - 1;
 
     public bool TryChangeWordToNext()
     {
@@ -32,7 +48,7 @@ public class LearningSession
 
         var index = CurrentIndex + 1;
 
-        if (index < WordsCount)
+        if (index < Words.Count)
         {
             CurrentIndex++;
             CurrentWord = Words[CurrentIndex];
@@ -46,7 +62,7 @@ public class LearningSession
     {
         var index = CurrentIndex - 1;
 
-        if (index >= 0 || index < WordsCount)
+        if (index >= 0 || index < Words.Count)
         {
             CurrentIndex--;
             CurrentWord = Words[index];
@@ -55,5 +71,11 @@ public class LearningSession
         }
 
         return false;
+    }
+
+    public void Reset()
+    {
+        CurrentWord = Words[0];
+        CurrentIndex = 0;
     }
 }
