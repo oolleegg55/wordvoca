@@ -19,42 +19,39 @@ public partial class WordCardsExerciseVm : ObservableObject
 
     public async Task InitializeAsync()
     {
+        if (LearningSession is null)
+        {
+            return;
+        }
+
         CurrentWord = LearningSession.CurrentWord;
-        HasNote = !string.IsNullOrEmpty(CurrentWord?.Note);
     }
 
-    public LearningSession LearningSession { get; set; } = null!;
+    public LearningSession? LearningSession { get; set; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsFirstWord))]
+    [NotifyPropertyChangedFor(nameof(IsLastWord))]
+    [NotifyPropertyChangedFor(nameof(HasNote))]
     private Word _currentWord = null!;
 
-    [ObservableProperty]
-    private bool _isNotFirstWord = false;
+    public bool IsFirstWord => LearningSession?.IsFirstWord ?? false;
 
-    [ObservableProperty]
-    private bool _isNotLastWord = true;
+    public bool IsLastWord => LearningSession?.IsLastWord ?? false;
 
-    [ObservableProperty]
-    private bool _hasNote = false;
-
-    [ObservableProperty]
-    private string _nextButtonText = "Next word";
+    public bool HasNote => !string.IsNullOrEmpty(CurrentWord?.Note);
 
     [RelayCommand]
     private async Task MoveToNextWord()
     {
+        if (LearningSession is null)
+        {
+            return;
+        }
+
         if (LearningSession.TryChangeWordToNext())
         {
             CurrentWord = LearningSession.CurrentWord;
-            HasNote = !string.IsNullOrEmpty(CurrentWord?.Note);
-            IsNotFirstWord = true;
-
-            if (LearningSession.IsLastWord)
-            {
-                IsNotLastWord = false;
-
-                NextButtonText = "Next exercise";
-            }
         }
         else
         {
@@ -65,29 +62,26 @@ public partial class WordCardsExerciseVm : ObservableObject
     [RelayCommand]
     private void MoveToPreviousWord()
     {
+        if (LearningSession is null)
+        {
+            return;
+        }
+
         if (LearningSession.TryChangeWordToPrevious())
         {
             CurrentWord = LearningSession.CurrentWord;
-            HasNote = !string.IsNullOrEmpty(CurrentWord?.Note);
-            IsNotLastWord = true;
-            NextButtonText = "Next word";
-
-            if (LearningSession.CurrentIndex == 0)
-            {
-                IsNotFirstWord = false;
-            }
         }
     }
 
     [RelayCommand]
     private async Task PlayAudioAsync()
     {
-        if (LearningSession.CurrentWord is null)
+        if (CurrentWord is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(LearningSession.CurrentWord.Value))
+        if (string.IsNullOrWhiteSpace(CurrentWord.Value))
         {
             return;
         }
@@ -97,6 +91,6 @@ public partial class WordCardsExerciseVm : ObservableObject
 
         _cts = new CancellationTokenSource();
 
-        await _textToSpeech.SpeakAsync(LearningSession.CurrentWord.Value, cancelToken: _cts.Token);
+        await _textToSpeech.SpeakAsync(CurrentWord.Value, cancelToken: _cts.Token);
     }
 }

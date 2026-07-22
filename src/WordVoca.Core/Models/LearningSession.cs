@@ -31,6 +31,8 @@ public class LearningSession
 
     public int CurrentIndex { get; private set; } = 0;
 
+    public bool IsFirstWord => CurrentIndex == 0;
+
     public bool IsLastWord => CurrentIndex == Words.Count - 1;
 
     public bool TryChangeWordToNext()
