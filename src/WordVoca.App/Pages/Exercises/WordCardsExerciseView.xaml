@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="WordVoca.App.Pages.Exercises.WordCardsExerciseView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:vm="clr-namespace:WordVoca.App.Pages.Exercises"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="Word Cards"
+             x:DataType="vm:WordCardsExerciseVm">
+    <ContentPage.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    </ContentPage.Resources>
+
+    <Grid Padding="10"
+          RowDefinitions="*,Auto">
+        <StackLayout Grid.Row="0">
+            <Label FontSize="28"
+                   HorizontalOptions="Center"
+                   Text="{Binding CurrentWord.Value}" />
+            <Label Padding="0,5,0,0"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding HasNote}"
+                   Text="{Binding CurrentWord.Note}" />
+            <Button Margin="0,30,0,0"
+                    Command="{Binding PlayAudioCommand}"
+                    HeightRequest="50"
+                    ImageSource="{mi:Fluent Icon=HeadphonesSoundWave28,
+                                            IconColor=White}"
+                    WidthRequest="50" />
+
+            <BoxView Margin="0,75,0,20"
+                     HeightRequest="1"
+                     Color="LightGray" />
+            <Label FontSize="26"
+                   HorizontalOptions="Center"
+                   Text="{Binding CurrentWord.Translation}" />
+        </StackLayout>
+
+        <StackLayout Grid.Row="1"
+                     Margin="0,0,0,30"
+                     HorizontalOptions="Center"
+                     Spacing="100">
+            <Button Command="{Binding MoveToNextWordCommand}"
+                    ContentLayout="Right"
+                    FontSize="20"
+                    HeightRequest="50"
+                    ImageSource="{mi:Fluent Icon=ArrowRight16,
+                                        IconSize=Large}"
+                    Text="Continue"
+                    WidthRequest="175" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Button BackgroundColor="LightGray"
+                        Command="{Binding MoveToPreviousWordCommand}"
+                        ContentLayout="Left"
+                        ImageSource="{mi:Fluent Icon=ArrowLeft16,
+                                            IconSize=Medium,
+                                            IconColor=Black}"
+                        IsEnabled="{Binding IsFirstWord, Converter={StaticResource InvertedBoolConverter}}"
+                        Text="Previous word"
+                        TextColor="Black"
+                        WidthRequest="150" />
+
+                <Button BackgroundColor="LightGray"
+                        Command="{Binding MoveToNextWordCommand}"
+                        ContentLayout="Right"
+                        ImageSource="{mi:Fluent Icon=ArrowRight16,
+                                            IconSize=Medium,
+                                            IconColor=Black}"
+                        Text="{Binding NextButtonText}"
+                        TextColor="Black"
+                        WidthRequest="150">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding IsLastWord}"
+                                     Value="True">
+                            <Setter Property="Text" Value="Next exercise"></Setter>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding IsLastWord}"
+                                     Value="False">
+                            <Setter Property="Text"
+                                    Value="Next word"></Setter>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </HorizontalStackLayout>
+        </StackLayout>
+    </Grid>
+</ContentPage>

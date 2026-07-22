@@ -58,6 +58,7 @@
                         WidthRequest="75" />
                     <Button
                         Grid.Column="1"
+                        Command="{Binding GoToWordCardsExerciseCommand}"
                         Text="Learn"
                         WidthRequest="75" />
                 </Grid>
