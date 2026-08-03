@@ -33,7 +33,7 @@ public partial class WordCardsExerciseVm : ObservableObject
     [NotifyPropertyChangedFor(nameof(IsFirstWord))]
     [NotifyPropertyChangedFor(nameof(IsLastWord))]
     [NotifyPropertyChangedFor(nameof(HasNote))]
-    private Word _currentWord = null!;
+    private Word? _currentWord;
 
     public bool IsFirstWord => LearningSession?.IsFirstWord ?? false;
 

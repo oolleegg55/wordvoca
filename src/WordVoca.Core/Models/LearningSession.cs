@@ -74,10 +74,4 @@ public class LearningSession
 
         return false;
     }
-
-    public void Reset()
-    {
-        CurrentWord = Words[0];
-        CurrentIndex = 0;
-    }
 }
