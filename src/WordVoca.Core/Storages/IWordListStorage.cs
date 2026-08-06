@@ -10,7 +10,5 @@ public interface IWordListStorage
 
     Task<List<WordList>> GetAllAsync();
 
-    Task AddWordAsync(string wordListName, Word words);
-
     Task<string> GetNextWordListNameAsync();
 }

@@ -37,20 +37,33 @@ public partial class AddingWordsPageVm : ObservableValidator
     [RelayCommand]
     private async Task AddWordAsync()
     {
-        Word word = new Word
+        try
         {
-            Id = Guid.NewGuid(),
-            Value = Word,
-            Translation = Translation,
-            Note = Note,
-        };
+            WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
+            if (wordList is null)
+            {
+                return;
+            }
 
-        Words.Add(word);
+            Word word = new Word
+            {
+                Id = Guid.NewGuid(),
+                Value = Word,
+                Translation = Translation,
+                Note = Note,
+            };
 
-        await _wordListStorage.AddWordAsync(WordListId, word);
+            Words.Add(word);
+            wordList.AddWord(word);
 
-        Word = string.Empty;
-        Translation = string.Empty;
-        Note = string.Empty;
+            await _wordListStorage.SaveAsync(wordList);
+
+            Word = string.Empty;
+            Translation = string.Empty;
+            Note = string.Empty;
+        }
+        catch
+        {
+        }
     }
 }

@@ -15,31 +15,6 @@ public class JsonWordListStorage : IWordListStorage
         _directoryPath = storageSettings.StorageDirectory;
     }
 
-    public async Task AddWordAsync(string name, Word word)
-    {
-        await s_semaphoreSlim.WaitAsync();
-        try
-        {
-            string path = GetFilePath(name);
-            string text = await File.ReadAllTextAsync(path);
-
-            WordList? wordList = JsonSerializer.Deserialize<WordList>(text);
-            if (wordList == null)
-            {
-                return;
-            }
-
-            wordList.Words.Add(word);
-
-            string data = JsonSerializer.Serialize(wordList);
-            await File.WriteAllTextAsync(path, data);
-        }
-        finally
-        {
-            s_semaphoreSlim.Release();
-        }
-    }
-
     public async Task<List<WordList>> GetAllAsync()
     {
         await s_semaphoreSlim.WaitAsync();
