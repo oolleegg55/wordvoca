@@ -4,6 +4,11 @@ public class WordList
 {
     private readonly List<Word> _words = [];
 
+    public WordList(List<Word> words)
+    {
+        _words = words;
+    }
+
     public required Guid Id { get; set; }
 
     public required string Name { get; set; }
@@ -12,23 +17,46 @@ public class WordList
 
     public Langs TargetLang { get; set; }
 
-    public IReadOnlyList<Word> Words => _words;
-
     public DateTimeOffset CreatedAt { get; set; }
 
     public DateTimeOffset UpdatedAt { get; set; }
+
+    public IReadOnlyList<Word> Words => _words;
 
     public int WordsCount => Words.Count;
 
     public void AddWord(Word word)
     {
         if (string.IsNullOrWhiteSpace(word.Value)
-            || string.IsNullOrWhiteSpace(word.Note)
-            || string.IsNullOrWhiteSpace(word.Translation))
+            && string.IsNullOrEmpty(word.Translation)
+            && string.IsNullOrEmpty(word.Note))
         {
-            throw new ArgumentException("Word properties cannot be null or whitespace.");
+            throw new ArgumentException("Word must have at least one non-empty field (Value, Translation, or Note).", nameof(word));
         }
 
         _words.Add(word);
+    }
+
+    internal static class PrivateAccessor
+    {
+        public static WordList Restore(
+            Guid id,
+            string name,
+            Langs sourceLang,
+            Langs targetLang,
+            List<Word> words,
+            DateTimeOffset createdAt,
+            DateTimeOffset updatedAt)
+        {
+            return new WordList(words)
+            {
+                Id = id,
+                Name = name,
+                SourceLang = sourceLang,
+                TargetLang = targetLang,
+                CreatedAt = createdAt,
+                UpdatedAt = updatedAt,
+            };
+        }
     }
 }

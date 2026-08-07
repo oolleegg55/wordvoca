@@ -47,7 +47,7 @@ public partial class CreationWordListViewModel : ViewModelBase
             WordListTitle = DefaultWordListTitle;
         }
 
-        WordList wordList = new WordList
+        WordList wordList = new WordList([])
         {
             Id = Guid.NewGuid(),
             Name = WordListTitle,

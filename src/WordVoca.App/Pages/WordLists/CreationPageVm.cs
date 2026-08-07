@@ -38,7 +38,7 @@ public partial class CreationPageVm : ObservableValidator
     private async Task Create()
     {
         string wordListName = string.IsNullOrEmpty(WordListName) ? WordListDefaultName : WordListName;
-        WordList wordList = new()
+        WordList wordList = new([])
         {
             Id = Guid.NewGuid(),
             Name = wordListName,

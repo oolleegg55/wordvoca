@@ -47,7 +47,7 @@ public partial class WordListPageVm : ObservableObject
     [RelayCommand]
     private async Task GoToAddingWordsPageAsync()
     {
-        await Shell.Current.GoToAsync($"{nameof(AddingWordsPage)}?WordListId={WordListId}");
+        await Shell.Current.GoToAsync($"{nameof(AddingWordsPage)}?WordListId={Uri.EscapeDataString(WordListId)}");
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]
