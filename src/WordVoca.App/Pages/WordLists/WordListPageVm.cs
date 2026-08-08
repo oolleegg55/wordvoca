@@ -13,9 +13,9 @@ public partial class WordListPageVm : ObservableObject
 {
     private CancellationTokenSource _cts = new();
 
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
-    public WordListPageVm(IWordListStorage wordListStorage)
+    public WordListPageVm(IWordListRepository wordListStorage)
     {
         _wordListStorage = wordListStorage;
     }

@@ -11,11 +11,11 @@ namespace WordVoca.App.Pages.Main;
 
 public partial class MainPageVm : ObservableObject
 {
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
     public ObservableCollection<WordList> WordLists { get; } = [];
 
-    public MainPageVm(IWordListStorage wordListStorage)
+    public MainPageVm(IWordListRepository wordListStorage)
     {
         _wordListStorage = wordListStorage;
     }

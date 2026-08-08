@@ -11,9 +11,9 @@ namespace WordVoca.DesktopApp.ViewModels;
 
 public partial class CreationWordListViewModel : ViewModelBase
 {
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
-    public CreationWordListViewModel(IWordListStorage wordListStorage)
+    public CreationWordListViewModel(IWordListRepository wordListStorage)
     {
         _wordListStorage = wordListStorage;
     }

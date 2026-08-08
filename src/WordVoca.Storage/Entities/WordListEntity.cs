@@ -1,4 +1,6 @@
-﻿using WordVoca.Core.Models;
+﻿using System.Text.Json.Serialization;
+
+using WordVoca.Core.Models;
 
 namespace WordVoca.Storage.Entities;
 
@@ -10,8 +12,8 @@ internal class WordListEntity
         {
             Id = wordList.Id,
             Name = wordList.Name,
-            SourceLang = wordList.SourceLang,
-            TargetLang = wordList.TargetLang,
+            SourceLang = wordList.SourceLang.ToString(),
+            TargetLang = wordList.TargetLang.ToString(),
             CreatedAt = wordList.CreatedAt,
             UpdatedAt = wordList.UpdatedAt,
             Words = [.. wordList.Words.Select(WordEntity.From)]
@@ -22,9 +24,9 @@ internal class WordListEntity
 
     public string Name { get; set; } = string.Empty;
 
-    public Langs SourceLang { get; set; }
+    public string SourceLang { get; set; } = string.Empty;
 
-    public Langs TargetLang { get; set; }
+    public string TargetLang { get; set; } = string.Empty;
 
     public List<WordEntity> Words { get; set; } = [];
 

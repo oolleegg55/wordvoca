@@ -12,9 +12,9 @@ namespace WordVoca.App.Pages.WordLists;
 [QueryProperty(nameof(WordListId), "WordListId")]
 public partial class AddingWordsPageVm : ObservableValidator
 {
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
-    public AddingWordsPageVm(IWordListStorage wordListStorage)
+    public AddingWordsPageVm(IWordListRepository wordListStorage)
     {
         _wordListStorage = wordListStorage;
     }

@@ -10,9 +10,9 @@ public partial class CreationPageVm : ObservableValidator
 {
     public IEnumerable<Langs> AllLangs { get; } = Enum.GetValues(typeof(Langs)).Cast<Langs>();
 
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
-    public CreationPageVm(IWordListStorage wordListStorage)
+    public CreationPageVm(IWordListRepository wordListStorage)
     {
         _wordListStorage = wordListStorage;
     }
@@ -38,13 +38,7 @@ public partial class CreationPageVm : ObservableValidator
     private async Task Create()
     {
         string wordListName = string.IsNullOrEmpty(WordListName) ? WordListDefaultName : WordListName;
-        WordList wordList = new([])
-        {
-            Id = Guid.NewGuid(),
-            Name = wordListName,
-            SourceLang = SourceLang,
-            TargetLang = TargetLang
-        };
+        WordList wordList = _wordListStorage.BuildWordList(wordListName, SourceLang, TargetLang);
 
         await _wordListStorage.SaveAsync(wordList);
         await Shell.Current.GoToAsync("..");

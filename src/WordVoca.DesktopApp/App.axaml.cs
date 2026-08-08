@@ -36,7 +36,7 @@ public partial class App : Application
             return storageSettings;
         });
 
-        service.AddScoped<IWordListStorage, JsonWordListStorage>();
+        service.AddScoped<IWordListRepository, JsonWordListRepository>();
         service.AddScoped<IDialogService, DialogService>();
 
         ServiceProvider serviceProvider = service.BuildServiceProvider();

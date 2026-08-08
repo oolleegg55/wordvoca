@@ -9,9 +9,9 @@ public class WordList
         _words = words;
     }
 
-    public required Guid Id { get; set; }
+    public required Guid Id { get; init; }
 
-    public required string Name { get; set; }
+    public required string Name { get; init; }
 
     public Langs SourceLang { get; set; }
 
@@ -39,6 +39,25 @@ public class WordList
 
     internal static class PrivateAccessor
     {
+        public static WordList Build(
+            Guid id,
+            string name,
+            Langs sourceLang,
+            Langs targetLang,
+            DateTimeOffset createdAt,
+            DateTimeOffset updatedAt)
+        {
+            return new WordList([])
+            {
+                Id = id,
+                Name = name,
+                SourceLang = sourceLang,
+                TargetLang = targetLang,
+                CreatedAt = createdAt,
+                UpdatedAt = updatedAt
+            };
+        }
+
         public static WordList Restore(
             Guid id,
             string name,

@@ -1,19 +1,35 @@
 ﻿using System.Text.Json;
 
+using WordVoca.Core.Exceptions;
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
 using WordVoca.Storage.Entities;
 
 namespace WordVoca.Storage.Storages;
 
-public class JsonWordListStorage : IWordListStorage
+public class JsonWordListRepository : IWordListRepository
 {
     private readonly static SemaphoreSlim s_semaphoreSlim = new(1, 1);
     private readonly string _directoryPath;
+    private readonly TimeProvider _timeProvider;
 
-    public JsonWordListStorage(StorageSettings storageSettings)
+    public JsonWordListRepository(StorageSettings storageSettings, TimeProvider timeProvider)
     {
         _directoryPath = storageSettings.StorageDirectory;
+        _timeProvider = timeProvider;
+    }
+
+    public WordList BuildWordList(string name, Langs sourceLang, Langs targetLang)
+    {
+        DateTimeOffset dateTime = _timeProvider.GetLocalNow();
+
+        return WordList.PrivateAccessor.Build(
+            Guid.NewGuid(),
+            name,
+            sourceLang,
+            targetLang,
+            dateTime,
+            dateTime);
     }
 
     public async Task<List<WordList>> GetAllAsync()
@@ -32,6 +48,7 @@ public class JsonWordListStorage : IWordListStorage
             foreach (string file in Directory.EnumerateFiles(_directoryPath, "*.json"))
             {
                 string text = await File.ReadAllTextAsync(file);
+
                 WordListEntity? entity = JsonSerializer.Deserialize<WordListEntity>(text);
                 if (entity is not null)
                 {
@@ -119,8 +136,7 @@ public class JsonWordListStorage : IWordListStorage
     {
         string normalizedFileName = name
             .Trim()
-            .Replace(" ", "-")
-            .Replace("#", "no")
+            .Replace(" ", string.Empty)
             .ToLowerInvariant();
 
         return Path.Combine(_directoryPath, $"{normalizedFileName}.json");
@@ -128,11 +144,20 @@ public class JsonWordListStorage : IWordListStorage
 
     private WordList MapToDomain(WordListEntity entity)
     {
+        if (!Enum.TryParse(entity.SourceLang, true, out Langs sourceLang))
+        {
+            throw new UnsupportedLanguageException();
+        }
+
+        if (!Enum.TryParse(entity.SourceLang, true, out Langs targetLang))
+        {
+            throw new UnsupportedLanguageException();
+        }
         return WordList.PrivateAccessor.Restore(
             entity.Id,
             entity.Name,
-            entity.SourceLang,
-            entity.TargetLang,
+            sourceLang,
+            targetLang,
             [.. entity.Words.Select(MapWordToDomain)],
             entity.CreatedAt,
             entity.UpdatedAt);

@@ -14,7 +14,7 @@ namespace WordVoca.DesktopApp.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
     public MainWindowViewModel()
     {
@@ -23,7 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(CreationWordListViewModel wordListViewModel,
                                IDialogService dialogService,
-                               IWordListStorage wordListStorage)
+                               IWordListRepository wordListStorage)
     {
         _wordListViewModel = wordListViewModel;
         _dialogService = dialogService;
