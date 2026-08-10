@@ -27,6 +27,7 @@ public static class MauiProgram
         StorageSettings storageSettings = new StorageSettings(Path.Combine(FileSystem.AppDataDirectory, "Data"));
 
         builder.Services.AddSingleton(storageSettings);
+        builder.Services.AddSingleton(TimeProvider.System);
         builder.Services.AddSingleton<IWordListRepository, JsonWordListRepository>();
 
         builder.Services.AddTransient<MainPageVm>();

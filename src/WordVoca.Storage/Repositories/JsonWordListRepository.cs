@@ -123,7 +123,7 @@ public class JsonWordListRepository : IWordListRepository
 
             int filesCount = Directory.EnumerateFiles(_directoryPath, "*.json").Count();
 
-            return $"Word List #{filesCount}";
+            return $"Word List #{filesCount + 1}";
 
         }
         finally
@@ -153,6 +153,7 @@ public class JsonWordListRepository : IWordListRepository
         {
             throw new UnsupportedLanguageException();
         }
+
         return WordList.PrivateAccessor.Restore(
             entity.Id,
             entity.Name,

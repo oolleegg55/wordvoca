@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -22,48 +21,49 @@ public partial class AddingWordsPageVm : ObservableValidator
     public string WordListId { get; set; } = string.Empty;
 
     [ObservableProperty]
-    [Required]
+    [NotifyPropertyChangedFor(nameof(HasAnyProperty))]
     private string _word = string.Empty;
 
     [ObservableProperty]
-    [Required]
+    [NotifyPropertyChangedFor(nameof(HasAnyProperty))]
     private string _translation = string.Empty;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasAnyProperty))]
     private string _note = string.Empty;
+
+    public string HasAnyProperty => string.IsNullOrWhiteSpace(Word) && string.IsNullOrEmpty(Translation) && string.IsNullOrEmpty(Note) ? "False" : "True";
 
     public ObservableCollection<Word> Words { get; } = [];
 
     [RelayCommand]
     private async Task AddWordAsync()
     {
-        try
+        WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
+        if (wordList is null)
         {
-            WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
-            if (wordList is null)
-            {
-                return;
-            }
-
-            Word word = new Word
-            {
-                Id = Guid.NewGuid(),
-                Value = Word,
-                Translation = Translation,
-                Note = Note,
-            };
-
-            Words.Add(word);
-            wordList.AddWord(word);
-
-            await _wordListStorage.SaveAsync(wordList);
-
-            Word = string.Empty;
-            Translation = string.Empty;
-            Note = string.Empty;
+            return;
         }
-        catch
+
+        Word word = new Word
         {
+            Id = Guid.NewGuid(),
+            Value = Word,
+            Translation = Translation,
+            Note = Note,
+        };
+
+        if (!wordList.TryAddWord(word))
+        {
+            return;
         }
+
+        Words.Add(word);
+
+        await _wordListStorage.SaveAsync(wordList);
+
+        Word = string.Empty;
+        Translation = string.Empty;
+        Note = string.Empty;
     }
 }

@@ -25,16 +25,17 @@ public class WordList
 
     public int WordsCount => Words.Count;
 
-    public void AddWord(Word word)
+    public bool TryAddWord(Word word)
     {
         if (string.IsNullOrWhiteSpace(word.Value)
             && string.IsNullOrEmpty(word.Translation)
             && string.IsNullOrEmpty(word.Note))
         {
-            throw new ArgumentException("Word must have at least one non-empty field (Value, Translation, or Note).", nameof(word));
+            return false;
         }
 
         _words.Add(word);
+        return true;
     }
 
     internal static class PrivateAccessor
