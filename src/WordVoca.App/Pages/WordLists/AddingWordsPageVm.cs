@@ -32,7 +32,7 @@ public partial class AddingWordsPageVm : ObservableValidator
     [NotifyPropertyChangedFor(nameof(HasAnyProperty))]
     private string _note = string.Empty;
 
-    public string HasAnyProperty => string.IsNullOrWhiteSpace(Word) && string.IsNullOrEmpty(Translation) && string.IsNullOrEmpty(Note) ? "False" : "True";
+    public bool HasAnyProperty => !(string.IsNullOrWhiteSpace(Word) && string.IsNullOrEmpty(Translation) && string.IsNullOrEmpty(Note));
 
     public ObservableCollection<Word> Words { get; } = [];
 
