@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 
-namespace WordVoca.DesktopApp;
+namespace WordVoca.DesktopApp.Views;
 
-public partial class WordListView : UserControl
+public partial class WordListView : ContentPage
 {
     public WordListView()
     {

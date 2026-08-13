@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+
+using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +29,12 @@ public partial class App : Application
         StorageSettings storageSettings = new StorageSettings(Path.Combine(AppContext.BaseDirectory, "WordLists"));
 
         ServiceCollection service = new();
+
+        service.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+
         service.AddScoped<MainWindowViewModel>();
+        service.AddScoped<MainViewModel>();
+        service.AddScoped<WordListViewModel>();
         service.AddScoped<CreationWordListViewModel>();
         service.AddScoped((sp) =>
         {

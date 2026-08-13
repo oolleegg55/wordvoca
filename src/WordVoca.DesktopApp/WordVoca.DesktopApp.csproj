@@ -31,4 +31,10 @@
     <ProjectReference Include="..\WordVoca.Core\WordVoca.Core.csproj" />
     <ProjectReference Include="..\WordVoca.Storage\WordVoca.Storage.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MainView.axaml.cs">
+      <DependentUpon>MainView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

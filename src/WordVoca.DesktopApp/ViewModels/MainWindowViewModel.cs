@@ -1,53 +1,39 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+using System;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
-using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
-using WordVoca.DesktopApp.Services;
+using Microsoft.Extensions.DependencyInjection;
+
+using WordVoca.DesktopApp.Models;
 
 namespace WordVoca.DesktopApp.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase, IDisposable
 {
-    private readonly IDialogService _dialogService;
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IMessenger _messenger;
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(
+        IMessenger messenger,
+        IServiceProvider serviceProvider)
     {
+        _messenger = messenger;
+        CurrentPage = serviceProvider.GetRequiredService<MainViewModel>();
 
+        _messenger.Register<MainWindowViewModel, NavigationMessage>(this, HandlerNavigationMessageRecieved);
     }
 
-    public MainWindowViewModel(CreationWordListViewModel wordListViewModel,
-                               IDialogService dialogService,
-                               IWordListStorage wordListStorage)
+    public void Dispose()
     {
-        _wordListViewModel = wordListViewModel;
-        _dialogService = dialogService;
-        _wordListStorage = wordListStorage;
+        _messenger.Unregister<NavigationMessage>(this);
     }
 
     [ObservableProperty]
-    private ObservableCollection<WordList> _wordLists = [];
+    private ViewModelBase _currentPage;
 
-    [ObservableProperty]
-    private CreationWordListViewModel _wordListViewModel;
-
-    [RelayCommand]
-    private async Task ShowCreationModalView()
+    private void HandlerNavigationMessageRecieved(MainWindowViewModel recipient, NavigationMessage message)
     {
-        await _dialogService.ShowModalAsync(WordListViewModel);
-
-        await LoadWordListAsync();
-    }
-
-    public async Task LoadWordListAsync()
-    {
-        var wordLists = (await _wordListStorage.GetAll()).OrderByDescending(x => x.CreatedAt);
-
-        WordLists = new ObservableCollection<WordList>(wordLists);
+        CurrentPage = message.Value;
     }
 }
