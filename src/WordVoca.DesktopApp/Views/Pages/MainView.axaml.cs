@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Avalonia.Controls;
 
-using Avalonia.Controls;
+using WordVoca.DesktopApp.ViewModels.Pages;
 
-using WordVoca.DesktopApp.ViewModels;
-
-namespace WordVoca.DesktopApp.Views;
+namespace WordVoca.DesktopApp.Views.Pages;
 
 public partial class MainView : ContentPage
 {

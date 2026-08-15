@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 
-using WordVoca.DesktopApp.ViewModels;
+using WordVoca.DesktopApp.ViewModels.Dialogs;
 
-namespace WordVoca.DesktopApp;
+namespace WordVoca.DesktopApp.Views.Dialogs;
 
 public partial class CreationWordListView : Window
 {
@@ -15,7 +15,7 @@ public partial class CreationWordListView : Window
     {
         if (DataContext is CreationWordListViewModel viewModel)
         {
-            await viewModel.ChangeDefaultWordListTitle();
+            await viewModel.InitializeAsync();
         }
     }
 }

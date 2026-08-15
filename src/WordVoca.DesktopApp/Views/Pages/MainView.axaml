@@ -4,9 +4,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="using:WordVoca.Core.Models"
-             xmlns:vm="clr-namespace:WordVoca.DesktopApp.ViewModels"
+             xmlns:vm="clr-namespace:WordVoca.DesktopApp.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WordVoca.DesktopApp.Views.MainView"
+             x:Class="WordVoca.DesktopApp.Views.Pages.MainView"
              x:DataType="vm:MainViewModel"
              x:Name="Root"
              Loaded="Root_Loaded">

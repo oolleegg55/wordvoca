@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\MainView.axaml.cs">
+    <Compile Update="Views\Pages\MainView.axaml.cs">
       <DependentUpon>MainView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>

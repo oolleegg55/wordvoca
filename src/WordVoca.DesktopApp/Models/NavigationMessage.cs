@@ -1,12 +1,14 @@
-﻿using CommunityToolkit.Mvvm.Messaging.Messages;
+﻿using System;
+
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 using WordVoca.DesktopApp.ViewModels;
 
 namespace WordVoca.DesktopApp.Models;
 
-public class NavigationMessage : ValueChangedMessage<ViewModelBase>
+public class NavigationMessage : ValueChangedMessage<Type>
 {
-    public NavigationMessage(ViewModelBase value) : base(value)
+    public NavigationMessage(Type value) : base(value)
     {
     }
 }

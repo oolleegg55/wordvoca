@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,55 +7,45 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
 using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
+using WordVoca.DesktopApp.ViewModels.Dialogs;
+using WordVoca.DesktopApp.Views.Dialogs;
 
-namespace WordVoca.DesktopApp.ViewModels;
+namespace WordVoca.DesktopApp.ViewModels.Pages;
 
 public partial class MainViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
     private readonly IWordListStorage _wordListStorage;
     private readonly IMessenger _messenger;
-    private readonly IServiceProvider _serviceProvider;
 
     public MainViewModel()
     {
         _dialogService = null!;
         _wordListStorage = null!;
-        WordListViewModel = null!;
         _messenger = null!;
-        _serviceProvider = null!;
     }
 
     public MainViewModel(
-        CreationWordListViewModel wordListViewModel,
         IDialogService dialogService,
         IWordListStorage wordListStorage,
-        IMessenger messenger,
-        IServiceProvider serviceProvider)
+        IMessenger messenger)
     {
-        _wordListViewModel = wordListViewModel;
         _dialogService = dialogService;
         _wordListStorage = wordListStorage;
         _messenger = messenger;
-        _serviceProvider = serviceProvider;
     }
 
     [ObservableProperty]
     private ObservableCollection<WordList> _wordLists = [];
 
-    [ObservableProperty]
-    private CreationWordListViewModel _wordListViewModel;
-
     [RelayCommand]
     private async Task ShowCreationModalView()
     {
-        await _dialogService.ShowModalAsync(WordListViewModel);
+        await _dialogService.ShowModalAsync<CreationWordListView, CreationWordListViewModel>();
 
         await LoadWordListAsync();
     }
@@ -63,17 +53,14 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void ShowWordListDetail()
     {
-        var viewModel = _serviceProvider.GetRequiredService<WordListViewModel>();
-        _messenger.Send(
-            new NavigationMessage(
-                viewModel
-                )
-            );
+        _messenger.Send(new NavigationMessage(typeof(WordListViewModel)));
     }
 
     public async Task LoadWordListAsync()
     {
-        var wordLists = (await _wordListStorage.GetAll()).OrderByDescending(x => x.CreatedAt);
+        List<WordList> wordLists = (await _wordListStorage.GetAll())
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
 
         WordLists = new ObservableCollection<WordList>(wordLists);
     }

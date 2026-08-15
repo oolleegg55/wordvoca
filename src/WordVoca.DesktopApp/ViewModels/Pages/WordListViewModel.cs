@@ -4,22 +4,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using WordVoca.Core.Models;
 using WordVoca.DesktopApp.Models;
 
-namespace WordVoca.DesktopApp.ViewModels;
+namespace WordVoca.DesktopApp.ViewModels.Pages;
 
 public partial class WordListViewModel : ViewModelBase
 {
     private readonly IMessenger _messenger;
-    private readonly IServiceProvider _serviceProvider;
 
-    public WordListViewModel(IMessenger messenger, IServiceProvider serviceProvider)
+    public WordListViewModel(IMessenger messenger)
     {
         _messenger = messenger;
-        _serviceProvider = serviceProvider;
 
         _wordList = new WordList()
         {
@@ -36,10 +32,6 @@ public partial class WordListViewModel : ViewModelBase
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(
-            new NavigationMessage(
-                _serviceProvider.GetRequiredService<MainViewModel>()
-                )
-            );
+        _messenger.Send(new NavigationMessage(typeof(MainViewModel)));
     }
 }

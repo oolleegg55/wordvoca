@@ -11,6 +11,13 @@ namespace WordVoca.DesktopApp.Services;
 
 public class DialogService : IDialogService
 {
+    private readonly PageFactory _pageFactory;
+
+    public DialogService(PageFactory pageFactory)
+    {
+        _pageFactory = pageFactory;
+    }
+
     private Window? GetMainWindow()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -18,32 +25,39 @@ public class DialogService : IDialogService
             return desktop.MainWindow;
         }
 
-        throw new InvalidOperationException("Не найдено активное десктопное окно.");
+        throw new InvalidOperationException("Application lifetime is not IClassicDesktopStyleApplicationLifetime");
     }
 
-    public async Task ShowModalAsync(ViewModelBase viewModelBase)
+    public async Task ShowModalAsync<TView, TViewModel>()
+        where TView : Window, new()
+        where TViewModel : DialogViewModel
     {
-        CreationWordListView modalView = new()
-        {
-            DataContext = viewModelBase,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-        };
-
         Window? parentWindow = GetMainWindow();
         if (parentWindow is null)
         {
             return;
         }
 
-        Action? closeHandler = null;
-        closeHandler = () =>
+        TView view = new();
+        TViewModel viewModel = (TViewModel)_pageFactory.GetPageViewModel<TViewModel>();
+
+        view.DataContext = viewModel;
+        view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+        void closeHandler()
         {
-            viewModelBase.CloseCallback -= closeHandler;
-            modalView.Close();
-        };
+            view.Close();
+        }
 
-        viewModelBase.CloseCallback += closeHandler;
+        viewModel.CloseCallback += closeHandler;
 
-        await modalView.ShowDialog(parentWindow);
+        try
+        {
+            await view.ShowDialog(parentWindow);
+        }
+        finally
+        {
+            viewModel.CloseCallback -= closeHandler;
+        }
     }
 }
