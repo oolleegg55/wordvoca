@@ -16,22 +16,14 @@ public partial class WordListViewModel : ViewModelBase
     public WordListViewModel(IMessenger messenger)
     {
         _messenger = messenger;
-
-        _wordList = new WordList()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Word List #2",
-            SourceLang = Langs.En,
-            TargetLang = Langs.Ru
-        };
     }
 
     [ObservableProperty]
-    private WordList _wordList;
+    private WordList? _wordList;
 
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigationMessage(typeof(MainViewModel)));
+        _messenger.Send(new NavigationMessage<MainViewModel>());
     }
 }

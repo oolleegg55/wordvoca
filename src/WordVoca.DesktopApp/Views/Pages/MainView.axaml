@@ -214,7 +214,7 @@
                                         </Button>
                                         <Button Content="Navigate"
                                                 Command="{Binding #Root.((vm:MainViewModel)DataContext).ShowWordListDetailCommand}"
-                                                CommandParameter="{Binding}" />
+                                                CommandParameter="{Binding .}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1"

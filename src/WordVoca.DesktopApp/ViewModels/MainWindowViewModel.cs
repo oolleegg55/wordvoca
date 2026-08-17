@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
+using WordVoca.Core.Models;
 using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
 using WordVoca.DesktopApp.ViewModels.Pages;
@@ -23,19 +24,36 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
         CurrentPage = _pageFactory.GetPageViewModel<MainViewModel>();
 
-        _messenger.Register<MainWindowViewModel, NavigationMessage>(this, HandlerNavigationMessageRecieved);
+        _messenger.Register<MainWindowViewModel, NavigationMessage<WordListViewModel>>(this, OpenWordListPage);
+        _messenger.Register<MainWindowViewModel, NavigationMessage<MainViewModel>>(this, OpenMainPage);
     }
 
     public void Dispose()
     {
-        _messenger.Unregister<NavigationMessage>(this);
+        _messenger.Unregister<NavigationMessage<WordListViewModel>>(this);
+        _messenger.Unregister<NavigationMessage<MainViewModel>>(this);
     }
 
     [ObservableProperty]
     private ViewModelBase _currentPage;
 
-    private void HandlerNavigationMessageRecieved(MainWindowViewModel recipient, NavigationMessage message)
+    private void OpenWordListPage(
+        MainWindowViewModel recipient,
+        NavigationMessage<WordListViewModel> message)
     {
-        CurrentPage = _pageFactory.GetPageViewModel(message.Value);
+        CurrentPage = _pageFactory.GetPageViewModel<WordListViewModel>(afterCreation =>
+        {
+            if (message.Value is not null)
+            {
+                afterCreation.WordList = (WordList)message.Value;
+            }
+        });
+    }
+
+    private void OpenMainPage(
+        MainWindowViewModel recipient,
+        NavigationMessage<MainViewModel> message)
+    {
+        CurrentPage = _pageFactory.GetPageViewModel<MainViewModel>();
     }
 }

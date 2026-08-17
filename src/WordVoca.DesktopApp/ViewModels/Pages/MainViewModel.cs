@@ -51,9 +51,9 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowWordListDetail()
+    private void ShowWordListDetail(WordList wordList)
     {
-        _messenger.Send(new NavigationMessage(typeof(WordListViewModel)));
+        _messenger.Send(new NavigationMessage<WordListViewModel>(wordList));
     }
 
     public async Task LoadWordListAsync()
