@@ -31,7 +31,13 @@ public partial class WordListViewModel : ViewModelBase
             TargetLang = Langs.Es,
             Words =
             [
-                new Word() { Id = Guid.NewGuid(), Value = "Word", Translation = "Слово", Note = "Пример" },
+                new Word()
+                {
+                    Id = Guid.NewGuid(),
+                    Value = "Word",
+                    Translation = "Слово",
+                    Note = "Пример"
+                },
             ]
         };
     }
