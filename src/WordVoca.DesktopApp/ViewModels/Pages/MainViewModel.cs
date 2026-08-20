@@ -57,14 +57,14 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowWordListDetail(Guid wordListId)
+    private void ShowWordListDetail(string wordListId)
     {
         _messenger.Send(new NavigationMessage<WordListViewModel>(wordListId));
     }
 
     private async Task LoadWordListAsync()
     {
-        List<WordList> wordLists = (await _wordListStorage.GetAll())
+        List<WordList> wordLists = (await _wordListStorage.GetAllAsync())
             .OrderByDescending(x => x.CreatedAt)
             .ToList();
 

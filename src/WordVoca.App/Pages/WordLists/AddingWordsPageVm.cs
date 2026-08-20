@@ -9,10 +9,17 @@ using WordVoca.Core.Storages;
 
 namespace WordVoca.App.Pages.WordLists;
 
-[QueryProperty(nameof(WordListIdString), "WordListId")]
+[QueryProperty(nameof(WordListId), "WordListId")]
 public partial class AddingWordsPageVm : ObservableValidator
 {
-    public ObservableCollection<Word> Words { get; }= [];
+    private readonly IWordListStorage _wordListStorage;
+
+    public AddingWordsPageVm(IWordListStorage wordListStorage)
+    {
+        _wordListStorage = wordListStorage;
+    }
+
+    public string WordListId { get; set; } = string.Empty;
 
     [ObservableProperty]
     [Required]
@@ -25,49 +32,23 @@ public partial class AddingWordsPageVm : ObservableValidator
     [ObservableProperty]
     private string _note = string.Empty;
 
-    [ObservableProperty]
-    private Guid _wordListId;
-
-    public string WordError => GetErrors(nameof(Word)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
-
-    public string WordListIdString
-    {
-        set
-        {
-            if (Guid.TryParse(value, out var guid))
-            {
-                WordListId = guid;
-            }
-        }
-    }
-
-    private readonly IWordListStorage _wordListStorage;
-
-    public AddingWordsPageVm(IWordListStorage wordListStorage)
-    {
-        _wordListStorage = wordListStorage;
-    }
+    public ObservableCollection<Word> Words { get; } = [];
 
     [RelayCommand]
     private async Task AddWordAsync()
     {
-        ValidateAllProperties();
-        if (HasErrors)
+        Word word = new Word
         {
-            return;    
-        }
-
-        Word word =new Word
-        {
-           Id = Guid.NewGuid(),
-           Value = Word,
-           Translation = Translation,
-           Note = Note,
-        }; 
+            Id = Guid.NewGuid(),
+            Value = Word,
+            Translation = Translation,
+            Note = Note,
+        };
 
         Words.Add(word);
 
-        _wordListStorage.AddWord(WordListId, word);
+        await _wordListStorage.AddWordAsync(WordListId, word);
+
         Word = string.Empty;
         Translation = string.Empty;
         Note = string.Empty;

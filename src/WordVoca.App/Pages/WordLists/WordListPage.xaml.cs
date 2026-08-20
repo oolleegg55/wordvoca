@@ -2,17 +2,20 @@
 
 public partial class WordListPage : ContentPage
 {
+    private readonly WordListPageVm _wordListPageVm;
+
     public WordListPage(WordListPageVm vm)
     {
         InitializeComponent();
+
         BindingContext = vm;
+        _wordListPageVm = vm;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        ((WordListPageVm)BindingContext).LoadWordsCommand.Execute(null);
+
+        await _wordListPageVm.InitializeAsync();
     }
-
 }
-

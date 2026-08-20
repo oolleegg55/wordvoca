@@ -51,7 +51,7 @@ public partial class WordListViewModel : ViewModelBase
 
     public async Task InitializeAsync()
     {
-        WordList = await _wordListStorage.GetById(WordListId);
+        WordList = await _wordListStorage.GetByIdAsync(WordListId);
 
         if (WordList is null)
         {
@@ -64,7 +64,7 @@ public partial class WordListViewModel : ViewModelBase
         }
     }
 
-    public Guid WordListId { get; set; }
+    public string WordListId { get; set; } = string.Empty;
 
     [ObservableProperty]
     private WordList? _wordList;

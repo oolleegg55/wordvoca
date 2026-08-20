@@ -1,106 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
-<ContentPage x:Class="WordVoca.App.Pages.Main.MainPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:WordVoca.App.Pages.Main"
-             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-             xmlns:model="clr-namespace:WordVoca.Core.Models;assembly=WordVoca.Core"
-             x:DataType="local:MainPageVm"
-             Shell.FlyoutBehavior="Disabled">
-    <Grid Margin="0"
-          Padding="0"
-          RowDefinitions="Auto,*">
-        <Grid Grid.Row="0"
-              Margin="5"
-              Padding="0"
-              ColumnDefinitions="48,*,48"
-              RowDefinitions="*,Auto">
-            <Button Grid.Row="0"
-                    Grid.Column="0"
-                    Padding="0"
-                    BackgroundColor="White"
-                    HeightRequest="48"
-                    ImageSource="{mi:Fluent Icon=Navigation24,
-                                            IconColor=DarkBlue}"
-                    SemanticProperties.Hint="Open menu"
-                    WidthRequest="48"/>
-            <Label Grid.Row="0"
-                   Grid.Column="1"
-                   FontSize="22"
-                   HorizontalOptions="Center"
-                   Text="Word Voca"
-                   TextColor="#1D3557"
-                   VerticalOptions="Center"/>
-            <Button Grid.Row="0"
-                    Grid.Column="2"
-                    BackgroundColor="Transparent"
-                    HeightRequest="64"
-                    ImageSource="{mi:Fluent Icon=Add28,
-                                            IconColor=DarkBlue}"
-                    WidthRequest="64"
-                    Command="{Binding CreateWordListCommand}"/>
-            <Label Grid.Row="1"
-                   Grid.Column="1"
-                   FontAttributes="Bold"
-                   FontSize="14"
-                   HorizontalOptions="Center"
-                   Text="Create your word lists with ease!"
-                   TextColor="#1D3557"
-                   VerticalOptions="Center"/>
+<ContentPage
+    x:Class="WordVoca.App.Pages.Main.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:WordVoca.App.Pages.Main"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:model="clr-namespace:WordVoca.Core.Models;assembly=WordVoca.Core"
+    x:DataType="local:MainPageVm"
+    Shell.FlyoutBehavior="Disabled">
+    <Grid
+        Margin="0"
+        Padding="0"
+        RowDefinitions="Auto,*">
+        <Grid
+            Grid.Row="0"
+            Margin="5"
+            Padding="0"
+            ColumnDefinitions="48,*,48"
+            RowDefinitions="*,Auto">
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="0"
+                BackgroundColor="White"
+                HeightRequest="48"
+                ImageSource="{mi:Fluent Icon=Navigation24,
+                                        IconColor=DarkBlue}"
+                SemanticProperties.Hint="Open menu"
+                WidthRequest="48" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                FontSize="22"
+                HorizontalOptions="Center"
+                Text="Word Voca"
+                TextColor="#1D3557"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                BackgroundColor="Transparent"
+                Command="{Binding CreateWordListCommand}"
+                HeightRequest="64"
+                ImageSource="{mi:Fluent Icon=Add28,
+                                        IconColor=DarkBlue}"
+                WidthRequest="64" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                FontAttributes="Bold"
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="Create your word lists with ease!"
+                TextColor="#1D3557"
+                VerticalOptions="Center" />
         </Grid>
-        <CollectionView Grid.Row="1"
-                        Margin="0,25"
-                        ItemsSource="{Binding WordLists}">
+        <CollectionView
+            Grid.Row="1"
+            Margin="0,25"
+            ItemsSource="{Binding WordLists}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:WordList">
-                    <VerticalStackLayout Padding="0,0"
-                            Spacing="0">
-                        <Grid Margin="2.5"
-                              Padding="30,5"
-                              ColumnDefinitions="Auto,*,Auto">
-                            <VerticalStackLayout Grid.Row="0"
-                                    Grid.Column="0">
+                    <VerticalStackLayout Padding="0,0" Spacing="0">
+                        <Grid
+                            Margin="2.5"
+                            Padding="30,5"
+                            ColumnDefinitions="Auto,*,Auto">
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="0">
                                 <Label>
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding SourceLang}"
-                                                    TextTransform="Lowercase"/>
-                                            <Span Text="-"/>
-                                            <Span Text="{Binding TargetLang}"
-                                                    TextTransform="Lowercase"/>
+                                            <Span Text="{Binding SourceLang}" TextTransform="Lowercase" />
+                                            <Span Text="-" />
+                                            <Span Text="{Binding TargetLang}" TextTransform="Lowercase" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Padding="0,7.5"
-                                       FontAttributes="Bold"
-                                       Text="{Binding Name}"/>
+                                <Label
+                                    Padding="0,7.5"
+                                    FontAttributes="Bold"
+                                    Text="{Binding Name}" />
                             </VerticalStackLayout>
-                            <HorizontalStackLayout Grid.Column="2"
-                                                   HorizontalOptions="Center"
-                                                   Spacing="2.5"
-                                                   VerticalOptions="Center">
-                                <Label Margin="0"
-                                       FontAttributes="Bold"
-                                       FontSize="14"
-                                       Text="{Binding WordsCount}"
-                                       VerticalOptions="Center"/>
+                            <HorizontalStackLayout
+                                Grid.Column="2"
+                                HorizontalOptions="Center"
+                                Spacing="2.5"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="0"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="{Binding WordsCount}"
+                                    VerticalOptions="Center" />
                                 <Button
-                                    HeightRequest="24"
                                     Padding="0,-2.5"
-                                    ImageSource="{mi:Fluent Icon=CaretRight24, IconColor=Black}"
-                                    VerticalOptions="Center"
-                                    WidthRequest="24"
                                     BackgroundColor="Transparent"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPage}}, Path=BindingContext.GoToWordListCommand}"
-                                    CommandParameter="{Binding Id}">
-                                </Button>
+                                    CommandParameter="{Binding Name}"
+                                    HeightRequest="24"
+                                    ImageSource="{mi:Fluent Icon=CaretRight24,
+                                                            IconColor=Black}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="24" />
                             </HorizontalStackLayout>
                         </Grid>
-                        <BoxView Margin="16,0,16,0"
-                                 HeightRequest="1"
-                                 HorizontalOptions="Fill"
-                                 Color="#E0E0E0"/>
+                        <BoxView
+                            Margin="16,0,16,0"
+                            HeightRequest="1"
+                            HorizontalOptions="Fill"
+                            Color="#E0E0E0" />
                     </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

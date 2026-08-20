@@ -116,8 +116,7 @@
                 </StackPanel>
             </Border>
 
-            <ScrollViewer Margin="0,10,10,0"
-                          VerticalScrollBarVisibility="Auto"
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
                           IsScrollInertiaEnabled="True">
                 <ItemsControl ItemsSource="{Binding WordLists}">
                     <ItemsControl.ItemsPanel>
@@ -142,7 +141,7 @@
                                         RoutingStrategies="Bubble">
                                         <InvokeCommandAction
                                             Command="{Binding #Root.((vm:MainViewModel)DataContext).ShowWordListDetailCommand}"
-                                            CommandParameter="{Binding Id}" />
+                                            CommandParameter="{Binding Name}" />
                                     </RoutedEventTriggerBehavior>
                                 </Interaction.Behaviors>
 

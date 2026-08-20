@@ -44,7 +44,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             if (message.Value is not null)
             {
-                afterCreation.WordListId = (Guid)message.Value;
+                afterCreation.WordListId = (string)message.Value;
             }
         });
     }

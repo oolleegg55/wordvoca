@@ -21,7 +21,7 @@ public partial class CreationWordListViewModel : DialogViewModel
     public async Task InitializeAsync()
     {
         // TODO: replace with _wordListStorage
-        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAll()).Count + 1}";
+        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAllAsync()).Count + 1}";
     }
 
     public Langs[] Languages { get; } = Enum.GetValues<Langs>();
@@ -65,7 +65,7 @@ public partial class CreationWordListViewModel : DialogViewModel
             UpdatedAt = DateTime.Now,
         };
 
-        await _wordListStorage.Save(wordList);
+        await _wordListStorage.SaveAsync(wordList);
 
         Reset();
         OnCloseCallback();
