@@ -15,7 +15,7 @@ public partial class MainView : ContentPage
     {
         if (DataContext is MainViewModel viewModel)
         {
-            await viewModel.LoadWordListAsync();
+            await viewModel.InitializeAsync();
         }
     }
 }

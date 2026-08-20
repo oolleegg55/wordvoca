@@ -40,6 +40,11 @@ public partial class MainViewModel : ViewModelBase
         _messenger = messenger;
     }
 
+    public async Task InitializeAsync()
+    {
+        await LoadWordListAsync();
+    }
+
     [ObservableProperty]
     private ObservableCollection<WordList> _wordLists = [];
 
@@ -48,7 +53,7 @@ public partial class MainViewModel : ViewModelBase
     {
         await _dialogService.ShowModalAsync<CreationWordListView, CreationWordListViewModel>();
 
-        await LoadWordListAsync();
+        await InitializeAsync();
     }
 
     [RelayCommand]
@@ -57,12 +62,17 @@ public partial class MainViewModel : ViewModelBase
         _messenger.Send(new NavigationMessage<WordListViewModel>(wordListId));
     }
 
-    public async Task LoadWordListAsync()
+    private async Task LoadWordListAsync()
     {
         List<WordList> wordLists = (await _wordListStorage.GetAll())
             .OrderByDescending(x => x.CreatedAt)
             .ToList();
 
-        WordLists = new ObservableCollection<WordList>(wordLists);
+        WordLists.Clear();
+
+        foreach (WordList wordList in wordLists)
+        {
+            WordLists.Add(wordList);
+        }
     }
 }
