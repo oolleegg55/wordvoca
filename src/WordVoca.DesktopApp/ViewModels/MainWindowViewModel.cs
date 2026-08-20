@@ -3,7 +3,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-using WordVoca.Core.Models;
 using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
 using WordVoca.DesktopApp.ViewModels.Pages;
@@ -45,7 +44,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             if (message.Value is not null)
             {
-                afterCreation.WordList = (WordList)message.Value;
+                afterCreation.WordListId = (Guid)message.Value;
             }
         });
     }

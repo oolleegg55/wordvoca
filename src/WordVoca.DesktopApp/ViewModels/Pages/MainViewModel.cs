@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,9 +52,9 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowWordListDetail(WordList wordList)
+    private void ShowWordListDetail(Guid wordListId)
     {
-        _messenger.Send(new NavigationMessage<WordListViewModel>(wordList));
+        _messenger.Send(new NavigationMessage<WordListViewModel>(wordListId));
     }
 
     public async Task LoadWordListAsync()

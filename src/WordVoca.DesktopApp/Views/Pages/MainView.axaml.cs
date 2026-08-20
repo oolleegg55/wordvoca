@@ -11,7 +11,7 @@ public partial class MainView : ContentPage
         InitializeComponent();
     }
 
-    private async void Root_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void HandlePageLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DataContext is MainViewModel viewModel)
         {

@@ -9,9 +9,9 @@
              x:Class="WordVoca.DesktopApp.Views.Pages.MainView"
              x:DataType="vm:MainViewModel"
              x:Name="Root"
-             Loaded="Root_Loaded">
+             Loaded="HandlePageLoaded">
     <Design.DataContext>
-        <vm:MainViewModel/>
+        <vm:MainViewModel />
     </Design.DataContext>
 
     <Grid ColumnDefinitions="Auto,*"
@@ -37,14 +37,14 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <avalonia:FluentIcon Icon="AddCircle" />
-                            <Label Content="New word list"/>
+                            <Label Content="New word list" />
                         </StackPanel>
                     </Button>
 
                     <Line StartPoint="0,0"
                           EndPoint="180,0"
                           Stroke="Gray"
-                          Margin="0,5,0,5"/>
+                          Margin="0,5,0,5" />
 
                     <Button HorizontalAlignment="Stretch"
                             CornerRadius="10"
@@ -52,7 +52,7 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Left">
                             <avalonia:FluentIcon Icon="ListBar" />
-                            <Label Content="All word lists"/>
+                            <Label Content="All word lists" />
                         </StackPanel>
                     </Button>
 
@@ -62,7 +62,7 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Left">
                             <avalonia:FluentIcon Icon="StackStar" />
-                            <Label Content="Favorites"/>
+                            <Label Content="Favorites" />
                         </StackPanel>
                     </Button>
 
@@ -83,10 +83,10 @@
                                 Margin="10">
                         <avalonia:FluentIcon Icon="ListBar"
                                              FontSize="25"
-                                             Margin="0,0,0,2"/>
+                                             Margin="0,0,0,2" />
                         <Label Content="All word lists"
                                FontSize="22"
-                               FontWeight="Bold"/>
+                               FontWeight="Bold" />
                     </StackPanel>
                     <Border Background="LightGray"
                             HorizontalAlignment="Stretch"
@@ -99,7 +99,7 @@
                                 <TextBox.InnerLeftContent>
                                     <avalonia:FluentIcon Icon="Filter"
                                                          Margin="5,0,0,0"
-                                                         IconVariant="Filled"/>
+                                                         IconVariant="Filled" />
                                 </TextBox.InnerLeftContent>
                             </TextBox>
                             <TextBox Width="250"
@@ -108,133 +108,138 @@
                                 <TextBox.InnerLeftContent>
                                     <avalonia:FluentIcon Icon="LineHorizontal4Search"
                                                          Margin="5,0,0,0"
-                                                         IconVariant="Filled"/>
+                                                         IconVariant="Filled" />
                                 </TextBox.InnerLeftContent>
                             </TextBox>
                         </StackPanel>
                     </Border>
                 </StackPanel>
             </Border>
+
+            <ScrollViewer Margin="0,10,10,0"
+                          VerticalScrollBarVisibility="Auto"
+                          IsScrollInertiaEnabled="True">
+                <ItemsControl ItemsSource="{Binding WordLists}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="models:WordList">
+                            <Border BorderBrush="{DynamicResource ResourceKey=Gray200}"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Margin="0,0,0,5"
+                                    Padding="10,5,10,5"
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent"
+                                    Cursor="Hand">
+                                <Interaction.Behaviors>
+                                    <RoutedEventTriggerBehavior
+                                        RoutedEvent="{x:Static InputElement.PointerPressedEvent}"
+                                        RoutingStrategies="Bubble">
+                                        <InvokeCommandAction
+                                            Command="{Binding #Root.((vm:MainViewModel)DataContext).ShowWordListDetailCommand}"
+                                            CommandParameter="{Binding Id}" />
+                                    </RoutedEventTriggerBehavior>
+                                </Interaction.Behaviors>
+
+                                <StackPanel Spacing="10">
+                                    <Grid ColumnDefinitions="*,Auto"
+                                          HorizontalAlignment="Stretch">
+                                        <StackPanel Grid.Column="0"
+                                                    Orientation="Horizontal">
+                                            <avalonia:FluentIcon Icon="Star"
+                                                                 Margin="0,0,5,0"
+                                                                 IconSize="Size48" />
+                                            <Label Content="{Binding Name}"
+                                                   Padding="0,3,0,0"
+                                                   FontSize="20"
+                                                   FontWeight="Bold" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1"
+                                                    Orientation="Horizontal"
+                                                    Spacing="10">
+                                            <Border Background="LightGray"
+                                                    CornerRadius="5"
+                                                    Padding="5,0,5,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <avalonia:FluentIcon Icon="LocalLanguage"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         Margin="0,0,7.5,0" />
+                                                    <TextBlock Padding="0,2.5,0,0"
+                                                               FontSize="18">
+                                                        <Run
+                                                            Text="{Binding SourceLang, Converter={StaticResource Lowercase}}" />
+                                                        <Run Text="-"></Run>
+                                                        <Run
+                                                            Text="{Binding TargetLang, Converter={StaticResource Lowercase}}" />
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Background="LightGray"
+                                                    CornerRadius="5"
+                                                    Padding="5,0,5,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <avalonia:FluentIcon Icon="ListBar"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         Margin="0,0,7.5,0" />
+                                                    <Label Content="{Binding WordsCount}"
+                                                           FontSize="18" />
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="*,Auto"
+                                          HorizontalAlignment="Stretch">
+                                        <StackPanel Grid.Column="0"
+                                                    Orientation="Horizontal"
+                                                    Spacing="10">
+                                            <Button Width="150"
+                                                    CornerRadius="10">
+                                                <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Center">
+                                                    <avalonia:FluentIcon Icon="AddCircle"
+                                                                         Margin="0,0,5,0" />
+                                                    <Label>Add words</Label>
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Button Width="100"
+                                                    CornerRadius="10">
+                                                <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Center">
+                                                    <avalonia:FluentIcon Icon="LearningApp"
+                                                                         Margin="0,0,5,0" />
+                                                    <Label>Learn</Label>
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1"
+                                                    Orientation="Horizontal"
+                                                    Spacing="5">
+                                            <Button CornerRadius="5">
+                                                <avalonia:FluentIcon Icon="Archive" />
+                                            </Button>
+                                            <Button CornerRadius="5">
+                                                <avalonia:FluentIcon Icon="Delete" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </StackPanel>
-
-        <ScrollViewer Grid.Column="2"
-                      Grid.Row="2"
-                      Margin="0,10,10,0"
-                      VerticalScrollBarVisibility="Auto"
-                      IsScrollInertiaEnabled="True">
-            <ItemsControl ItemsSource="{Binding WordLists}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="models:WordList">
-                        <Border BorderBrush="{DynamicResource ResourceKey=Gray200}"
-                                BorderThickness="1"
-                                CornerRadius="5"
-                                Margin="0,0,0,5"
-                                Padding="10,5,10,5"
-                                HorizontalAlignment="Stretch">
-                            <StackPanel Spacing="10">
-                                <Grid ColumnDefinitions="*,Auto"
-                                      HorizontalAlignment="Stretch">
-                                    <StackPanel Grid.Column="0"
-                                                Orientation="Horizontal">
-                                        <avalonia:FluentIcon Icon="Star"
-                                                             Margin="0,0,5,0"
-                                                             IconSize="Size48"/>
-                                        <Label Content="{Binding Name}"
-                                               Padding="0,3,0,0"
-                                               FontSize="20"
-                                               FontWeight="Bold"/>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1"
-                                                Orientation="Horizontal"
-                                                Spacing="10">
-                                        <Border Background="LightGray"
-                                                CornerRadius="5"
-                                                Padding="5,0,5,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <avalonia:FluentIcon Icon="LocalLanguage"
-                                                                     Width="20"
-                                                                     Height="20"
-                                                                     Margin="0,0,7.5,0"/>
-                                                <TextBlock Padding="0,2.5,0,0"
-                                                           FontSize="18">
-                                                    <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}"/>
-                                                    <Run Text="-"></Run>
-                                                    <Run Text="{Binding TargetLang, Converter={StaticResource Lowercase}}"/>
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Background="LightGray"
-                                                CornerRadius="5"
-                                                Padding="5,0,5,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <avalonia:FluentIcon Icon="ListBar"
-                                                                     Width="20"
-                                                                     Height="20"
-                                                                     Margin="0,0,7.5,0"/>
-                                                <Label Content="{Binding WordsCount}"
-                                                       FontSize="18"/>
-                                            </StackPanel>
-                                        </Border>
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid ColumnDefinitions="*,Auto"
-                                      HorizontalAlignment="Stretch">
-                                    <StackPanel Grid.Column="0"
-                                                Orientation="Horizontal"
-                                                Spacing="10">
-                                        <Button Width="150"
-                                                CornerRadius="10"
-                                                IsEnabled="False">
-                                            <StackPanel Orientation="Horizontal"
-                                                        HorizontalAlignment="Center">
-                                                <avalonia:FluentIcon Icon="AddCircle"
-                                                                     Margin="0,0,5,0"/>
-                                                <Label>Add words</Label>
-                                            </StackPanel>
-                                        </Button>
-
-                                        <Button Width="100"
-                                                CornerRadius="10"
-                                                IsEnabled="False">
-                                            <StackPanel Orientation="Horizontal"
-                                                        HorizontalAlignment="Center">
-                                                <avalonia:FluentIcon Icon="LearningApp"
-                                                                     Margin="0,0,5,0"/>
-                                                <Label>Learn</Label>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Content="Navigate"
-                                                Command="{Binding #Root.((vm:MainViewModel)DataContext).ShowWordListDetailCommand}"
-                                                CommandParameter="{Binding .}" />
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1"
-                                                Orientation="Horizontal"
-                                                Spacing="5">
-                                        <Button CornerRadius="5"
-                                                IsEnabled="False">
-                                            <avalonia:FluentIcon Icon="Archive"/>
-                                        </Button>
-                                        <Button CornerRadius="5"
-                                                IsEnabled="False">
-                                            <avalonia:FluentIcon Icon="Delete"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
     </Grid>
 </ContentPage>
