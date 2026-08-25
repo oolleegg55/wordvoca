@@ -1,10 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-using WordVoca.Core.Models;
+﻿using WordVoca.Core.Models;
 
 namespace WordVoca.Storage.Entities;
 
-internal class WordListEntity
+internal sealed class WordListEntity
 {
     public static WordListEntity From(WordList wordList)
     {

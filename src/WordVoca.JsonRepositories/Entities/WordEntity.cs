@@ -2,7 +2,7 @@
 
 namespace WordVoca.Storage.Entities;
 
-internal class WordEntity
+internal sealed class WordEntity
 {
     public static WordEntity From(Word word)
     {

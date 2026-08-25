@@ -5,24 +5,24 @@ using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.App.Pages.WordLists;
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 
 namespace WordVoca.App.Pages.Main;
 
 public partial class MainPageVm : ObservableObject
 {
-    private readonly IWordListRepository _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
 
     public ObservableCollection<WordList> WordLists { get; } = [];
 
-    public MainPageVm(IWordListRepository wordListStorage)
+    public MainPageVm(IWordListRepository wordListRepository)
     {
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListRepository;
     }
 
     public async Task InitializeAsync()
     {
-        var list = await _wordListStorage.GetAllAsync();
+        var list = await _wordListRepository.GetAllAsync();
         foreach (WordList wordList in list)
         {
             if (WordLists.Any(x => x.Id == wordList.Id))

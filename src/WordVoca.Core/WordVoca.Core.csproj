@@ -7,6 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="WordVoca.Storage" />
+        <InternalsVisibleTo Include="WordVoca.JsonRepositories" />
     </ItemGroup>
 </Project>

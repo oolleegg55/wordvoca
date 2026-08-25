@@ -2,7 +2,7 @@
 
 public class Word
 {
-    public required Guid Id { get; set; }
+    public required Guid Id { get; init; }
 
     public string? Value { get; set; }
 

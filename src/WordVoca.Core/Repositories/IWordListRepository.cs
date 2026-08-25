@@ -1,6 +1,6 @@
 ﻿using WordVoca.Core.Models;
 
-namespace WordVoca.Core.Storages;
+namespace WordVoca.Core.Repositories;
 
 public interface IWordListRepository
 {

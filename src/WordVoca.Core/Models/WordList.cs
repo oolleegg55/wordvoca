@@ -4,7 +4,7 @@ public class WordList
 {
     private readonly List<Word> _words = [];
 
-    public WordList(List<Word> words)
+    private WordList(List<Word> words)
     {
         _words = words;
     }
@@ -13,13 +13,13 @@ public class WordList
 
     public required string Name { get; init; }
 
-    public Langs SourceLang { get; set; }
+    public Langs SourceLang { get; private set; }
 
-    public Langs TargetLang { get; set; }
+    public Langs TargetLang { get; private set; }
 
-    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; private set; }
 
-    public DateTimeOffset UpdatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; private set; }
 
     public IReadOnlyList<Word> Words => _words;
 
@@ -36,6 +36,12 @@ public class WordList
 
         _words.Add(word);
         return true;
+    }
+
+    public void ChangeLanguages(Langs sourceLang, Langs targetLang)
+    {
+        SourceLang = sourceLang;
+        TargetLang = targetLang;
     }
 
     internal static class PrivateAccessor

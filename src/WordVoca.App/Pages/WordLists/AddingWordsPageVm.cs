@@ -4,18 +4,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 
 namespace WordVoca.App.Pages.WordLists;
 
 [QueryProperty(nameof(WordListId), "WordListId")]
 public partial class AddingWordsPageVm : ObservableValidator
 {
-    private readonly IWordListRepository _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
 
-    public AddingWordsPageVm(IWordListRepository wordListStorage)
+    public AddingWordsPageVm(IWordListRepository wordListRepository)
     {
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListRepository;
     }
 
     public string WordListId { get; set; } = string.Empty;
@@ -39,7 +39,7 @@ public partial class AddingWordsPageVm : ObservableValidator
     [RelayCommand]
     private async Task AddWordAsync()
     {
-        WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
+        WordList? wordList = await _wordListRepository.GetByIdAsync(WordListId);
         if (wordList is null)
         {
             return;
@@ -60,7 +60,7 @@ public partial class AddingWordsPageVm : ObservableValidator
 
         Words.Add(word);
 
-        await _wordListStorage.SaveAsync(wordList);
+        await _wordListRepository.SaveAsync(wordList);
 
         Word = string.Empty;
         Translation = string.Empty;

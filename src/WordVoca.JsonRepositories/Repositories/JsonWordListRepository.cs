@@ -2,7 +2,7 @@
 
 using WordVoca.Core.Exceptions;
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 using WordVoca.Storage.Entities;
 
 namespace WordVoca.Storage.Storages;
@@ -10,10 +10,10 @@ namespace WordVoca.Storage.Storages;
 public class JsonWordListRepository : IWordListRepository
 {
     private readonly static SemaphoreSlim s_semaphoreSlim = new(1, 1);
-    private readonly string _directoryPath;
     private readonly TimeProvider _timeProvider;
+    private readonly string _directoryPath;
 
-    public JsonWordListRepository(StorageSettings storageSettings, TimeProvider timeProvider)
+    public JsonWordListRepository(RepositorySettings storageSettings, TimeProvider timeProvider)
     {
         _directoryPath = storageSettings.StorageDirectory;
         _timeProvider = timeProvider;

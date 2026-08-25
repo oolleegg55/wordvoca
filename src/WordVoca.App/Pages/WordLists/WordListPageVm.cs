@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.App.Pages.Exercises;
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 
 namespace WordVoca.App.Pages.WordLists;
 
@@ -14,17 +14,18 @@ public partial class WordListPageVm : ObservableObject
 {
     private CancellationTokenSource _cts = new();
 
-    private readonly IWordListRepository _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
+    private readonly ITextToSpeech _textToSpeech;
 
-    public WordListPageVm(IWordListRepository wordListStorage)
+    public WordListPageVm(IWordListRepository wordListStorage, ITextToSpeech textToSpeech)
     {
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListStorage;
         _textToSpeech = textToSpeech;
     }
 
     public async Task InitializeAsync()
     {
-        WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
+        WordList? wordList = await _wordListRepository.GetByIdAsync(WordListId);
         if (wordList is null)
         {
             return;
