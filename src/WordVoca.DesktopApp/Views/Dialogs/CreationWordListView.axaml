@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="using:WordVoca.DesktopApp.ViewModels"
+        xmlns:vm="using:WordVoca.DesktopApp.ViewModels.Dialogs"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="WordVoca.DesktopApp.CreationWordListView"
+        x:Class="WordVoca.DesktopApp.Views.Dialogs.CreationWordListView"
         x:DataType="vm:CreationWordListViewModel"
         MinWidth="500" MaxWidth="500"
         MinHeight="250" MaxHeight="250"
@@ -13,8 +13,9 @@
         Title="New word list"
         Loaded="Window_Loaded">
     <Design.DataContext>
-        <vm:CreationWordListViewModel/>
+        <vm:CreationWordListViewModel />
     </Design.DataContext>
+
     <StackPanel Spacing="10"
                 Margin="15">
         <Label Content="Creating a new word list"
@@ -61,7 +62,7 @@
             <Button Background="#202233"
                     Foreground="#fff"
                     Width="100"
-                    Command="{Binding AddCommand}">
+                    Command="{Binding CreateCommand}">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
                     <avalonia:FluentIcon Icon="AddCircle"/>

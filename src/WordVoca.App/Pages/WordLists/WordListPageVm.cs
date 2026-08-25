@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using WordVoca.App.Pages.Exercises;
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
 
@@ -18,6 +19,7 @@ public partial class WordListPageVm : ObservableObject
     public WordListPageVm(IWordListRepository wordListStorage)
     {
         _wordListStorage = wordListStorage;
+        _textToSpeech = textToSpeech;
     }
 
     public async Task InitializeAsync()
@@ -50,6 +52,17 @@ public partial class WordListPageVm : ObservableObject
         await Shell.Current.GoToAsync($"{nameof(AddingWordsPage)}?WordListId={Uri.EscapeDataString(WordListId)}");
     }
 
+    [RelayCommand]
+    private async Task GoToWordCardsExerciseAsync()
+    {
+        LearningSession learningSession = new LearningSession(Words, new List<ExerciseType>() { ExerciseType.WordCards});
+
+        await Shell.Current.GoToAsync($"{nameof(WordCardsExerciseView)}", new Dictionary<string, object>
+        {
+            [nameof(LearningSession)] = learningSession
+        });
+    }
+
     [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task PlayWordAudioAsync(string word)
     {
@@ -57,6 +70,6 @@ public partial class WordListPageVm : ObservableObject
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
-        await TextToSpeech.Default.SpeakAsync(word, cancelToken: _cts.Token);
+        await _textToSpeech.SpeakAsync(word, cancelToken: _cts.Token);
     }
 }

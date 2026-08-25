@@ -1,7 +1,10 @@
-﻿using MauiIcons.Fluent;
+﻿using CommunityToolkit.Maui;
+
+using MauiIcons.Fluent;
 
 using Microsoft.Extensions.Logging;
 
+using WordVoca.App.Pages.Exercises;
 using WordVoca.App.Pages.Main;
 using WordVoca.App.Pages.WordLists;
 using WordVoca.Core.Storages;
@@ -17,6 +20,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .UseFluentMauiIcons()
             .ConfigureFonts(fonts =>
             {
@@ -34,11 +38,13 @@ public static class MauiProgram
         builder.Services.AddTransient<CreationPageVm>();
         builder.Services.AddTransient<WordListPageVm>();
         builder.Services.AddTransient<AddingWordsPageVm>();
+        builder.Services.AddTransient<WordCardsExerciseVm>();
 
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<CreationPage>();
         builder.Services.AddTransient<WordListPage>();
         builder.Services.AddTransient<AddingWordsPage>();
+        builder.Services.AddTransient<WordCardsExerciseView>();
 
 #if DEBUG
         builder.Logging.AddDebug();
