@@ -120,6 +120,11 @@ public class JsonWordListStorage : IWordListStorage
 
         try
         {
+            if (!Directory.Exists(_directoryPath))
+            {
+                return "Word List #1";
+            }
+
             string[] files = Directory.GetFiles(_directoryPath, "Word List #*.json");
             List<int> numbers = [];
 
