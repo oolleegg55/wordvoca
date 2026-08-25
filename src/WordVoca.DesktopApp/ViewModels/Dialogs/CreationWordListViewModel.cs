@@ -7,15 +7,21 @@ using CommunityToolkit.Mvvm.Input;
 using WordVoca.Core.Models;
 using WordVoca.Core.Storages;
 
-namespace WordVoca.DesktopApp.ViewModels;
+namespace WordVoca.DesktopApp.ViewModels.Dialogs;
 
-public partial class CreationWordListViewModel : ViewModelBase
+public partial class CreationWordListViewModel : DialogViewModel
 {
     private readonly IWordListStorage _wordListStorage;
 
     public CreationWordListViewModel(IWordListStorage wordListStorage)
     {
         _wordListStorage = wordListStorage;
+    }
+
+    public async Task InitializeAsync()
+    {
+        // TODO: replace with _wordListStorage
+        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAllAsync()).Count + 1}";
     }
 
     public Langs[] Languages { get; } = Enum.GetValues<Langs>();
@@ -30,7 +36,7 @@ public partial class CreationWordListViewModel : ViewModelBase
     private Langs _targetLanguage = Langs.Ru;
 
     [ObservableProperty]
-    private string _defaultWordListTitle = "Word List #1";
+    private string _defaultWordListTitle = string.Empty;
 
     [RelayCommand]
     private void Cancel()
@@ -40,7 +46,7 @@ public partial class CreationWordListViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task AddAsync()
+    private async Task Create()
     {
         if (string.IsNullOrWhiteSpace(WordListTitle))
         {
@@ -70,10 +76,5 @@ public partial class CreationWordListViewModel : ViewModelBase
         WordListTitle = string.Empty;
         SourceLanguage = Langs.En;
         TargetLanguage = Langs.Ru;
-    }
-
-    public async Task ChangeDefaultWordListTitle()
-    {
-        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAllAsync()).Count + 1}";
     }
 }

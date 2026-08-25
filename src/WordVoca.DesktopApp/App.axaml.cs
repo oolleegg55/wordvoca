@@ -1,15 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
+using CommunityToolkit.Mvvm.Messaging;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using WordVoca.Core.Storages;
-using WordVoca.DesktopApp.Services;
+using WordVoca.DesktopApp.Extensions;
 using WordVoca.DesktopApp.ViewModels;
 using WordVoca.DesktopApp.Views;
 using WordVoca.Storage;
@@ -28,15 +29,17 @@ public partial class App : Application
         StorageSettings storageSettings = new StorageSettings(Path.Combine(AppContext.BaseDirectory, "WordLists"));
 
         ServiceCollection service = new();
-        service.AddScoped<MainWindowViewModel>();
-        service.AddScoped<CreationWordListViewModel>();
-        service.AddScoped((sp) =>
+
+        service.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+
+        service.AddSingleton<IWordListStorage, JsonWordListStorage>();
+        service.AddSingleton((sp) =>
         {
             return storageSettings;
         });
 
-        service.AddScoped<IWordListStorage, JsonWordListStorage>();
-        service.AddScoped<IDialogService, DialogService>();
+        service.AddNavigation();
+        service.AddViewModels();
 
         ServiceProvider serviceProvider = service.BuildServiceProvider();
 

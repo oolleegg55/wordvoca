@@ -1,53 +1,58 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
-using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
+using WordVoca.DesktopApp.ViewModels.Pages;
 
 namespace WordVoca.DesktopApp.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase, IDisposable
 {
-    private readonly IDialogService _dialogService;
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IMessenger _messenger;
+    private readonly PageFactory _pageFactory;
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(
+        IMessenger messenger,
+        PageFactory pageFactory)
     {
+        _messenger = messenger;
+        _pageFactory = pageFactory;
 
+        CurrentPage = _pageFactory.GetPageViewModel<MainViewModel>();
+
+        _messenger.Register<MainWindowViewModel, NavigationMessage<WordListViewModel>>(this, OpenWordListPage);
+        _messenger.Register<MainWindowViewModel, NavigationMessage<MainViewModel>>(this, OpenMainPage);
     }
 
-    public MainWindowViewModel(CreationWordListViewModel wordListViewModel,
-                               IDialogService dialogService,
-                               IWordListStorage wordListStorage)
+    public void Dispose()
     {
-        _wordListViewModel = wordListViewModel;
-        _dialogService = dialogService;
-        _wordListStorage = wordListStorage;
+        _messenger.Unregister<NavigationMessage<WordListViewModel>>(this);
+        _messenger.Unregister<NavigationMessage<MainViewModel>>(this);
     }
 
     [ObservableProperty]
-    private ObservableCollection<WordList> _wordLists = [];
+    private ViewModelBase _currentPage;
 
-    [ObservableProperty]
-    private CreationWordListViewModel _wordListViewModel;
-
-    [RelayCommand]
-    private async Task ShowCreationModalView()
+    private void OpenWordListPage(
+        MainWindowViewModel recipient,
+        NavigationMessage<WordListViewModel> message)
     {
-        await _dialogService.ShowModalAsync(WordListViewModel);
-
-        await LoadWordListAsync();
+        CurrentPage = _pageFactory.GetPageViewModel<WordListViewModel>(afterCreation =>
+        {
+            if (message.Value is not null)
+            {
+                afterCreation.WordListId = (string)message.Value;
+            }
+        });
     }
 
-    public async Task LoadWordListAsync()
+    private void OpenMainPage(
+        MainWindowViewModel recipient,
+        NavigationMessage<MainViewModel> message)
     {
-        var wordLists = (await _wordListStorage.GetAllAsync()).OrderByDescending(x => x.CreatedAt);
-
-        WordLists = new ObservableCollection<WordList>(wordLists);
+        CurrentPage = _pageFactory.GetPageViewModel<MainViewModel>();
     }
 }
