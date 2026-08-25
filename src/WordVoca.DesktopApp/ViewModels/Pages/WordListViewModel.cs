@@ -15,7 +15,7 @@ namespace WordVoca.DesktopApp.ViewModels.Pages;
 public partial class WordListViewModel : ViewModelBase
 {
     private readonly IMessenger _messenger;
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
 
     public WordListViewModel()
     {
@@ -23,13 +23,7 @@ public partial class WordListViewModel : ViewModelBase
         _wordListStorage = null!;
         Words = [];
 
-        WordList = new()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Name",
-            SourceLang = Langs.En,
-            TargetLang = Langs.Es,
-            Words =
+        WordList = new(
             [
                 new Word()
                 {
@@ -37,12 +31,17 @@ public partial class WordListViewModel : ViewModelBase
                     Value = "Word",
                     Translation = "Слово",
                     Note = "Пример"
-                },
-            ]
+                }
+            ])
+        {
+            Id = Guid.NewGuid(),
+            Name = "Name",
+            SourceLang = Langs.En,
+            TargetLang = Langs.Es,
         };
     }
 
-    public WordListViewModel(IMessenger messenger, IWordListStorage wordListStorage)
+    public WordListViewModel(IMessenger messenger, IWordListRepository wordListStorage)
     {
         _messenger = messenger;
         _wordListStorage = wordListStorage;
@@ -93,7 +92,7 @@ public partial class WordListViewModel : ViewModelBase
             Note = "Пример"
         };
 
-        WordList.Words.Add(word);
+        WordList.TryAddWord(word);
         Words.Add(word);
     }
 }

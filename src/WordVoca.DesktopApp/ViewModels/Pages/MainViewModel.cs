@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace WordVoca.DesktopApp.ViewModels.Pages;
 public partial class MainViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListStorage;
     private readonly IMessenger _messenger;
 
     public MainViewModel()
@@ -32,7 +31,7 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel(
         IDialogService dialogService,
-        IWordListStorage wordListStorage,
+        IWordListRepository wordListStorage,
         IMessenger messenger)
     {
         _dialogService = dialogService;

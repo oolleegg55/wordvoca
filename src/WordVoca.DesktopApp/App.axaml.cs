@@ -32,8 +32,9 @@ public partial class App : Application
         ServiceCollection service = new();
 
         service.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+        service.AddSingleton<TimeProvider>(TimeProvider.System);
 
-        service.AddSingleton<IWordListStorage, JsonWordListStorage>();
+        service.AddSingleton<IWordListRepository, JsonWordListRepository>();
         service.AddSingleton((sp) =>
         {
             return storageSettings;
