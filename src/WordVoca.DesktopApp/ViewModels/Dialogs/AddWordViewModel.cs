@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -19,7 +20,9 @@ public partial class AddWordViewModel : DialogViewModel
     [ObservableProperty]
     private string _note = string.Empty;
 
-    public ObservableCollection<Word> Words { get; set; } = [];
+    public ObservableCollection<Word> Words { get; } = [];
+
+    public bool HasWords => Words.Any();
 
     [RelayCommand]
     public void Cancel()
@@ -39,5 +42,14 @@ public partial class AddWordViewModel : DialogViewModel
         };
 
         Words.Add(word);
+
+        ResetValues();
+    }
+
+    private void ResetValues()
+    {
+        Value = string.Empty;
+        Translation = string.Empty;
+        Note = string.Empty;
     }
 }
