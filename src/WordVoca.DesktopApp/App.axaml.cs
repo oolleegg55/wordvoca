@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -9,7 +8,6 @@ using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using WordVoca.Core.Storages;
 using WordVoca.DesktopApp.Extensions;
 using WordVoca.DesktopApp.ViewModels;
 using WordVoca.DesktopApp.Views;
@@ -26,18 +24,12 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        StorageSettings storageSettings = new StorageSettings(Path.Combine(AppContext.BaseDirectory, "WordLists"));
-
         ServiceCollection service = new();
 
         service.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+        service.AddSingleton(TimeProvider.System);
 
-        service.AddSingleton<IWordListStorage, JsonWordListStorage>();
-        service.AddSingleton((sp) =>
-        {
-            return storageSettings;
-        });
-
+        service.AddRepositories();
         service.AddNavigation();
         service.AddViewModels();
 

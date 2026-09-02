@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.App.Pages.Exercises;
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 
 namespace WordVoca.App.Pages.WordLists;
 
@@ -14,18 +14,18 @@ public partial class WordListPageVm : ObservableObject
 {
     private CancellationTokenSource _cts = new();
 
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
     private readonly ITextToSpeech _textToSpeech;
 
-    public WordListPageVm(IWordListStorage wordListStorage, ITextToSpeech textToSpeech)
+    public WordListPageVm(IWordListRepository wordListStorage, ITextToSpeech textToSpeech)
     {
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListStorage;
         _textToSpeech = textToSpeech;
     }
 
     public async Task InitializeAsync()
     {
-        WordList? wordList = await _wordListStorage.GetByIdAsync(WordListId);
+        WordList? wordList = await _wordListRepository.GetByIdAsync(WordListId);
         if (wordList is null)
         {
             return;
@@ -50,7 +50,7 @@ public partial class WordListPageVm : ObservableObject
     [RelayCommand]
     private async Task GoToAddingWordsPageAsync()
     {
-        await Shell.Current.GoToAsync($"{nameof(AddingWordsPage)}?WordListId={WordListId}");
+        await Shell.Current.GoToAsync($"{nameof(AddingWordsPage)}?WordListId={Uri.EscapeDataString(WordListId)}");
     }
 
     [RelayCommand]

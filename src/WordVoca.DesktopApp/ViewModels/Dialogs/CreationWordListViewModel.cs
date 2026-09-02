@@ -5,23 +5,22 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 
 namespace WordVoca.DesktopApp.ViewModels.Dialogs;
 
 public partial class CreationWordListViewModel : DialogViewModel
 {
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
 
-    public CreationWordListViewModel(IWordListStorage wordListStorage)
+    public CreationWordListViewModel(IWordListRepository wordListRepository)
     {
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListRepository;
     }
 
     public async Task InitializeAsync()
     {
-        // TODO: replace with _wordListStorage
-        DefaultWordListTitle = $"Word List #{(await _wordListStorage.GetAllAsync()).Count + 1}";
+        DefaultWordListTitle = await _wordListRepository.GetNextWordListNameAsync();
     }
 
     public Langs[] Languages { get; } = Enum.GetValues<Langs>();
@@ -53,19 +52,9 @@ public partial class CreationWordListViewModel : DialogViewModel
             WordListTitle = DefaultWordListTitle;
         }
 
-        WordList wordList = new WordList
-        {
-            Id = Guid.NewGuid(),
-            Name = WordListTitle,
+        WordList wordList = _wordListRepository.BuildWordList(WordListTitle, SourceLanguage, TargetLanguage);
 
-            SourceLang = SourceLanguage,
-            TargetLang = TargetLanguage,
-
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now,
-        };
-
-        await _wordListStorage.SaveAsync(wordList);
+        await _wordListRepository.SaveAsync(wordList);
 
         Reset();
         OnCloseCallback();

@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 
 namespace WordVoca.App.Pages.WordLists;
 
@@ -10,16 +10,16 @@ public partial class CreationPageVm : ObservableValidator
 {
     public IEnumerable<Langs> AllLangs { get; } = Enum.GetValues(typeof(Langs)).Cast<Langs>();
 
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
 
-    public CreationPageVm(IWordListStorage wordListStorage)
+    public CreationPageVm(IWordListRepository wordListRepository)
     {
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListRepository;
     }
 
     public async Task InitializeAsync()
     {
-        WordListDefaultName = await _wordListStorage.GetNextWordListNameAsync();
+        WordListDefaultName = await _wordListRepository.GetNextWordListNameAsync();
     }
 
     [ObservableProperty]
@@ -38,15 +38,9 @@ public partial class CreationPageVm : ObservableValidator
     private async Task Create()
     {
         string wordListName = string.IsNullOrEmpty(WordListName) ? WordListDefaultName : WordListName;
-        WordList wordList = new()
-        {
-            Id = Guid.NewGuid(),
-            Name = wordListName,
-            SourceLang = SourceLang,
-            TargetLang = TargetLang
-        };
+        WordList wordList = _wordListRepository.BuildWordList(wordListName, SourceLang, TargetLang);
 
-        await _wordListStorage.SaveAsync(wordList);
+        await _wordListRepository.SaveAsync(wordList);
         await Shell.Current.GoToAsync("..");
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace WordVoca.Storage;
 
-public class StorageSettings
+public class RepositorySettings
 {
-    public StorageSettings(string storageDirectory)
+    public RepositorySettings(string storageDirectory)
     {
         StorageDirectory = storageDirectory;
     }

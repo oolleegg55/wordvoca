@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 using WordVoca.Core.Models;
-using WordVoca.Core.Storages;
+using WordVoca.Core.Repositories;
 using WordVoca.DesktopApp.Models;
 
 namespace WordVoca.DesktopApp.ViewModels.Pages;
@@ -15,50 +15,33 @@ namespace WordVoca.DesktopApp.ViewModels.Pages;
 public partial class WordListViewModel : ViewModelBase
 {
     private readonly IMessenger _messenger;
-    private readonly IWordListStorage _wordListStorage;
+    private readonly IWordListRepository _wordListRepository;
 
     public WordListViewModel()
     {
         _messenger = WeakReferenceMessenger.Default;
-        _wordListStorage = null!;
-        Words = [];
+        _wordListRepository = null!;
 
-        WordList = new()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Name",
-            SourceLang = Langs.En,
-            TargetLang = Langs.Es,
-            Words =
-            [
-                new Word()
-                {
-                    Id = Guid.NewGuid(),
-                    Value = "Word",
-                    Translation = "Слово",
-                    Note = "Пример"
-                },
-            ]
-        };
+        Words = [];
     }
 
-    public WordListViewModel(IMessenger messenger, IWordListStorage wordListStorage)
+    public WordListViewModel(IMessenger messenger, IWordListRepository wordListRepository)
     {
         _messenger = messenger;
-        _wordListStorage = wordListStorage;
+        _wordListRepository = wordListRepository;
         Words = [];
     }
 
     public async Task InitializeAsync()
     {
-        WordList = await _wordListStorage.GetByIdAsync(WordListId);
+        WordList = await _wordListRepository.GetByIdAsync(WordListId);
 
         if (WordList is null)
         {
             return;
         }
 
-        foreach (var word in WordList.Words)
+        foreach (Word word in WordList.Words)
         {
             Words.Add(word);
         }
@@ -93,7 +76,7 @@ public partial class WordListViewModel : ViewModelBase
             Note = "Пример"
         };
 
-        WordList.Words.Add(word);
+        WordList.TryAddWord(word);
         Words.Add(word);
     }
 }

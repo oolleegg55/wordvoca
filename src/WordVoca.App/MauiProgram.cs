@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using WordVoca.App.Pages.Exercises;
 using WordVoca.App.Pages.Main;
 using WordVoca.App.Pages.WordLists;
-using WordVoca.Core.Storages;
 using WordVoca.Storage;
 
 namespace WordVoca.App;
@@ -27,11 +26,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        StorageSettings storageSettings = new StorageSettings(Path.Combine(FileSystem.AppDataDirectory, "Data"));
+        builder.Services.AddRepositories();
 
-        builder.Services.AddSingleton(storageSettings);
-        builder.Services.AddSingleton<IWordListStorage, JsonWordListStorage>();
-        builder.Services.AddSingleton<ITextToSpeech>(TextToSpeech.Default);
+        builder.Services.AddSingleton(TimeProvider.System);
+        builder.Services.AddSingleton(TextToSpeech.Default);
 
         builder.Services.AddTransient<MainPageVm>();
         builder.Services.AddTransient<CreationPageVm>();

@@ -4,5 +4,5 @@
   </Project>
   <Project Path="src/WordVoca.Core/WordVoca.Core.csproj" Id="9be03d52-15ce-4cf1-8753-30496c77f242" />
   <Project Path="src/WordVoca.DesktopApp/WordVoca.DesktopApp.csproj" Id="0d5325c9-aa5c-45ea-88aa-bcde11892085" />
-  <Project Path="src/WordVoca.Storage/WordVoca.Storage.csproj" />
+  <Project Path="src/WordVoca.JsonRepositories/WordVoca.JsonRepositories.csproj" />
 </Solution>
