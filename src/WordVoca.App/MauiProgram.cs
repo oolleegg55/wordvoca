@@ -29,6 +29,7 @@ public static class MauiProgram
         builder.Services.AddRepositories();
 
         builder.Services.AddSingleton(TimeProvider.System);
+        builder.Services.AddSingleton(TextToSpeech.Default);
 
         builder.Services.AddTransient<MainPageVm>();
         builder.Services.AddTransient<CreationPageVm>();
