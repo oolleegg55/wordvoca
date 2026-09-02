@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
         service.AddTransient<MainViewModel>();
         service.AddTransient<WordListViewModel>();
         service.AddTransient<CreationWordListViewModel>();
+        service.AddTransient<AddWordViewModel>();
 
         return service;
     }
@@ -32,6 +33,7 @@ public static class ServiceCollectionExtensions
             _ when type == typeof(MainViewModel) => x.GetRequiredService<MainViewModel>(),
             _ when type == typeof(WordListViewModel) => x.GetRequiredService<WordListViewModel>(),
             _ when type == typeof(CreationWordListViewModel) => x.GetRequiredService<CreationWordListViewModel>(),
+            _ when type == typeof(AddWordViewModel) => x.GetRequiredService<AddWordViewModel>(),
             _ => throw new InvalidOperationException($"Page of type {type?.FullName} has no view model"),
         });
 

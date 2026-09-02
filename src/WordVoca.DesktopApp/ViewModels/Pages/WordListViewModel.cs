@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,27 +8,33 @@ using CommunityToolkit.Mvvm.Messaging;
 using WordVoca.Core.Models;
 using WordVoca.Core.Repositories;
 using WordVoca.DesktopApp.Models;
+using WordVoca.DesktopApp.Services;
+using WordVoca.DesktopApp.ViewModels.Dialogs;
+using WordVoca.DesktopApp.Views.Dialogs;
 
 namespace WordVoca.DesktopApp.ViewModels.Pages;
 
 public partial class WordListViewModel : ViewModelBase
 {
     private readonly IMessenger _messenger;
+    private readonly IDialogService _dialogService;
     private readonly IWordListRepository _wordListRepository;
 
     public WordListViewModel()
     {
         _messenger = WeakReferenceMessenger.Default;
         _wordListRepository = null!;
-
-        Words = [];
+        _dialogService = null!;
     }
 
-    public WordListViewModel(IMessenger messenger, IWordListRepository wordListRepository)
+    public WordListViewModel(
+        IMessenger messenger,
+        IDialogService dialogService,
+        IWordListRepository wordListRepository)
     {
         _messenger = messenger;
         _wordListRepository = wordListRepository;
-        Words = [];
+        _dialogService = dialogService;
     }
 
     public async Task InitializeAsync()
@@ -49,10 +54,10 @@ public partial class WordListViewModel : ViewModelBase
 
     public string WordListId { get; set; } = string.Empty;
 
+    public ObservableCollection<Word> Words { get; set; } = [];
+
     [ObservableProperty]
     private WordList? _wordList;
-
-    public ObservableCollection<Word> Words { get; set; }
 
     [RelayCommand]
     private void GoBack()
@@ -61,22 +66,13 @@ public partial class WordListViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void AddWord()
+    private async Task AddWordAsync()
     {
         if (WordList is null)
         {
             return;
         }
 
-        Word word = new()
-        {
-            Id = Guid.NewGuid(),
-            Value = "Word",
-            Translation = "Слово",
-            Note = "Пример"
-        };
-
-        WordList.TryAddWord(word);
-        Words.Add(word);
+        await _dialogService.ShowModalAsync<AddWordView, AddWordViewModel>();
     }
 }
