@@ -44,6 +44,23 @@ public class WordList
         TargetLang = targetLang;
     }
 
+    public bool TryRemoveWord(Guid wordId)
+    {
+        if (wordId == Guid.Empty)
+        {
+            return false;
+        }
+
+        Word? word = _words.FirstOrDefault(x => x.Id == wordId);
+        if (word is null)
+        {
+            return false;
+        }
+
+        _words.Remove(word);
+        return true;
+    }
+
     internal static class PrivateAccessor
     {
         public static WordList Build(

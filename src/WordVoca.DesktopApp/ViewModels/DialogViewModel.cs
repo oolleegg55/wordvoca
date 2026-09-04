@@ -11,3 +11,14 @@ public class DialogViewModel : ViewModelBase
         CloseCallback?.Invoke();
     }
 }
+
+public class DialogViewModel<TResult> : DialogViewModel
+{
+    public TResult? Result { get; private set; }
+
+    public void Close(TResult result)
+    {
+        Result = result;
+        OnCloseCallback();
+    }
+}

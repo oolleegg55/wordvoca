@@ -8,10 +8,12 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WordVoca.DesktopApp.Views.Dialogs.AddWordView"
         x:DataType="vm:AddWordViewModel"
+        Name="Root"
         CanResize="False" CanMinimize="False" CanMaximize="False"
         MinWidth="500" MaxWidth="500"
         MinHeight="550" MaxHeight="550"
-        Title="Add words">
+        Title="Add words"
+        Loaded="HandleWindowLoaded">
     <Grid Margin="15"
           RowDefinitions="Auto,*"
           RowSpacing="10">
@@ -151,7 +153,9 @@
                                                 <avalonia:FluentIcon Icon="Edit"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button Width="35">
+                                        <Button Width="35"
+                                                Command="{Binding #Root.((vm:AddWordViewModel)DataContext).DeleteWordCommand}"
+                                                CommandParameter="{Binding Id}">
                                             <StackPanel Margin="0">
                                                 <avalonia:FluentIcon Icon="Delete"/>
                                             </StackPanel>

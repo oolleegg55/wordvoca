@@ -10,7 +10,6 @@ using WordVoca.Core.Repositories;
 using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
 using WordVoca.DesktopApp.ViewModels.Dialogs;
-using WordVoca.DesktopApp.Views.Dialogs;
 
 namespace WordVoca.DesktopApp.ViewModels.Pages;
 
@@ -39,17 +38,7 @@ public partial class WordListViewModel : ViewModelBase
 
     public async Task InitializeAsync()
     {
-        WordList = await _wordListRepository.GetByIdAsync(WordListId);
-
-        if (WordList is null)
-        {
-            return;
-        }
-
-        foreach (Word word in WordList.Words)
-        {
-            Words.Add(word);
-        }
+        await ReloadDataAsync();
     }
 
     public string WordListId { get; set; } = string.Empty;
@@ -73,6 +62,22 @@ public partial class WordListViewModel : ViewModelBase
             return;
         }
 
-        await _dialogService.ShowModalAsync<AddWordView, AddWordViewModel>();
+        await _dialogService.ShowModalAsync<AddWordViewModel>();
+        await ReloadDataAsync();
+    }
+
+    private async Task ReloadDataAsync()
+    {
+        WordList = await _wordListRepository.GetByIdAsync(WordListId);
+
+        if (WordList is null)
+        {
+            return;
+        }
+
+        foreach (Word word in WordList.Words)
+        {
+            Words.Add(word);
+        }
     }
 }

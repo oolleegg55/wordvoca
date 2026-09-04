@@ -50,7 +50,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task ShowCreationModalView()
     {
-        await _dialogService.ShowModalAsync<CreationWordListView, CreationWordListViewModel>();
+        await _dialogService.ShowModalAsync<CreationWordListViewModel>();
 
         await InitializeAsync();
     }
