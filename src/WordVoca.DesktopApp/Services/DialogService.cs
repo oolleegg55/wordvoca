@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Avalonia;
@@ -11,53 +12,82 @@ namespace WordVoca.DesktopApp.Services;
 
 public class DialogService : IDialogService
 {
+    private readonly Dictionary<ViewModelBase, Window> _openedWindows = new(ReferenceEqualityComparer.Instance);
+    private readonly DialogViewFactory _dialogViewFactory;
     private readonly PageFactory _pageFactory;
 
-    public DialogService(PageFactory pageFactory)
+    public DialogService(PageFactory pageFactory, DialogViewFactory dialogViewFactory)
     {
         _pageFactory = pageFactory;
+        _dialogViewFactory = dialogViewFactory;
     }
 
-    private Window? GetMainWindow()
+    private Window GetOwner(ViewModelBase? parent)
     {
+        if (parent is not null
+            && _openedWindows.TryGetValue(parent, out Window? parentWindow))
+        {
+            return parentWindow;
+        }
+
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            return desktop.MainWindow;
+            return desktop.MainWindow ?? throw new InvalidOperationException("Application lifetime is not IClassicDesktopStyleApplicationLifetime");
         }
 
-        throw new InvalidOperationException("Application lifetime is not IClassicDesktopStyleApplicationLifetime");
+        throw new InvalidOperationException("Main window is unavailable.");
     }
 
-    public async Task ShowModalAsync<TView, TViewModel>()
-        where TView : Window, new()
+    private async Task<TResult> ShowModalCoreAsync<TViewModel, TResult>(
+        ViewModelBase? parent,
+        Action<TViewModel>? afterCreation,
+        Func<TViewModel, TResult> getResult)
         where TViewModel : DialogViewModel
     {
-        Window? parentWindow = GetMainWindow();
-        if (parentWindow is null)
-        {
-            return;
-        }
+        Window owner = GetOwner(parent);
 
-        TView view = new();
-        TViewModel viewModel = (TViewModel)_pageFactory.GetPageViewModel<TViewModel>();
+        TViewModel viewModel = (TViewModel)_pageFactory.GetPageViewModel(afterCreation);
 
+        Window view = _dialogViewFactory.Create<TViewModel>();
         view.DataContext = viewModel;
         view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-        void closeHandler()
-        {
-            view.Close();
-        }
+        void CloseHandler() => view.Close();
 
-        viewModel.CloseCallback += closeHandler;
+        viewModel.CloseCallback += CloseHandler;
+        _openedWindows.Add(viewModel, view);
 
         try
         {
-            await view.ShowDialog(parentWindow);
+            await view.ShowDialog(owner);
+            return getResult(viewModel);
         }
         finally
         {
-            viewModel.CloseCallback -= closeHandler;
+            _openedWindows.Remove(viewModel);
+            viewModel.CloseCallback -= CloseHandler;
         }
+    }
+
+    public async Task ShowModalAsync<TViewModel>(
+        ViewModelBase? parent = null,
+        Action<TViewModel>? afterCreation = null)
+        where TViewModel : DialogViewModel
+    {
+        await ShowModalCoreAsync(
+            parent,
+            afterCreation,
+            _ => true);
+    }
+
+    public Task<TResult> ShowModalAsync<TViewModel, TResult>(
+        ViewModelBase? parent = null,
+        Action<TViewModel>? afterCreation = null)
+        where TViewModel : DialogViewModel<TResult>
+    {
+        return ShowModalCoreAsync(
+            parent,
+            afterCreation,
+            viewModel => viewModel.Result!);
     }
 }

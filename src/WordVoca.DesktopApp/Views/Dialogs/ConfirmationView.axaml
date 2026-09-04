@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="using:FluentIcons.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WordVoca.DesktopApp.ViewModels.Dialogs"
+        x:DataType="vm:ConfirmationViewModel"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        CanResize="False" CanMinimize="False" CanMaximize="False"
+        Width="350" Height="350"
+        MinWidth="350" MaxWidth="350"
+        MinHeight="100" MaxHeight="100"
+        x:Class="WordVoca.DesktopApp.Views.Dialogs.ConfirmationView"
+        Title="Deleting">
+    <StackPanel Spacing="10"
+                Margin="10">
+        <Label Content="Are you sure you want to delete this word?"
+               FontSize="16"/>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="5">
+            <Button Command="{Binding CancelCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Cancel"
+                           FontSize="16"/>
+                </StackPanel>
+            </Button>
+
+            <Button Command="{Binding OkCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Delete"
+                           FontSize="16"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</Window>

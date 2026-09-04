@@ -1,0 +1,172 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="using:FluentIcons.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:WordVoca.Core.Models"
+        xmlns:vm="clr-namespace:WordVoca.DesktopApp.ViewModels.Dialogs"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="WordVoca.DesktopApp.Views.Dialogs.AddWordView"
+        x:DataType="vm:AddWordViewModel"
+        Name="Root"
+        CanResize="False" CanMinimize="False" CanMaximize="False"
+        MinWidth="500" MaxWidth="500"
+        MinHeight="550" MaxHeight="550"
+        Title="Add words"
+        Loaded="HandleWindowLoaded">
+    <Grid Margin="15"
+          RowDefinitions="Auto,*"
+          RowSpacing="10">
+        <StackPanel Grid.Row="0" Spacing="5">
+            <Label Content="New word"
+                   FontSize="18"
+                   FontWeight="Bold" />
+
+            <StackPanel Spacing="5">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <StackPanel Grid.Column="0">
+                        <Label Content="Word"
+                               FontSize="16" />
+                        <TextBox PlaceholderText="Word"
+                                 Text="{Binding Value}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <Label Content="Translation"
+                               FontSize="16" />
+                        <TextBox PlaceholderText="Translation"
+                                 Text="{Binding Translation}"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel>
+                    <Label Content="Note" />
+                    <TextBox PlaceholderText="Note"
+                             Text="{Binding Note}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="5">
+                <Button Width="100"
+                        CornerRadius="10"
+                        Command="{Binding CancelCommand}">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="5">
+                        <avalonia:FluentIcon Icon="ArrowHookUpLeft"/>
+                        <Label Content="Cancel"
+                               FontSize="16" />
+                    </StackPanel>
+                </Button>
+                <Button Width="100"
+                        CornerRadius="10"
+                        Command="{Binding AddWordCommand}">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="5">
+                        <avalonia:FluentIcon Icon="AddCircle"/>
+                        <Label Content="Add"
+                               FontSize="16" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <DockPanel Grid.Row="1"
+                   VerticalSpacing="10">
+            <Label DockPanel.Dock="Top"
+                   Content="Words"
+                   FontSize="18"
+                   FontWeight="Bold"/>
+
+            <Border DockPanel.Dock="Top"
+                    BorderThickness="0.5"
+                    BorderBrush="Gray"
+                    Background="LightGray"
+                    Padding="10"
+                    CornerRadius="15"
+                    IsVisible="{Binding !HasWords}">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Spacing="10">
+                    <avalonia:FluentIcon Icon="CollectionsEmpty"
+                                         FontSize="24"/>
+                    <Label Content="Words have not been added yet"
+                           FontSize="16"
+                           Padding="0"/>
+                </StackPanel>
+            </Border>
+
+            <ScrollViewer DockPanel.Dock="Bottom"
+                          VerticalScrollBarVisibility="Auto"
+                          IsScrollInertiaEnabled="True">
+                <ItemsControl ItemsSource="{Binding Words}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Spacing="5"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.DataTemplates>
+                        <DataTemplate DataType="models:Word">
+                            <Border BorderBrush="LightGray"
+                                    BorderThickness="0.75"
+                                    CornerRadius="5"
+                                    Padding="10">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Grid.Column="0"
+                                                Spacing="5">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="10">
+                                            <StackPanel>
+                                                <Label Content="Word"
+                                                       FontSize="12"
+                                                       Padding="0"/>
+                                                <Label Content="{Binding Value, Converter={StaticResource DataPlaceholder}}"
+                                                       FontSize="16"
+                                                       Padding="0"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <Label Content="Translation"
+                                                       FontSize="12"
+                                                       Padding="0"/>
+                                                <Label Content="{Binding Translation, Converter={StaticResource DataPlaceholder}}"
+                                                       FontSize="16"
+                                                       Padding="0"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <Label Content="Note"
+                                                   FontSize="12"
+                                                   Padding="0"/>
+                                            <Label Content="{Binding Note, Converter={StaticResource DataPlaceholder}}"
+                                                   FontSize="14"
+                                                   Padding="0"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="5">
+                                        <Button Width="35">
+                                            <StackPanel Margin="0">
+                                                <avalonia:FluentIcon Icon="Edit"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Width="35"
+                                                Command="{Binding #Root.((vm:AddWordViewModel)DataContext).DeleteWordCommand}"
+                                                CommandParameter="{Binding Id}">
+                                            <StackPanel Margin="0">
+                                                <avalonia:FluentIcon Icon="Delete"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.DataTemplates>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>
