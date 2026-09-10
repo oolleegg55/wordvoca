@@ -7,32 +7,31 @@
         x:DataType="vm:ConfirmationViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         CanResize="False" CanMinimize="False" CanMaximize="False"
-        Width="350" Height="350"
-        MinWidth="350" MaxWidth="350"
-        MinHeight="100" MaxHeight="100"
+        Width="420"
+        MinWidth="320" MaxWidth="560"
+        SizeToContent="Height"
         x:Class="WordVoca.DesktopApp.Views.Dialogs.ConfirmationView"
-        Title="Deleting">
-    <StackPanel Spacing="10"
-                Margin="10">
-        <Label Content="Are you sure you want to delete this word?"
-               FontSize="16"/>
+        Title="{Binding Title}">
+    <StackPanel Spacing="16"
+                Margin="20">
+        <TextBlock Text="{Binding Message}"
+                   FontSize="16"
+                   TextWrapping="Wrap"/>
 
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Spacing="5">
-            <Button Command="{Binding CancelCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Cancel"
+        <WrapPanel HorizontalAlignment="Right">
+            <Button Command="{Binding CancelCommand}"
+                    MinWidth="100"
+                    Margin="0,0,8,8">
+                <TextBlock Text="{Binding CancelButtonText}"
                            FontSize="16"/>
-                </StackPanel>
             </Button>
 
-            <Button Command="{Binding OkCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Delete"
+            <Button Command="{Binding OkCommand}"
+                    MinWidth="100"
+                    Margin="0,0,8,8">
+                <TextBlock Text="{Binding OkButtonText}"
                            FontSize="16"/>
-                </StackPanel>
             </Button>
-        </StackPanel>
+        </WrapPanel>
     </StackPanel>
 </Window>

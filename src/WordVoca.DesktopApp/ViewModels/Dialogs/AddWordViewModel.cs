@@ -93,7 +93,16 @@ public partial class AddWordViewModel : DialogViewModel
 
         try
         {
-            bool result = await _dialogService.ShowModalAsync<ConfirmationViewModel, bool>(this);
+            string value = _wordList.Words.First(x => x.Id == wordId).Value ?? string.Empty;
+
+            bool result = await _dialogService.ShowModalAsync<ConfirmationViewModel, bool>(this, afterCreation =>
+            {
+                afterCreation.Title = "Delete word";
+                afterCreation.Message = $"The word \"{value}\" will be removed.";
+                afterCreation.OkButtonText = "Delete";
+                afterCreation.CancelButtonText = "Cancel";
+            });
+
             if (result)
             {
                 if (_wordList.TryRemoveWord(wordId))

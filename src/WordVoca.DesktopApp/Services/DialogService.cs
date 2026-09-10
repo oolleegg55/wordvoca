@@ -55,6 +55,8 @@ public class DialogService : IDialogService
         void CloseHandler() => view.Close();
 
         viewModel.CloseCallback += CloseHandler;
+        afterCreation?.Invoke(viewModel);
+
         _openedWindows.Add(viewModel, view);
 
         try
