@@ -9,7 +9,6 @@ using CommunityToolkit.Mvvm.Input;
 using WordVoca.Core.Models;
 using WordVoca.Core.Repositories;
 using WordVoca.DesktopApp.Services;
-using WordVoca.DesktopApp.Views.Dialogs;
 
 namespace WordVoca.DesktopApp.ViewModels.Dialogs;
 
@@ -17,8 +16,6 @@ public partial class AddWordViewModel : DialogViewModel
 {
     private readonly IWordListRepository _wordListRepository;
     private readonly IDialogService _dialogService;
-
-    private WordList? _wordList;
 
     public AddWordViewModel(
         IWordListRepository wordListRepository,
@@ -30,8 +27,10 @@ public partial class AddWordViewModel : DialogViewModel
 
     public async Task InitializeAsync()
     {
-        _wordList = await _wordListRepository.GetByIdAsync("Word List #1");
+        //_wordList = await _wordListRepository.GetByIdAsync("Word List #1");
     }
+
+    public WordList? WordList { get; set; }
 
     [ObservableProperty]
     private string _value = string.Empty;
@@ -55,7 +54,7 @@ public partial class AddWordViewModel : DialogViewModel
     [RelayCommand]
     public async Task AddWordAsync()
     {
-        if (_wordList is null)
+        if (WordList is null)
         {
             return;
         }
@@ -70,9 +69,9 @@ public partial class AddWordViewModel : DialogViewModel
                 Translation = Translation
             };
 
-            if (_wordList.TryAddWord(word))
+            if (WordList.TryAddWord(word))
             {
-                await _wordListRepository.SaveAsync(_wordList);
+                await _wordListRepository.SaveAsync(WordList);
                 Words.Add(word);
 
                 OnPropertyChanged(nameof(HasWords));
@@ -86,14 +85,14 @@ public partial class AddWordViewModel : DialogViewModel
     [RelayCommand]
     private async Task DeleteWordAsync(Guid wordId)
     {
-        if (_wordList is null)
+        if (WordList is null)
         {
             return;
         }
 
         try
         {
-            string value = _wordList.Words.First(x => x.Id == wordId).Value ?? string.Empty;
+            string value = WordList.Words.First(x => x.Id == wordId).Value ?? string.Empty;
 
             bool result = await _dialogService.ShowModalAsync<ConfirmationViewModel, bool>(this, afterCreation =>
             {
@@ -105,9 +104,9 @@ public partial class AddWordViewModel : DialogViewModel
 
             if (result)
             {
-                if (_wordList.TryRemoveWord(wordId))
+                if (WordList.TryRemoveWord(wordId))
                 {
-                    await _wordListRepository.SaveAsync(_wordList);
+                    await _wordListRepository.SaveAsync(WordList);
 
                     Word word = Words.First(x => x.Id == wordId);
                     Words.Remove(word);

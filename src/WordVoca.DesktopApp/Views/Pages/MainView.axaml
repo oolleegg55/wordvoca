@@ -172,11 +172,9 @@
                                                                          Margin="0,0,7.5,0" />
                                                     <TextBlock Padding="0,2.5,0,0"
                                                                FontSize="18">
-                                                        <Run
-                                                            Text="{Binding SourceLang, Converter={StaticResource Lowercase}}" />
+                                                        <Run Text="{Binding SourceLang, Converter={StaticResource Lowercase}}" />
                                                         <Run Text="-"></Run>
-                                                        <Run
-                                                            Text="{Binding TargetLang, Converter={StaticResource Lowercase}}" />
+                                                        <Run Text="{Binding TargetLang, Converter={StaticResource Lowercase}}" />
                                                     </TextBlock>
                                                 </StackPanel>
                                             </Border>
@@ -202,7 +200,9 @@
                                                     Orientation="Horizontal"
                                                     Spacing="10">
                                             <Button Width="150"
-                                                    CornerRadius="10">
+                                                    CornerRadius="10"
+                                                    Command="{Binding #Root.((vm:MainViewModel)DataContext).ShowAddWordsDialogCommand}"
+                                                    CommandParameter="{Binding .}">
                                                 <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Center">
                                                     <avalonia:FluentIcon Icon="AddCircle"

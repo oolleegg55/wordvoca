@@ -62,7 +62,11 @@ public partial class WordListViewModel : ViewModelBase
             return;
         }
 
-        await _dialogService.ShowModalAsync<AddWordViewModel>();
+        await _dialogService.ShowModalAsync<AddWordViewModel>(this, afterCreation: afterCreation =>
+        {
+            afterCreation.WordList = WordList;
+        });
+
         await ReloadDataAsync();
     }
 

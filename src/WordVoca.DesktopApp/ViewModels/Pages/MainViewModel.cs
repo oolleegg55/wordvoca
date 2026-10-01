@@ -12,7 +12,6 @@ using WordVoca.Core.Repositories;
 using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
 using WordVoca.DesktopApp.ViewModels.Dialogs;
-using WordVoca.DesktopApp.Views.Dialogs;
 
 namespace WordVoca.DesktopApp.ViewModels.Pages;
 
@@ -59,6 +58,15 @@ public partial class MainViewModel : ViewModelBase
     private void ShowWordListDetail(string wordListId)
     {
         _messenger.Send(new NavigationMessage<WordListViewModel>(wordListId));
+    }
+
+    [RelayCommand]
+    private async Task ShowAddWordsDialogAsync(WordList wordList)
+    {
+        await _dialogService.ShowModalAsync<AddWordViewModel>(this, afterCreation =>
+        {
+            afterCreation.WordList = wordList;
+        });
     }
 
     private async Task LoadWordListAsync()
