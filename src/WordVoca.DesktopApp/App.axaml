@@ -8,6 +8,7 @@
 
     <Application.Resources>
         <conv:LowercaseConverter x:Key="Lowercase"/>
+        <conv:EmptyStringConverter x:Key="DataPlaceholder"/>
         <Color x:Key="PrimaryForeground">#512BD4</Color>
         <Color x:Key="PrimaryDarkText">#242424</Color>
         <Color x:Key="Gray200">#C8C8C8</Color>

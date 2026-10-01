@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="using:FluentIcons.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WordVoca.DesktopApp.ViewModels.Dialogs"
+        x:DataType="vm:ConfirmationViewModel"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        CanResize="False" CanMinimize="False" CanMaximize="False"
+        Width="420"
+        MinWidth="320" MaxWidth="560"
+        SizeToContent="Height"
+        x:Class="WordVoca.DesktopApp.Views.Dialogs.ConfirmationView"
+        Title="{Binding Title}">
+    <StackPanel Spacing="16"
+                Margin="20">
+        <TextBlock Text="{Binding Message}"
+                   FontSize="16"
+                   TextWrapping="Wrap"/>
+
+        <WrapPanel HorizontalAlignment="Right">
+            <Button Command="{Binding CancelCommand}"
+                    MinWidth="100"
+                    Margin="0,0,8,8">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding CancelButtonText}"
+                               FontSize="16"/>
+                </StackPanel>
+            </Button>
+
+            <Button Command="{Binding OkCommand}"
+                    MinWidth="100"
+                    Margin="0,0,8,8">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding OkButtonText}"
+                               FontSize="16"/>
+                </StackPanel>
+            </Button>
+        </WrapPanel>
+    </StackPanel>
+</Window>

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Avalonia.Controls;
+
 using WordVoca.DesktopApp.ViewModels;
 
 namespace WordVoca.DesktopApp.Services;
@@ -13,13 +15,29 @@ public class PageFactory
         _factory = factory;
     }
 
-    public ViewModelBase GetPageViewModel<T>(Action<T>? afterCreation = null)
-        where T : ViewModelBase
+    public ViewModelBase GetPageViewModel<TViewModel>(Action<TViewModel>? afterCreation = null)
+        where TViewModel : ViewModelBase
     {
-        ViewModelBase viewModel = _factory(typeof(T));
+        ViewModelBase viewModel = _factory(typeof(TViewModel));
 
-        afterCreation?.Invoke((T)viewModel);
+        afterCreation?.Invoke((TViewModel)viewModel);
 
         return viewModel;
+    }
+}
+
+public class DialogViewFactory
+{
+    private readonly Func<Type, Window> _factory;
+
+    public DialogViewFactory(Func<Type, Window> factory)
+    {
+        _factory = factory;
+    }
+
+    public Window Create<TViewModel>()
+        where TViewModel : DialogViewModel
+    {
+        return _factory(typeof(TViewModel));
     }
 }

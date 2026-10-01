@@ -12,7 +12,6 @@ using WordVoca.Core.Repositories;
 using WordVoca.DesktopApp.Models;
 using WordVoca.DesktopApp.Services;
 using WordVoca.DesktopApp.ViewModels.Dialogs;
-using WordVoca.DesktopApp.Views.Dialogs;
 
 namespace WordVoca.DesktopApp.ViewModels.Pages;
 
@@ -41,7 +40,7 @@ public partial class MainViewModel : ViewModelBase
 
     public async Task InitializeAsync()
     {
-        await LoadWordListAsync();
+        await ReloadData();
     }
 
     [ObservableProperty]
@@ -50,9 +49,9 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task ShowCreationModalView()
     {
-        await _dialogService.ShowModalAsync<CreationWordListView, CreationWordListViewModel>();
+        await _dialogService.ShowModalAsync<CreationWordListViewModel>();
 
-        await InitializeAsync();
+        await ReloadData();
     }
 
     [RelayCommand]
@@ -61,7 +60,18 @@ public partial class MainViewModel : ViewModelBase
         _messenger.Send(new NavigationMessage<WordListViewModel>(wordListId));
     }
 
-    private async Task LoadWordListAsync()
+    [RelayCommand]
+    private async Task ShowAddWordsDialogAsync(WordList wordList)
+    {
+        await _dialogService.ShowModalAsync<AddWordViewModel>(this, afterCreation =>
+        {
+            afterCreation.WordList = wordList;
+        });
+
+        await ReloadData();
+    }
+
+    private async Task ReloadData()
     {
         List<WordList> wordLists = (await _wordListRepository.GetAllAsync())
             .OrderByDescending(x => x.CreatedAt)
