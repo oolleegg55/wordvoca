@@ -40,7 +40,7 @@ public partial class MainViewModel : ViewModelBase
 
     public async Task InitializeAsync()
     {
-        await LoadWordListAsync();
+        await ReloadData();
     }
 
     [ObservableProperty]
@@ -51,7 +51,7 @@ public partial class MainViewModel : ViewModelBase
     {
         await _dialogService.ShowModalAsync<CreationWordListViewModel>();
 
-        await InitializeAsync();
+        await ReloadData();
     }
 
     [RelayCommand]
@@ -67,9 +67,11 @@ public partial class MainViewModel : ViewModelBase
         {
             afterCreation.WordList = wordList;
         });
+
+        await ReloadData();
     }
 
-    private async Task LoadWordListAsync()
+    private async Task ReloadData()
     {
         List<WordList> wordLists = (await _wordListRepository.GetAllAsync())
             .OrderByDescending(x => x.CreatedAt)

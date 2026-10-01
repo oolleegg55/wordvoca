@@ -22,15 +22,21 @@
             <Button Command="{Binding CancelCommand}"
                     MinWidth="100"
                     Margin="0,0,8,8">
-                <TextBlock Text="{Binding CancelButtonText}"
-                           FontSize="16"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding CancelButtonText}"
+                               FontSize="16"/>
+                </StackPanel>
             </Button>
 
             <Button Command="{Binding OkCommand}"
                     MinWidth="100"
                     Margin="0,0,8,8">
-                <TextBlock Text="{Binding OkButtonText}"
-                           FontSize="16"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding OkButtonText}"
+                               FontSize="16"/>
+                </StackPanel>
             </Button>
         </WrapPanel>
     </StackPanel>
